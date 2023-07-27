@@ -5,6 +5,8 @@
 
 Tool to do dataset annotation for semantic segmentation datasets.
 
+Based on [SamsungLabs/ritm_interactive_segmentation](https://github.com/SamsungLabs/ritm_interactive_segmentation)
+
 **Work in progress**
 
 ## Install it from PyPI
