@@ -2,6 +2,8 @@
 import io
 import os
 from setuptools import find_packages, setup
+from Cython.Build import cythonize
+from distutils.core import Extension
 
 
 def read(*paths, **kwargs):
@@ -29,6 +31,23 @@ def read_requirements(path):
     ]
 
 
+def ext_modules():
+    import numpy as np
+    includes = []
+    libraries = []
+
+    includes.append(np.get_include())
+    if os.name == "posix":
+        libraries.append("m")
+    modules = []
+    modules += cythonize(Extension(
+        "*",
+        ["ritm_annotation/**/*.pyx"],
+        include_dirs=includes,
+        libraries=libraries,
+    ))
+    return modules
+
 setup(
     name="ritm_annotation",
     version=read("ritm_annotation", "VERSION"),
@@ -38,6 +57,7 @@ setup(
     long_description_content_type="text/markdown",
     author="lucasew",
     packages=find_packages(exclude=["tests", ".github"]),
+    ext_modules=ext_modules(),
     install_requires=read_requirements("requirements.txt"),
     entry_points={
         "console_scripts": ["ritm_annotation = ritm_annotation.__main__:main"]

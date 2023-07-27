@@ -17,6 +17,13 @@
       shellHook = ''
         PYTHONPATH="$PYTHONPATH:$(pwd)"
       '';
+      packages = {
+        default = pkgs.python3Packages.callPackage ./package.nix { };
+        default-cuda = pkgs.python3Packages.callPackage ./package.nix {
+          pytorch = pkgs.python3Packages.pytorch-bin;
+          torchvision = pkgs.python3Packages.torchvision-bin;
+        };
+      };
       devShells.default = pkgs.mkShell {
         buildInputs = with pkgs; [
           gnumake
