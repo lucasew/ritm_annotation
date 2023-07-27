@@ -17,19 +17,17 @@ pip install ritm_annotation # not yet
 
 ## Usage
 
-```py
-from ritm_annotation import BaseClass # TODO: make this part
-from ritm_annotation import base_function
-
-BaseClass().base_method()
-base_function()
-```
-
 ```bash
-$ python -m ritm_annotation
-#or
-$ ritm_annotation
+$ python -m ritm_annotation --help
+# or
+$ ritm_annotation --help
 ```
+
+## Pretrained model weights
+[Here you can download pretrained weights](https://github.com/SamsungLabs/ritm_interactive_segmentation/releases/tag/v1.0)
+
+In my tests I used `coco_lvis_h18_itermask.pth` (SHA256 5f69cfce354d1507e3850bfc39ee7057c8dd27b6a4910d1d2dc724916b9ee32b)
+
 
 ## Development
 
