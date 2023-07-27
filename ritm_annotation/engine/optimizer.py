@@ -1,7 +1,9 @@
-import torch
 import math
-from ritm_annotation.utils.log import logger
+import logging
 
+import torch
+
+logger = logging.getLogger(__name__)
 
 def get_optimizer(model, opt_name, opt_kwargs):
     params = []

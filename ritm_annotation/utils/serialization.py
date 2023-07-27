@@ -42,7 +42,7 @@ def serialize(init):
 
 
 def load_model(config, **kwargs):
-    model_class = get_class_from_str(config['class'])
+    model_class = get_class_from_str(config['class'].replace('isegm', 'ritm_annotation'))
     model_default_params = get_default_params(model_class)
 
     model_args = dict()

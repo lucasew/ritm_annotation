@@ -1,19 +1,32 @@
 import tkinter as tk
 from tkinter import messagebox, filedialog, ttk
+from sys import exit
+import logging
+
+from ritm_annotation.cli.annotate.canvas import CanvasImage
+from ritm_annotation.cli.annotate.controller import InteractiveController
+from ritm_annotation.cli.annotate.wrappers import BoundedNumericalEntry
+from ritm_annotation.cli.annotate.wrappers import FocusHorizontalScale
+from ritm_annotation.cli.annotate.wrappers import FocusCheckButton
+from ritm_annotation.cli.annotate.wrappers import FocusButton
+from ritm_annotation.cli.annotate.wrappers import FocusLabelFrame
+from ritm_annotation.utils.misc import ignore_params_then_call
+from ritm_annotation.inference.utils import find_checkpoint, load_is_model
 
 import cv2
 import numpy as np
 from PIL import Image
+import torch
+from pathlib import Path
+from easydict import EasyDict as edict
 
-from ritm_annotation.interactive_demo.canvas import CanvasImage
-from ritm_annotation.interactive_demo.controller import InteractiveController
-from ritm_annotation.interactive_demo.wrappers import BoundedNumericalEntry, FocusHorizontalScale, FocusCheckButton, \
-    FocusButton, FocusLabelFrame
-
+logger = logging.getLogger(__name__)
 
 class InteractiveDemoApp(ttk.Frame):
-    def __init__(self, master, args, model):
+    def __init__(self, master, args, model, tasks_iterator):
+        logger.info("Initializing...")
         super().__init__(master)
+        self.tasks_iterator = tasks_iterator
         self.master = master
         master.title("Reviving Iterative Training with Mask Guidance for Interactive Segmentation")
         master.withdraw()
@@ -35,8 +48,16 @@ class InteractiveDemoApp(ttk.Frame):
         self._add_canvas()
         self._add_buttons()
 
-        master.bind('<space>', lambda event: self.controller.finish_object())
-        master.bind('a', lambda event: self.controller.partially_finish_object())
+        master.bind('<Escape>', lambda event: exit(0))
+        master.bind('j', lambda event: self.state['visualize_mask'].set(not self.state['visualize_mask'].get()))
+        master.bind('k', lambda event: self.state['visualize_blender_contrast'].set(not self.state['visualize_blender_contrast'].get()))
+        master.bind('l', lambda event: self._save_mask_callback())
+        master.bind('h', lambda event: self.controller.undo_click())
+        master.bind('m', lambda event: self._reset_last_object())
+        master.bind('n', lambda event: self._load_image_callback())
+
+        # master.bind('<space>', lambda event: self.controller.finish_object())
+        # master.bind('a', lambda event: self.controller.partially_finish_object())
 
         self.state['zoomin_params']['skip_clicks'].trace(mode='w', callback=self._reset_predictor)
         self.state['zoomin_params']['target_size'].trace(mode='w', callback=self._reset_predictor)
@@ -44,6 +65,25 @@ class InteractiveDemoApp(ttk.Frame):
         self.state['predictor_params']['net_clicks_limit'].trace(mode='w', callback=self._change_brs_mode)
         self.state['lbfgs_max_iters'].trace(mode='w', callback=self._change_brs_mode)
         self._change_brs_mode()
+        self._current_task = None
+
+    def _handle_classe_finalizada(self, classe):
+        messagebox.showwarning("Classe finalizada", f"A classe '{classe}' foi finalizada")
+
+    def _get_current_task(self, ask_next=False):
+        current_class = self._current_task.class_name if self._current_task is not None else "* nenhuma *"
+        try:
+            if self._current_task is None or ask_next:
+                logger.debug("Pulling next task from the iterator")
+                next_task = next(self.tasks_iterator)
+                if current_class != next_task.class_name:
+                    self._handle_classe_finalizada(current_class)
+                self._current_task = next_task
+            self.task_label.config(text=f"class:{self._current_task.class_name} {self._current_task.image}")
+            return self._current_task
+        except StopIteration:
+            self._handle_classe_finalizada(current_class)
+            exit(0)
 
     def _init_state(self):
         self.state = {
@@ -64,15 +104,17 @@ class InteractiveDemoApp(ttk.Frame):
 
             'alpha_blend': tk.DoubleVar(value=0.5),
             'click_radius': tk.IntVar(value=3),
+            'visualize_mask': tk.BooleanVar(value=False),
+            'visualize_blender_contrast': tk.BooleanVar(value=False),
         }
 
     def _add_menu(self):
         self.menubar = FocusLabelFrame(self, bd=1)
         self.menubar.pack(side=tk.TOP, fill='x')
 
-        button = FocusButton(self.menubar, text='Load image', command=self._load_image_callback)
+        button = FocusButton(self.menubar, text='Load image (n)', command=self._load_image_callback)
         button.pack(side=tk.LEFT)
-        self.save_mask_btn = FocusButton(self.menubar, text='Save mask', command=self._save_mask_callback)
+        self.save_mask_btn = FocusButton(self.menubar, text='Save mask (l)', command=self._save_mask_callback)
         self.save_mask_btn.pack(side=tk.LEFT)
         self.save_mask_btn.configure(state=tk.DISABLED)
 
@@ -80,10 +122,14 @@ class InteractiveDemoApp(ttk.Frame):
         self.load_mask_btn.pack(side=tk.LEFT)
         self.load_mask_btn.configure(state=tk.DISABLED)
 
+
         button = FocusButton(self.menubar, text='About', command=self._about_callback)
         button.pack(side=tk.LEFT)
         button = FocusButton(self.menubar, text='Exit', command=self.master.quit)
         button.pack(side=tk.LEFT)
+
+        self.task_label = tk.Label(self.menubar, text="* status *")
+        self.task_label.pack(side=tk.LEFT)
 
     def _add_canvas(self):
         self.canvas_frame = FocusLabelFrame(self, text="Image")
@@ -101,6 +147,11 @@ class InteractiveDemoApp(ttk.Frame):
         self.control_frame.pack(side=tk.TOP, fill='x', padx=5, pady=5)
         master = self.control_frame
 
+        FocusCheckButton(master, text='Mostrar máscara ao invés da imagem (j)', variable=self.state['visualize_mask']).pack(side=tk.TOP)
+        self.state['visualize_mask'].trace(mode='w', callback=ignore_params_then_call(self._update_image))
+        FocusCheckButton(master, text='Mostrar sobreposição da máscara com mais contraste (k)', variable=self.state['visualize_blender_contrast']).pack(side=tk.TOP)
+        self.state['visualize_blender_contrast'].trace(mode='w', callback=ignore_params_then_call(self._update_image))
+
         self.clicks_options_frame = FocusLabelFrame(master, text="Clicks management")
         self.clicks_options_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=3)
         self.finish_object_button = \
@@ -108,11 +159,11 @@ class InteractiveDemoApp(ttk.Frame):
                         state=tk.DISABLED, command=self.controller.finish_object)
         self.finish_object_button.pack(side=tk.LEFT, fill=tk.X, padx=10, pady=3)
         self.undo_click_button = \
-            FocusButton(self.clicks_options_frame, text='Undo click', bg='#ffe599', fg='black', width=10, height=2,
+            FocusButton(self.clicks_options_frame, text='Undo click (h)', bg='#ffe599', fg='black', width=10, height=2,
                         state=tk.DISABLED, command=self.controller.undo_click)
         self.undo_click_button.pack(side=tk.LEFT, fill=tk.X, padx=10, pady=3)
         self.reset_clicks_button = \
-            FocusButton(self.clicks_options_frame, text='Reset clicks', bg='#ea9999', fg='black', width=10, height=2,
+            FocusButton(self.clicks_options_frame, text='Reset clicks (m)', bg='#ea9999', fg='black', width=10, height=2,
                         state=tk.DISABLED, command=self._reset_last_object)
         self.reset_clicks_button.pack(side=tk.LEFT, fill=tk.X, padx=10, pady=3)
 
@@ -175,16 +226,17 @@ class InteractiveDemoApp(ttk.Frame):
     def _load_image_callback(self):
         self.menubar.focus_set()
         if self._check_entry(self):
-            filename = filedialog.askopenfilename(parent=self.master, filetypes=[
-                ("Images", "*.jpg *.jpeg *.png *.bmp *.tiff"),
-                ("All files", "*.*"),
-            ], title="Chose an image")
-
-            if len(filename) > 0:
-                image = cv2.cvtColor(cv2.imread(filename), cv2.COLOR_BGR2RGB)
-                self.controller.set_image(image)
-                self.save_mask_btn.configure(state=tk.NORMAL)
-                self.load_mask_btn.configure(state=tk.NORMAL)
+            current_task = self._get_current_task(ask_next=True)
+            filename = str(current_task.image.resolve())
+            logger.info(f"Carregando '{filename}'")
+            image = cv2.cvtColor(cv2.imread(filename), cv2.COLOR_BGR2RGB)
+            self.controller.set_image(image)
+            if current_task.seed_mask is not None and current_task.seed_mask.exists():
+                mask = cv2.imread(str(current_task.seed_mask), 0)
+                self.controller.set_mask(mask)
+            self.save_mask_btn.configure(state=tk.NORMAL)
+            self.load_mask_btn.configure(state=tk.NORMAL)
+            self._update_image()
 
     def _save_mask_callback(self):
         self.menubar.focus_set()
@@ -192,18 +244,11 @@ class InteractiveDemoApp(ttk.Frame):
             mask = self.controller.result_mask
             if mask is None:
                 return
-
-            filename = filedialog.asksaveasfilename(parent=self.master, initialfile='mask.png', filetypes=[
-                ("PNG image", "*.png"),
-                ("BMP image", "*.bmp"),
-                ("All files", "*.*"),
-            ], title="Save the current mask as...")
-
-            if len(filename) > 0:
-                if mask.max() < 256:
-                    mask = mask.astype(np.uint8)
-                    mask *= 255 // mask.max()
-                cv2.imwrite(filename, mask)
+            current_task = self._get_current_task()
+            filename = str(current_task.mask_output.resolve())
+            mask = (mask > 0)*255
+            logger.info(f"Salvando '{filename}'")
+            cv2.imwrite(filename, mask)
 
     def _load_mask_callback(self):
         if not self.controller.net.with_prev_mask:
@@ -213,15 +258,12 @@ class InteractiveDemoApp(ttk.Frame):
 
         self.menubar.focus_set()
         if self._check_entry(self):
-            filename = filedialog.askopenfilename(parent=self.master, filetypes=[
-                ("Binary mask (png, bmp)", "*.png *.bmp"),
-                ("All files", "*.*"),
-            ], title="Chose an image")
-
-            if len(filename) > 0:
-                mask = cv2.imread(filename)[:, :, 0] > 127
-                self.controller.set_mask(mask)
-                self._update_image()
+            current_task = self._get_current_task()
+            filename = str(current_task.mask_output.resolve())
+            logger.debug(f"Carregando '{filename}'")
+            mask = cv2.imread(filename)[:, :, 0] > 127
+            self.controller.set_mask(mask)
+            self._update_image()
 
     def _about_callback(self):
         self.menubar.focus_set()
@@ -310,8 +352,16 @@ class InteractiveDemoApp(ttk.Frame):
             self.controller.add_click(x, y, is_positive)
 
     def _update_image(self, reset_canvas=False):
+
         image = self.controller.get_visualization(alpha_blend=self.state['alpha_blend'].get(),
                                                   click_radius=self.state['click_radius'].get())
+        image_mask = np.array(cv2.cvtColor(self.controller.result_mask, cv2.COLOR_GRAY2RGB), dtype='uint8')*255
+        if self.state['visualize_mask'].get():
+            image = image_mask
+
+        if self.state['visualize_blender_contrast'].get():
+            image = (image//2) + (image_mask//2)
+
         if self.image_on_canvas is None:
             self.image_on_canvas = CanvasImage(self.canvas_frame, self.canvas)
             self.image_on_canvas.register_click_callback(self._click_callback)
@@ -346,3 +396,56 @@ class InteractiveDemoApp(ttk.Frame):
             all_checked = all_checked and widget._check_bounds(widget.get(), '-1')
 
         return all_checked
+
+def command(subparser):
+    subparser.description = "Interactively annotate a dataset"
+    subparser.add_argument("input", type=Path)
+    subparser.add_argument("output", type=Path)
+    subparser.add_argument('-d', '--device', dest='device', type=torch.device, default = 'cuda' if torch.cuda.is_available() else 'cpu')
+    subparser.add_argument('-c', '--classes', dest='classes', type=str, required=True, nargs='+')
+    subparser.add_argument('-w', '--checkpoint', dest='checkpoint', type=Path, required=True)
+    subparser.add_argument('-s', '--seed', dest='seed', type=Path, help="Pasta com segmentações pré definidas para serem ajustadas")
+
+    def handle(args):
+        logger.debug('classes: ' + ", ".join(args.classes))
+
+        assert args.input.is_dir(), "Origem precisa ser uma pasta"
+        assert not args.output.exists() or args.output.is_dir(), "Destino precisa ser uma pasta, se não existe vai ser criada"
+
+        torch.backends.cudnn.determistic = True
+
+        checkpoint_path = find_checkpoint(args.checkpoint.parent, args.checkpoint.name)
+        model = load_is_model(checkpoint_path, args.device, cpu_dist_maps=True)
+
+
+        def look_for_tasks():
+            for class_name in args.classes:
+                for image in args.input.glob('*.jpg'):
+                    image_name = image.name
+                    output_dir = args.output / image_name
+                    output_dir.mkdir(exist_ok=True, parents=True)
+                    mask_output = output_dir / f"{class_name}.png"
+                    if mask_output.exists():
+                        continue
+                    yield edict(dict(
+                        image=image,
+                        name=image_name,
+                        mask_output=mask_output,
+                        class_name=class_name,
+                        seed_mask=args.seed / image_name / f"{class_name}.png" if args.seed is not None else None
+                    ))
+
+        tasks = look_for_tasks()
+
+        root = tk.Tk()
+        root.minsize(960, 480)
+
+        app_args = edict(dict(
+            limit_longest_size=400,
+            device=args.device
+        ))
+
+        app = InteractiveDemoApp(root, app_args, model, tasks)
+        root.deiconify()
+        app.mainloop()
+    return handle

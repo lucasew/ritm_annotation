@@ -10,12 +10,14 @@ import numpy as np
 from tqdm import tqdm
 from torch.utils.data import DataLoader
 
-from ritm_annotation.utils.log import logger, TqdmToLogger, SummaryWriterAvg
+from ritm_annotation.utils.log import TqdmToLogger, SummaryWriterAvg
 from ritm_annotation.utils.vis import draw_probmap, draw_points
 from ritm_annotation.utils.misc import save_checkpoint
 from ritm_annotation.utils.serialization import get_config_repr
 from ritm_annotation.utils.distributed import get_dp_wrapper, get_sampler, reduce_loss_dict
 from .optimizer import get_optimizer
+
+logger = logging.getLogger(__name__)
 
 
 class ISTrainer(object):

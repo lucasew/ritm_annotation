@@ -6,25 +6,25 @@ from datetime import datetime
 import numpy as np
 from torch.utils.tensorboard import SummaryWriter
 
-LOGGER_NAME = 'root'
-LOGGER_DATEFMT = '%Y-%m-%d %H:%M:%S'
+# LOGGER_NAME = 'root'
+# LOGGER_DATEFMT = '%Y-%m-%d %H:%M:%S'
 
-handler = logging.StreamHandler()
+# handler = logging.StreamHandler()
 
-logger = logging.getLogger(LOGGER_NAME)
-logger.setLevel(logging.INFO)
-logger.addHandler(handler)
+logger = logging.getLogger(__name__)
+# logger.setLevel(logging.INFO)
+# logger.addHandler(handler)
 
 
-def add_logging(logs_path, prefix):
-    log_name = prefix + datetime.strftime(datetime.today(), '%Y-%m-%d_%H-%M-%S') + '.log'
-    stdout_log_path = logs_path / log_name
+# def add_logging(logs_path, prefix):
+#     log_name = prefix + datetime.strftime(datetime.today(), '%Y-%m-%d_%H-%M-%S') + '.log'
+#     stdout_log_path = logs_path / log_name
 
-    fh = logging.FileHandler(str(stdout_log_path))
-    formatter = logging.Formatter(fmt='(%(levelname)s) %(asctime)s: %(message)s',
-                                  datefmt=LOGGER_DATEFMT)
-    fh.setFormatter(formatter)
-    logger.addHandler(fh)
+#     fh = logging.FileHandler(str(stdout_log_path))
+#     formatter = logging.Formatter(fmt='(%(levelname)s) %(asctime)s: %(message)s',
+#                                   datefmt=LOGGER_DATEFMT)
+#     fh.setFormatter(formatter)
+#     logger.addHandler(fh)
 
 
 class TqdmToLogger(io.StringIO):

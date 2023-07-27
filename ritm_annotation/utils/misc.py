@@ -1,8 +1,9 @@
+import logging
+
 import torch
 import numpy as np
 
-from .log import logger
-
+logger = logging.getLogger(__name__)
 
 def get_dims_with_exclusion(dim, exclude=None):
     dims = list(range(dim))
@@ -84,3 +85,10 @@ def get_labels_with_sizes(x):
     labels = np.nonzero(obj_sizes)[0].tolist()
     labels = [x for x in labels if x != 0]
     return labels, obj_sizes[labels].tolist()
+
+def ignore_params_then_call(func):
+    def ret(*args, **kwargs):
+        return func()
+    return ret
+
+

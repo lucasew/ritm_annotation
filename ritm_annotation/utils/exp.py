@@ -9,8 +9,11 @@ import yaml
 import torch
 from easydict import EasyDict as edict
 
-from .log import logger, add_logging
+from .log import add_logging
 from .distributed import synchronize, get_world_size
+
+import logging
+logger = logging.getLogger(__name__)
 
 
 def init_experiment(args, model_name):
