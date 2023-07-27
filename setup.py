@@ -2,7 +2,6 @@
 import io
 import os
 from setuptools import find_packages, setup
-from Cython.Build import cythonize
 from distutils.core import Extension
 
 
@@ -32,6 +31,7 @@ def read_requirements(path):
 
 
 def ext_modules():
+    from Cython.Build import cythonize
     import numpy as np
     includes = []
     libraries = []
