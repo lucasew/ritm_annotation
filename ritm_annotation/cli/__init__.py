@@ -8,21 +8,25 @@ Be creative! do whatever you want!
 - Import things from your .base module
 """
 
-from .annotate import command as command_annotate
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 import logging
-from sys import argv
+from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
 from pathlib import Path
-import logging
+from sys import argv
+
+from .annotate import command as command_annotate
 
 # logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
+
 def add_subcommand(subparsers, name: str, command_fn):
     subparser = subparsers.add_parser(name)
-    subparser.add_argument('-v', '--verbose', dest="verbose", action='store_true')
+    subparser.add_argument(
+        "-v", "--verbose", dest="verbose", action="store_true"
+    )
     handler = command_fn(subparser)
     subparser.set_defaults(fn=handler)
+
 
 def main():  # pragma: no cover
     """
@@ -41,7 +45,9 @@ def main():  # pragma: no cover
         * Run an application (Flask, FastAPI, Django, etc.)
     """
     logging.basicConfig()
-    parser = ArgumentParser(prog="ritm_annotation", formatter_class=ArgumentDefaultsHelpFormatter)
+    parser = ArgumentParser(
+        prog="ritm_annotation", formatter_class=ArgumentDefaultsHelpFormatter
+    )
     subparsers = parser.add_subparsers()
     add_subcommand(subparsers, "annotate", command_annotate)
     args = parser.parse_args()
@@ -51,8 +57,8 @@ def main():  # pragma: no cover
 
     # logging.warn("info")
     logger.debug("verbose")
-    fn = args.__dict__.get('fn')
+    fn = args.__dict__.get("fn")
     if fn is not None:
         fn(args)
     else:
-        parser.parse_args([ *argv[1:], '--help'])
+        parser.parse_args([*argv[1:], "--help"])

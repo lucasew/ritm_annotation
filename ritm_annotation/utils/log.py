@@ -1,6 +1,6 @@
 import io
-import time
 import logging
+import time
 from datetime import datetime
 
 import numpy as np
@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 class TqdmToLogger(io.StringIO):
     logger = None
     level = None
-    buf = ''
+    buf = ""
 
     def __init__(self, logger, level=None, mininterval=5):
         super(TqdmToLogger, self).__init__()
@@ -40,10 +40,13 @@ class TqdmToLogger(io.StringIO):
         self.last_time = 0
 
     def write(self, buf):
-        self.buf = buf.strip('\r\n\t ')
- 
+        self.buf = buf.strip("\r\n\t ")
+
     def flush(self):
-        if len(self.buf) > 0 and time.time() - self.last_time > self.mininterval:
+        if (
+            len(self.buf) > 0
+            and time.time() - self.last_time > self.mininterval
+        ):
             self.logger.log(self.level, self.buf)
             self.last_time = time.time()
 
@@ -64,8 +67,9 @@ class SummaryWriterAvg(SummaryWriter):
             avg_scalar.add(value)
 
             if avg_scalar.is_full():
-                super().add_scalar(tag, avg_scalar.value,
-                                   global_step=global_step)
+                super().add_scalar(
+                    tag, avg_scalar.value, global_step=global_step
+                )
                 avg_scalar.reset()
 
 

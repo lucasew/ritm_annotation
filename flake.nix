@@ -20,7 +20,14 @@
       devShells.default = pkgs.mkShell {
         buildInputs = with pkgs; [
           gnumake
+          # dev
           python3Packages.pylsp-mypy
+          python3Packages.isort
+          python3Packages.black
+          python3Packages.mypy
+          python3Packages.flake8
+          python3Packages.pytest
+          # runtime
           python3Packages.cython
           python3Packages.easydict
           python3Packages.albumentations
@@ -28,10 +35,6 @@
           python3Packages.scipy
           python3Packages.tensorboard
           python3Packages.tkinter
-          python3Packages.black
-          python3Packages.mypy
-          python3Packages.flake8
-          python3Packages.pytest
           python3Packages.pytorch-bin
           python3Packages.torchvision-bin
           python3Packages.opencv4
