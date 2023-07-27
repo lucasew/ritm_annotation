@@ -5,6 +5,12 @@ from setuptools import find_packages, setup
 from distutils.core import Extension
 
 try:
+    import numpy as np
+    use_numpy = True
+except ImportError:
+    use_numpy = False
+
+try:
     from Cython.Build import cythonize
     use_cython = True
 except ImportError:
@@ -36,11 +42,12 @@ def read_requirements(path):
 
 
 def ext_modules():
-    import numpy as np
     includes = []
     libraries = []
 
-    includes.append(np.get_include())
+    if use_numpy:
+        import numpy as np
+        includes.append(np.get_include())
     if os.name == "posix":
         libraries.append("m")
     modules = []
