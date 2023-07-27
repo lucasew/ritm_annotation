@@ -7,7 +7,7 @@ from datetime import datetime
 from pathlib import Path
 
 import torch
-import yaml
+import yaml  # type: ignore
 from easydict import EasyDict as edict
 
 from .distributed import get_world_size, synchronize

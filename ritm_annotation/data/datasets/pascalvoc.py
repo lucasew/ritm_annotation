@@ -48,7 +48,7 @@ class PascalVocDataset(ISDataset):
             objects_ids = [1]
             instances_mask = mask
         else:
-            objects_ids = np.unique(instances_mask)
+            objects_ids = np.unique(instances_mask)  # type: ignore
             objects_ids = [x for x in objects_ids if x != 0 and x != 220]
 
         return DSample(
