@@ -179,7 +179,7 @@ def split_points_by_order(tpoints: torch.Tensor, groups):
         np.full((bs, 2 * x, 3), -1, dtype=np.float32) for x in groups
     ]
 
-    last_point_indx_group = np.zeros((bs, num_groups, 2), dtype=np.int)
+    last_point_indx_group = np.zeros((bs, num_groups, 2), dtype=np.int)  # type: ignore  # noqa: E501
     for group_indx, group_size in enumerate(groups):
         last_point_indx_group[:, group_indx, 1] = group_size
 
@@ -204,7 +204,7 @@ def split_points_by_order(tpoints: torch.Tensor, groups):
             group_points[group_id][bindx, new_point_indx, :] = point
 
     group_points = [
-        torch.tensor(x, dtype=tpoints.dtype, device=tpoints.device)
+        torch.tensor(x, dtype=tpoints.dtype, device=tpoints.device)  # type: ignore  # noqa: E501
         for x in group_points
     ]
 

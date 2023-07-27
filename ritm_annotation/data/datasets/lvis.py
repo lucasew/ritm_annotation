@@ -54,7 +54,7 @@ class LvisDataset(ISDataset):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         instances_mask = None
-        instances_area = defaultdict(int)
+        instances_area: dict[int, int] = defaultdict(int)
         objects_ids = []
         for indx, obj_annotation in enumerate(image_annotations):
             mask = self.get_mask_from_polygon(obj_annotation, image)

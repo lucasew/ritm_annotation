@@ -80,8 +80,8 @@ class CocoLvisDataset(ISDataset):
                 sample["num_instance_masks"], len(objs_mapping)
             ):
                 layer_indx, mask_id = objs_mapping[inst_id]
-                layers[:, :, layer_indx][
-                    layers[:, :, layer_indx] == mask_id
+                layers[:, :, layer_indx][  # type: ignore
+                    layers[:, :, layer_indx] == mask_id  # type: ignore
                 ] = 0
 
         return DSample(image, layers, objects=instances_info)

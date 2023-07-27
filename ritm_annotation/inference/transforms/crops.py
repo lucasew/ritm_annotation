@@ -45,7 +45,7 @@ class Crops(BaseTransform):
                     :, :, dy : dy + self.crop_height, dx : dx + self.crop_width
                 ]
                 image_crops.append(image_crop)
-        image_crops = torch.cat(image_crops, dim=0)
+        image_crops = torch.cat(image_crops, dim=0)  # type: ignore
         self._counts = torch.tensor(
             self._counts, device=image_nd.device, dtype=torch.float32
         )
