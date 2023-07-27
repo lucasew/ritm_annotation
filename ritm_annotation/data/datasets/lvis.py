@@ -45,7 +45,7 @@ class LvisDataset(ISDataset):
         image_annotations = self.annotations[image_id]
         random.shuffle(image_annotations)
 
-        # LVISv1 splits do not match older LVIS splits (some images in val may come from COCO train2017)
+        # LVISv1 splits do not match older LVIS splits (some images in val may come from COCO train2017)  # noqa: E501
         if "train2017" in image_url:
             image_path = self._train_path / "images" / image_filename
         else:

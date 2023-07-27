@@ -585,7 +585,7 @@ class HighResolutionNet(nn.Module):
         if not os.path.exists(pretrained_path):
             print(f'\nFile "{pretrained_path}" does not exist.')
             print(
-                "You need to specify the correct path to the pre-trained weights.\n"
+                "You need to specify the correct path to the pre-trained weights.\n"  # noqa: E501
                 "You can download the weights for HRNet from the repository:\n"
                 "https://github.com/HRNet/HRNet-Image-Classification"
             )

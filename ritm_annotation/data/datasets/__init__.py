@@ -1,3 +1,5 @@
+# flake8: noqa
+
 from ritm_annotation.data.compose import (
     ComposeDataset,
     ProportionalComposeDataset,

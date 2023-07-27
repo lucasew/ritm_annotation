@@ -80,10 +80,10 @@ class ISTrainer(object):
         self.valset = valset
 
         logger.info(
-            f"Dataset of {trainset.get_samples_number()} samples was loaded for training."
+            f"Dataset of {trainset.get_samples_number()} samples was loaded for training."  # noqa: E501
         )
         logger.info(
-            f"Dataset of {valset.get_samples_number()} samples was loaded for validation."
+            f"Dataset of {valset.get_samples_number()} samples was loaded for validation."  # noqa: E501
         )
 
         self.train_data = DataLoader(
@@ -352,7 +352,8 @@ class ISTrainer(object):
                 batch_data["instances"],
                 batch_data["points"],
             )
-            orig_image, orig_gt_mask, orig_points = (
+            # orig_image, orig_gt_mask, orig_points = (
+            _, orig_gt_mask, _ = (
                 image.clone(),
                 gt_mask.clone(),
                 points.clone(),

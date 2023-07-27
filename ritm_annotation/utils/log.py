@@ -1,10 +1,12 @@
 import io
 import logging
 import time
-from datetime import datetime
 
 import numpy as np
 from torch.utils.tensorboard import SummaryWriter
+
+# from datetime import datetime
+
 
 # LOGGER_NAME = 'root'
 # LOGGER_DATEFMT = '%Y-%m-%d %H:%M:%S'
@@ -17,12 +19,14 @@ logger = logging.getLogger(__name__)
 
 
 # def add_logging(logs_path, prefix):
-#     log_name = prefix + datetime.strftime(datetime.today(), '%Y-%m-%d_%H-%M-%S') + '.log'
+#     log_name = prefix + datetime.strftime(datetime.today(),
+#       '%Y-%m-%d_%H-%M-%S') + '.log'
 #     stdout_log_path = logs_path / log_name
 
 #     fh = logging.FileHandler(str(stdout_log_path))
-#     formatter = logging.Formatter(fmt='(%(levelname)s) %(asctime)s: %(message)s',
-#                                   datefmt=LOGGER_DATEFMT)
+#     formatter = logging.Formatter(
+#         fmt='(%(levelname)s) %(asctime)s: %(message)s',
+#         datefmt=LOGGER_DATEFMT)
 #     fh.setFormatter(formatter)
 #     logger.addHandler(fh)
 

@@ -17,7 +17,7 @@ class SpatialGather_Module(nn.Module):
         self.scale = scale
 
     def forward(self, feats, probs):
-        batch_size, c, h, w = (
+        batch_size, c, _, _ = (
             probs.size(0),
             probs.size(1),
             probs.size(2),
@@ -37,7 +37,7 @@ class SpatialOCR_Module(nn.Module):
     """
     Implementation of the OCR module:
     We aggregate the global object representation to update the representation for each pixel.
-    """
+    """  # noqa: E501
 
     def __init__(
         self,
@@ -87,7 +87,7 @@ class ObjectAttentionBlock2D(nn.Module):
         bn_type           : specify the bn type
     Return:
         N X C X H X W
-    """
+    """  # noqa: E501
 
     def __init__(
         self,

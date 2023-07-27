@@ -2,7 +2,7 @@ import logging
 import tkinter as tk
 from pathlib import Path
 from sys import exit
-from tkinter import filedialog, messagebox, ttk
+from tkinter import messagebox, ttk
 
 import cv2
 import numpy as np
@@ -32,7 +32,7 @@ class InteractiveDemoApp(ttk.Frame):
         self.tasks_iterator = tasks_iterator
         self.master = master
         master.title(
-            "Reviving Iterative Training with Mask Guidance for Interactive Segmentation"
+            "Reviving Iterative Training with Mask Guidance for Interactive Segmentation"  # noqa: E501
         )
         master.withdraw()
         master.update_idletasks()
@@ -81,9 +81,6 @@ class InteractiveDemoApp(ttk.Frame):
         master.bind("m", lambda event: self._reset_last_object())
         master.bind("n", lambda event: self._load_image_callback())
 
-        # master.bind('<space>', lambda event: self.controller.finish_object())
-        # master.bind('a', lambda event: self.controller.partially_finish_object())
-
         self.state["zoomin_params"]["skip_clicks"].trace(
             mode="w", callback=self._reset_predictor
         )
@@ -121,7 +118,7 @@ class InteractiveDemoApp(ttk.Frame):
                     self._handle_classe_finalizada(current_class)
                 self._current_task = next_task
             self.task_label.config(
-                text=f"class:{self._current_task.class_name} {self._current_task.image}"
+                text=f"class:{self._current_task.class_name} {self._current_task.image}"  # noqa: E501
             )
             return self._current_task
         except StopIteration:

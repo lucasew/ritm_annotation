@@ -150,7 +150,7 @@ class ResNetV1b(nn.Module):
         Proceedings of the IEEE conference on computer vision and pattern recognition. 2016.
 
         - Yu, Fisher, and Vladlen Koltun. "Multi-scale context aggregation by dilated convolutions."
-    """
+    """  # noqa: E501
 
     def __init__(
         self,

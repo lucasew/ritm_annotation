@@ -1,3 +1,5 @@
+# flake8: noqa
+
 import pyximport
 
 pyximport.install(pyximport=True, language_level=3)

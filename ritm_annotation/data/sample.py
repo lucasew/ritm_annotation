@@ -86,7 +86,7 @@ class DSample:
         self._soft_mask_aug = None
 
     def remove_small_objects(self, min_area):
-        if self._objects and not "area" in list(self._objects.values())[0]:
+        if self._objects and "area" not in list(self._objects.values())[0]:
             self._compute_objects_areas()
 
         for obj_id, obj_info in list(self._objects.items()):

@@ -210,7 +210,7 @@ class ZoomIn(DualTransform):
 
 
 def remove_image_only_transforms(sdict):
-    if not "transforms" in sdict:
+    if "transforms" not in sdict:
         return sdict
 
     keep_transforms = []

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" Adopted from https://github.com/foobar167/junkyard/blob/master/manual_image_annotation1/polygon/gui_canvas.py """
+""" Adopted from https://github.com/foobar167/junkyard/blob/master/manual_image_annotation1/polygon/gui_canvas.py """  # noqa: E501
 import math
 import os
 import sys
@@ -18,7 +18,7 @@ def handle_exception(exit_code=0):
         def inner(*args, **kwargs):
             try:
                 return func(*args, **kwargs)
-            except:
+            except:  # noqa: E722
                 if exit_code != 0:  # if zero, don't exit from the program
                     sys.exit(exit_code)  # exit from the program
 
@@ -28,7 +28,7 @@ def handle_exception(exit_code=0):
 
 
 class AutoScrollbar(ttk.Scrollbar):
-    """A scrollbar that hides itself if it's not needed. Works only for grid geometry manager"""
+    """A scrollbar that hides itself if it's not needed. Works only for grid geometry manager"""  # noqa: E501
 
     def set(self, lo, hi):
         if float(lo) <= 0.0 and float(hi) >= 1.0:
@@ -111,7 +111,7 @@ class CanvasImage:
             "<Button-4>", self.__wheel
         )  # zoom for Linux, wheel scroll up
 
-        # Handle keystrokes in idle mode, because program slows down on a weak computers,
+        # Handle keystrokes in idle mode, because program slows down on a weak computers,  # noqa: E501
         # when too many key stroke events in the same time
         self.canvas.bind(
             "<Key>",
@@ -238,7 +238,7 @@ class CanvasImage:
                 image=imagetk,
             )
             self.canvas.lower(imageid)  # set image into background
-            self.canvas.imagetk = imagetk  # keep an extra reference to prevent garbage-collection
+            self.canvas.imagetk = imagetk  # keep an extra reference to prevent garbage-collection # noqa: E501
 
     def _get_click_coordinates(self, event):
         x = self.canvas.canvasx(
@@ -258,7 +258,7 @@ class CanvasImage:
 
         return x, y
 
-    # ================================================ Canvas Routines =================================================
+    # ================================================ Canvas Routines =================================================  # noqa: E501
     def _reset_canvas_offset(self):
         self.canvas.configure(scrollregion=(0, 0, 5000, 5000))
         self.canvas.scan_mark(0, 0)
@@ -308,7 +308,7 @@ class CanvasImage:
             self._change_canvas_scale(new_scale)
         self.__show_image()
 
-    # ================================================ Mouse callbacks =================================================
+    # ================================================ Mouse callbacks =================================================  # noqa: E501
     def __wheel(self, event):
         """Zoom with mouse wheel"""
         x = self.canvas.canvasx(
@@ -382,11 +382,11 @@ class CanvasImage:
         else:
             return True  # point (x,y) is outside the image area
 
-    # ================================================= Keys Callback ==================================================
+    # ================================================= Keys Callback ==================================================  # noqa: E501
     def __keystroke(self, event):
         """Scrolling with the keyboard.
         Independent from the language of the keyboard, CapsLock, <Ctrl>+<key>, etc.
-        """
+        """  # noqa: E501
         if (
             event.state - self.__previous_state == 4
         ):  # means that the Control key is pressed

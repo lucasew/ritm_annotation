@@ -9,16 +9,11 @@ Be creative! do whatever you want!
 """
 
 import logging
-from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
-from pathlib import Path
 import sys
-
-# print(str(Path(__file__).parent.parent.parent.resolve()))
-# sys.path.append(str(Path(__file__).parent.parent.parent.resolve()))
+from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
 
 from ritm_annotation.cli.annotate import command as command_annotate
 
-# logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
 
@@ -51,9 +46,7 @@ def main():  # pragma: no cover
     parser = ArgumentParser(
         prog="ritm_annotation", formatter_class=ArgumentDefaultsHelpFormatter
     )
-    parser.add_argument(
-        "-v", "--verbose", dest="verbose", action="store_true"
-    )
+    parser.add_argument("-v", "--verbose", dest="verbose", action="store_true")
     subparsers = parser.add_subparsers()
     add_subcommand(subparsers, "annotate", command_annotate)
     args = parser.parse_args()

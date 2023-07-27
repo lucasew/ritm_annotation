@@ -11,6 +11,7 @@ import yaml
 from easydict import EasyDict as edict
 
 from .distributed import get_world_size, synchronize
+
 # from .log import add_logging
 
 logger = logging.getLogger(__name__)
@@ -22,7 +23,7 @@ def init_experiment(args, model_name):
 
     if ftree is None:
         print(
-            'Models can only be located in the "models" directory in the root of the repository'
+            'Models can only be located in the "models" directory in the root of the repository'  # noqa:E501
         )
         sys.exit(1)
 
@@ -101,7 +102,7 @@ def init_experiment(args, model_name):
         # add_logging(cfg.LOGS_PATH, prefix="train_")
         logger.info(f"Number of GPUs: {cfg.ngpus}")
         if cfg.distributed:
-            logger.info(f"Multi-Process Multi-GPU Distributed Training")
+            logger.info("Multi-Process Multi-GPU Distributed Training")
 
         logger.info("Run experiment with config:")
         logger.info(pprint.pformat(cfg, indent=4))
@@ -142,7 +143,7 @@ def find_resume_exp(exp_parent_path, exp_pattern):
     candidates = sorted(exp_parent_path.glob(f"{exp_pattern}*"))
     if len(candidates) == 0:
         print(
-            f'No experiments could be found that satisfies the pattern = "*{exp_pattern}"'
+            f'No experiments could be found that satisfies the pattern = "*{exp_pattern}"'  # noqa:E501
         )
         sys.exit(1)
     elif len(candidates) > 1:

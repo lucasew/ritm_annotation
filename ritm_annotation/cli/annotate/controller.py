@@ -44,7 +44,7 @@ class InteractiveController:
         if self.image.shape[:2] != mask.shape[:2]:
             messagebox.showwarning(
                 "Warning",
-                "A segmentation mask must have the same sizes as the current image!",
+                "A segmentation mask must have the same sizes as the current image!",  # noqa: E501
             )
             return
 

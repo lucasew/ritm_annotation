@@ -20,7 +20,7 @@ class PascalVocDataset(ISDataset):
 
         if split == "test":
             with open(
-                self.dataset_path / f"ImageSets/Segmentation/test.pickle", "rb"
+                self.dataset_path / "ImageSets/Segmentation/test.pickle", "rb"
             ) as f:
                 self.dataset_samples, self.instance_ids = pkl.load(f)
         else:

@@ -1,3 +1,5 @@
+# flake8: noqa
+
 from functools import partial
 
 import torch
