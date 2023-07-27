@@ -6,7 +6,7 @@ import torch
 from ritm_annotation.inference import utils
 from ritm_annotation.inference.clicker import Clicker
 
-if locals().get('get_ipython'):
+if locals().get("get_ipython"):
     from tqdm import tqdm_notebook as tqdm
 else:
     from tqdm import tqdm
