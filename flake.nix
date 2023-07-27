@@ -7,7 +7,23 @@
   };
 
   outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system: {
+  flake-utils.lib.eachDefaultSystem (system: let
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    };
+  in {
       overlay = import ./nix/overlay.nix;
+      devShells.default = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          gnumake
+          python3Packages.black
+          python3Packages.mypy
+          python3Packages.flake8
+          python3Packages.pytest
+          python3Packages.pytorch-bin
+          python3Packages.opencv4
+        ];
+      };
     });
 }
