@@ -4,6 +4,11 @@ import os
 from setuptools import find_packages, setup
 from distutils.core import Extension
 
+try:
+    from Cython.Build import cythonize
+    use_cython = True
+except ImportError:
+    use_cython = False
 
 def read(*paths, **kwargs):
     """Read the contents of a text file safely.
@@ -31,7 +36,6 @@ def read_requirements(path):
 
 
 def ext_modules():
-    from Cython.Build import cythonize
     import numpy as np
     includes = []
     libraries = []
@@ -40,12 +44,13 @@ def ext_modules():
     if os.name == "posix":
         libraries.append("m")
     modules = []
-    modules += cythonize(Extension(
-        "*",
-        ["ritm_annotation/**/*.pyx"],
-        include_dirs=includes,
-        libraries=libraries,
-    ))
+    if use_cython:
+        modules += cythonize(Extension(
+            "*",
+            ["ritm_annotation/**/*.pyx"],
+            include_dirs=includes,
+            libraries=libraries,
+        ))
     return modules
 
 setup(
