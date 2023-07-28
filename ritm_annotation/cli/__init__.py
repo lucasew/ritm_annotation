@@ -11,6 +11,7 @@ Be creative! do whatever you want!
 import logging
 import sys
 from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
+from pathlib import Path
 
 from ritm_annotation.cli.annotate import command as command_annotate
 
@@ -19,11 +20,14 @@ logger = logging.getLogger(__name__)
 
 def add_subcommand(subparsers, name: str, command_fn):
     subparser = subparsers.add_parser(name)
-    subparser.add_argument(
-        "-v", "--verbose", dest="verbose", action="store_true"
-    )
+    common_flags(subparser)
     handler = command_fn(subparser)
     subparser.set_defaults(fn=handler)
+
+
+def common_flags(parser):
+    parser.add_argument("-v", "--verbose", dest="verbose", action="store_true", help="Give more details about what is happening")  # noqa: E501
+    parser.add_argument("-V", "--version", dest="is_show_version", action="store_true", help="Print version and exit")  # noqa: E501
 
 
 def main():  # pragma: no cover
@@ -44,9 +48,10 @@ def main():  # pragma: no cover
     """
     logging.basicConfig()
     parser = ArgumentParser(
-        prog="ritm_annotation", formatter_class=ArgumentDefaultsHelpFormatter
+        prog="ritm_annotation",
+        formatter_class=ArgumentDefaultsHelpFormatter
     )
-    parser.add_argument("-v", "--verbose", dest="verbose", action="store_true")
+    common_flags(parser)
     subparsers = parser.add_subparsers()
     add_subcommand(subparsers, "annotate", command_annotate)
     args = parser.parse_args()
@@ -54,8 +59,12 @@ def main():  # pragma: no cover
     if args.verbose:
         logging.root.setLevel(logging.DEBUG)
 
-    # logging.warn("info")
-    logger.debug("verbose")
+    version = open(str(Path(__file__).parent.parent / 'VERSION'), 'r').read()
+    if args.is_show_version:
+        print(version)
+        exit(0)
+    logger.debug(f"Starting ritm_annotation v{version}")
+
     fn = args.__dict__.get("fn")
     if fn is not None:
         fn(args)
