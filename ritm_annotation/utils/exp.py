@@ -39,7 +39,7 @@ def init_experiment(args, model_name):
         if args.workers > 0:
             torch.multiprocessing.set_start_method("forkserver", force=True)
 
-    experiments_path = Path(cfg.EXPS_PATH)
+    experiments_path = Path(args.experiment_path)
     exp_parent_path = experiments_path / "/".join(ftree)
     exp_parent_path.mkdir(parents=True, exist_ok=True)
 

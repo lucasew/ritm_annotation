@@ -14,6 +14,7 @@ from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
 from pathlib import Path
 
 from ritm_annotation.cli.annotate import command as command_annotate
+from ritm_annotation.cli.train import command as command_train
 
 logger = logging.getLogger(__name__)
 
@@ -65,6 +66,7 @@ def main():  # pragma: no cover
     common_flags(parser)
     subparsers = parser.add_subparsers()
     add_subcommand(subparsers, "annotate", command_annotate)
+    add_subcommand(subparsers, "train", command_train)
     args = parser.parse_args()
 
     if args.verbose:
