@@ -12,7 +12,12 @@ Based on [SamsungLabs/ritm_interactive_segmentation](https://github.com/SamsungL
 ## Install it from PyPI
 
 ```bash
-pip install ritm_annotation # not yet
+pip install ritm_annotation
+```
+
+## Running it using Nix flakes
+```
+nix run github:lucasew/ritm_annotation -- --help
 ```
 
 ## Usage

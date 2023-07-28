@@ -10,7 +10,7 @@ scipy==1.10.1
 tensorboard==2.11.0
 # tkinter==3.10.12 # non nix python has tkinter shipped by default
 torch==2.0.1
-torchvision==0.15.2
-opencv-python
+torchvision >= 0.15.2
+opencv-python-headless
 Cython
 numpy
