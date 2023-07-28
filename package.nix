@@ -15,7 +15,7 @@
 }:
 
 buildPythonPackage {
-  pname = "ritm-annotation";
+  pname = "ritm_annotation";
   version = builtins.readFile ./ritm_annotation/VERSION;
   src = ./.;
 
