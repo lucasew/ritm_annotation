@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 from albumentations import DualTransform, ImageOnlyTransform
 from albumentations.augmentations import functional as F
+from albumentations.augmentations.geometric import functional as FG
 from albumentations.core.serialization import SERIALIZABLE_REGISTRY
 from albumentations.core.transforms_interface import to_tuple
 
@@ -41,7 +42,7 @@ class UniformRandomResize(DualTransform):
         interpolation=cv2.INTER_LINEAR,
         **params
     ):
-        return F.resize(
+        return FG.resize(
             img,
             height=new_height,
             width=new_width,
@@ -86,19 +87,19 @@ class ZoomIn(DualTransform):
     def apply(self, img, selected_object, bbox, **params):
         if selected_object is None:
             if self.always_resize:
-                img = F.resize(img, height=self.height, width=self.width)
+                img = FG.resize(img, height=self.height, width=self.width)
             return img
 
         rmin, rmax, cmin, cmax = bbox
         img = img[rmin : rmax + 1, cmin : cmax + 1]
-        img = F.resize(img, height=self.height, width=self.width)
+        img = FG.resize(img, height=self.height, width=self.width)
 
         return img
 
     def apply_to_mask(self, mask, selected_object, bbox, **params):
         if selected_object is None:
             if self.always_resize:
-                mask = F.resize(
+                mask = FG.resize(
                     mask,
                     height=self.height,
                     width=self.width,
@@ -118,7 +119,7 @@ class ZoomIn(DualTransform):
             new_mask = mask.copy()
             new_mask[np.logical_not(obj_mask)] = 0
 
-        new_mask = F.resize(
+        new_mask = FG.resize(
             new_mask,
             height=self.height,
             width=self.width,

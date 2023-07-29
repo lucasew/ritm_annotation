@@ -4,6 +4,7 @@ import os
 import sys
 from pathlib import Path
 import logging
+import pprint
 
 import torch
 
@@ -25,7 +26,7 @@ def command(parser):
     parser.add_argument('--workers', type=int, default=4,
                         metavar='N', help='Dataloader threads.')
 
-    parser.add_argument('--batch-size', type=int, default=-1,
+    parser.add_argument('--batch-size', '-b', dest='batch_size', type=int, default=-1,
                         help='You can override model batch size by specify positive number.')  # noqa:E501
 
     parser.add_argument('--ngpus', type=int, default=1,
@@ -78,15 +79,16 @@ def command(parser):
                 logger.warning(f"Changing configuration entry from environment variable: {cfgkey}={v}")  # noqa: E501
                 cfg[cfgkey] = v
 
-
         torch.backends.cudnn.benchmark = True
         torch.multiprocessing.set_sharing_strategy('file_system')
+        logger.debug("Basic validations passed")
 
         model_script.main(cfg)
     return handle
 
 
 def load_module(script_path):
+    logger.debug(f"Loading module '{script_path}'...")
     spec = importlib.util.spec_from_file_location("model_script", script_path)
     assert spec is not None, f"Can't import model at '{script_path}'"
     model_script = importlib.util.module_from_spec(spec)

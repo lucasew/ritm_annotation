@@ -3,6 +3,7 @@ import os
 import random
 from collections import defaultdict
 from copy import deepcopy
+import pprint
 
 import cv2
 import numpy as np
@@ -138,6 +139,8 @@ class ISTrainer(object):
                     param.requires_grad = False
                 click_model.to(self.device)
                 click_model.eval()
+        logger.info("Run experiment with config:")
+        logger.info(pprint.pformat(cfg, indent=4))
 
     def run(self, num_epochs, start_epoch=None, validation=True):
         if start_epoch is None:
@@ -325,6 +328,7 @@ class ISTrainer(object):
                     )
 
         if self.is_master:
+            logging.debug("Saving epoch level losses")
             for loss_name, loss_values in losses_logging.items():
                 self.sw.add_scalar(
                     tag=f"{log_prefix}Losses/{loss_name}",
@@ -333,6 +337,7 @@ class ISTrainer(object):
                     disable_avg=True,
                 )
 
+            logging.debug("Saving epoch level metrics")
             for metric in self.val_metrics:
                 self.sw.add_scalar(
                     tag=f"{log_prefix}Metrics/{metric.name}",
@@ -527,15 +532,13 @@ class ISTrainer(object):
                     f"=> no checkpoint found at '{self.cfg.weights}'"
                 )
         elif self.cfg.resume_exp is not None:
+            checkpoint_glob = f"{self.cfg.resume_prefix}*.pth"
             checkpoints = list(
-                self.cfg.CHECKPOINTS_PATH.glob(
-                    f"{self.cfg.resume_prefix}*.pth"
-                )
+                self.cfg.CHECKPOINTS_PATH.glob(checkpoint_glob)
             )
-            assert len(checkpoints) == 1
+            assert len(checkpoints) == 1, f"'{self.cfg.CHECKPOINTS_PATH}/{checkpoint_glob}' didn't match anything"
 
             checkpoint_path = checkpoints[0]
-            logger.info(f"Load checkpoint from path: {checkpoint_path}")
             load_weights(net, str(checkpoint_path))
         return net
 
@@ -597,6 +600,7 @@ def get_next_points(pred, gt, points, click_indx, pred_thresh=0.49):
 
 
 def load_weights(model, path_to_weights):
+    logger.info(f"Loading weights from path: '{path_to_weights}'")
     current_state_dict = model.state_dict()
     new_state_dict = torch.load(path_to_weights, map_location="cpu")[
         "state_dict"

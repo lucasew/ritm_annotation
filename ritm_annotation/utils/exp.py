@@ -104,9 +104,6 @@ def init_experiment(args, model_name):
         if cfg.distributed:
             logger.info("Multi-Process Multi-GPU Distributed Training")
 
-        logger.info("Run experiment with config:")
-        logger.info(pprint.pformat(cfg, indent=4))
-
     return cfg
 
 

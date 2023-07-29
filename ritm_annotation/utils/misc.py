@@ -15,7 +15,7 @@ def get_dims_with_exclusion(dim, exclude=None):
 
 
 def save_checkpoint(
-    net, checkpoints_path, epoch=None, prefix="", verbose=True, multi_gpu=False
+    net, checkpoints_path, epoch=None, prefix="", multi_gpu=False
 ):
     if epoch is None:
         checkpoint_name = "last_checkpoint.pth"
@@ -29,8 +29,7 @@ def save_checkpoint(
         checkpoints_path.mkdir(parents=True)
 
     checkpoint_path = checkpoints_path / checkpoint_name
-    if verbose:
-        logger.info(f"Save checkpoint to {str(checkpoint_path)}")
+    logger.debug(f"Save checkpoint to {str(checkpoint_path)}")
 
     net = net.module if multi_gpu else net
     torch.save(
