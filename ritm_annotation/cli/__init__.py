@@ -79,6 +79,7 @@ def main():  # pragma: no cover
     logger.debug(f"Starting ritm_annotation v{version}")
 
     fn = args.__dict__.get("fn")
+    args.__dict__['fn'] = None
     if fn is not None:
         fn(args)
     else:

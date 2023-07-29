@@ -96,6 +96,7 @@ class ISTrainer(object):
             drop_last=True,
             pin_memory=True,
             num_workers=cfg.workers,
+            persistent_workers=True
         )
 
         self.val_data = DataLoader(
@@ -106,9 +107,11 @@ class ISTrainer(object):
             ),
             drop_last=True,
             pin_memory=True,
-            # num_workers=cfg.workers,
-            num_workers=0,
+            num_workers=cfg.workers,
+            persistent_workers=True
         )
+        logger.debug(f'First train batch: {repr(next(iter(self.train_data)))}')
+        logger.debug(f'First evaluation batch: {repr(next(iter(self.val_data)))}')
 
         self.optim = get_optimizer(model, optimizer, optimizer_params)
         model = self._load_weights(model)
