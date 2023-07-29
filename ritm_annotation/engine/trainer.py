@@ -106,7 +106,8 @@ class ISTrainer(object):
             ),
             drop_last=True,
             pin_memory=True,
-            num_workers=cfg.workers,
+            # num_workers=cfg.workers,
+            num_workers=0,
         )
 
         self.optim = get_optimizer(model, optimizer, optimizer_params)
