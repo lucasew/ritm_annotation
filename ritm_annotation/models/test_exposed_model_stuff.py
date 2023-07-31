@@ -26,6 +26,9 @@ def test_model_exposes_the_right_stuff(model_file):
     model_script = load_module(model_file)
 
     assert type(model_script.MODEL_NAME) == str
+    assert (
+        model_script.__dict__.get("main") is None
+    ), "Remove the main function"
 
     testing_tmpdir = mkdtemp()
     cfg = edict()

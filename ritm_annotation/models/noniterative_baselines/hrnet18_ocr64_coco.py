@@ -5,11 +5,6 @@ from ritm_annotation.utils.exp_imports.default import *
 MODEL_NAME = "hrnet18"
 
 
-def main(cfg):
-    model, model_cfg = init_model(cfg)
-    train(model, cfg, model_cfg)
-
-
 def init_model(cfg, dry_run=False):
     model_cfg = edict()
     model_cfg.crop_size = (320, 480)
