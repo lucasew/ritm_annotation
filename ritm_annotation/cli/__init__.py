@@ -15,6 +15,7 @@ from pathlib import Path
 
 from ritm_annotation.cli.annotate import command as command_annotate
 from ritm_annotation.cli.train import command as command_train
+from ritm_annotation.cli.model_info import command as command_model_info
 
 logger = logging.getLogger(__name__)
 
@@ -67,6 +68,7 @@ def main():  # pragma: no cover
     subparsers = parser.add_subparsers()
     add_subcommand(subparsers, "annotate", command_annotate)
     add_subcommand(subparsers, "train", command_train)
+    add_subcommand(subparsers, "model_info", command_model_info)
     args = parser.parse_args()
 
     if args.verbose:
