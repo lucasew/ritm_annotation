@@ -14,8 +14,8 @@ from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
 from pathlib import Path
 
 from ritm_annotation.cli.annotate import command as command_annotate
-from ritm_annotation.cli.train import command as command_train
 from ritm_annotation.cli.model_info import command as command_model_info
+from ritm_annotation.cli.train import command as command_train
 
 logger = logging.getLogger(__name__)
 
@@ -81,7 +81,7 @@ def main():  # pragma: no cover
     logger.debug(f"Starting ritm_annotation v{version}")
 
     fn = args.__dict__.get("fn")
-    args.__dict__['fn'] = None
+    args.__dict__["fn"] = None
     if fn is not None:
         fn(args)
     else:

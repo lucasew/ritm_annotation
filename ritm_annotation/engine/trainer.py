@@ -1,9 +1,9 @@
 import logging
 import os
+import pprint
 import random
 from collections import defaultdict
 from copy import deepcopy
-import pprint
 
 import cv2
 import numpy as np
@@ -96,7 +96,7 @@ class ISTrainer(object):
             drop_last=True,
             pin_memory=True,
             num_workers=cfg.workers,
-            persistent_workers=True
+            persistent_workers=True,
         )
 
         self.val_data = DataLoader(
@@ -108,10 +108,12 @@ class ISTrainer(object):
             drop_last=True,
             pin_memory=True,
             num_workers=cfg.workers,
-            persistent_workers=True
+            persistent_workers=True,
         )
-        logger.debug(f'First train batch: {repr(next(iter(self.train_data)))}')
-        logger.debug(f'First evaluation batch: {repr(next(iter(self.val_data)))}')
+        logger.debug(f"First train batch: {repr(next(iter(self.train_data)))}")
+        logger.debug(
+            f"First evaluation batch: {repr(next(iter(self.val_data)))}"
+        )
 
         self.optim = get_optimizer(model, optimizer, optimizer_params)
         model = self._load_weights(model)
@@ -537,10 +539,10 @@ class ISTrainer(object):
                 )
         elif self.cfg.resume_exp is not None:
             checkpoint_glob = f"{self.cfg.resume_prefix}*.pth"
-            checkpoints = list(
-                self.cfg.CHECKPOINTS_PATH.glob(checkpoint_glob)
-            )
-            assert len(checkpoints) == 1, f"'{self.cfg.CHECKPOINTS_PATH}/{checkpoint_glob}' didn't match anything"
+            checkpoints = list(self.cfg.CHECKPOINTS_PATH.glob(checkpoint_glob))
+            assert (
+                len(checkpoints) == 1
+            ), f"'{self.cfg.CHECKPOINTS_PATH}/{checkpoint_glob}' didn't match anything"
 
             checkpoint_path = checkpoints[0]
             load_weights(net, str(checkpoint_path))
