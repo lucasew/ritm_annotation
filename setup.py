@@ -75,4 +75,5 @@ setup(
         "console_scripts": ["ritm_annotation = ritm_annotation.__main__:main"]
     },
     extras_require={"test": read_requirements("requirements-test.txt")},
+    include_package_data=True
 )
