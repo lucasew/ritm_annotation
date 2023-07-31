@@ -11,7 +11,7 @@ from ritm_annotation.data.sample import DSample
 
 
 class OpenImagesDataset(ISDataset):
-    def __init__(self, dataset_path, split="train", **kwargs):
+    def __init__(self, dataset_path, split="train", dry_run=False, **kwargs):
         super().__init__(**kwargs)
         assert split in {"train", "val", "test"}
 
@@ -28,6 +28,8 @@ class OpenImagesDataset(ISDataset):
         if os.path.exists(clean_anno_path):
             with clean_anno_path.open("rb") as f:
                 annotations = pkl.load(f)
+        elif dry_run:
+            annotations = dict(image_id_to_masks=[], dataset_samples=[])
         else:
             raise RuntimeError(f"Can't find annotations at {clean_anno_path}")
         self.image_id_to_masks = annotations["image_id_to_masks"]

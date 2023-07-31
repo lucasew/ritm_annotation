@@ -1,6 +1,5 @@
 import logging
 import os
-import pprint
 import shutil
 import sys
 from datetime import datetime

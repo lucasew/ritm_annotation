@@ -1,3 +1,4 @@
+import importlib
 import logging
 
 import numpy as np
@@ -100,3 +101,13 @@ def ignore_params_then_call(func):
         return func()
 
     return ret
+
+
+def load_module(script_path):
+    logger.debug(f"Loading module '{script_path}'...")
+    spec = importlib.util.spec_from_file_location("model_script", script_path)
+    assert spec is not None, f"Can't import model at '{script_path}'"
+    model_script = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(model_script)
+
+    return model_script

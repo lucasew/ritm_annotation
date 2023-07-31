@@ -15,7 +15,12 @@ from ritm_annotation.utils.misc import (
 
 class SBDDataset(ISDataset):
     def __init__(
-        self, dataset_path, split="train", buggy_mask_thresh=0.08, **kwargs
+        self,
+        dataset_path,
+        split="train",
+        buggy_mask_thresh=0.08,
+        dry_run=False,
+        **kwargs,
     ):
         super(SBDDataset, self).__init__(**kwargs)
         assert split in {"train", "val"}
@@ -27,8 +32,11 @@ class SBDDataset(ISDataset):
         self._buggy_objects = dict()
         self._buggy_mask_thresh = buggy_mask_thresh
 
-        with open(self.dataset_path / f"{split}.txt", "r") as f:
-            self.dataset_samples = [x.strip() for x in f.readlines()]
+        if dry_run:
+            self.dataset_samples = []
+        else:
+            with open(self.dataset_path / f"{split}.txt", "r") as f:
+                self.dataset_samples = [x.strip() for x in f.readlines()]
 
     def get_sample(self, index):
         image_name = self.dataset_samples[index]
@@ -72,7 +80,7 @@ class SBDDataset(ISDataset):
 
 
 class SBDEvaluationDataset(ISDataset):
-    def __init__(self, dataset_path, split="val", **kwargs):
+    def __init__(self, dataset_path, split="val", dry_run=False, **kwargs):
         super(SBDEvaluationDataset, self).__init__(**kwargs)
         assert split in {"train", "val"}
 
@@ -80,11 +88,12 @@ class SBDEvaluationDataset(ISDataset):
         self.dataset_split = split
         self._images_path = self.dataset_path / "img"
         self._insts_path = self.dataset_path / "inst"
-
-        with open(self.dataset_path / f"{split}.txt", "r") as f:
-            self.dataset_samples = [x.strip() for x in f.readlines()]
-
-        self.dataset_samples = self.get_sbd_images_and_ids_list()
+        if dry_run:
+            self.dataset_samples = []
+        else:
+            with open(self.dataset_path / f"{split}.txt", "r") as f:
+                self.dataset_samples = [x.strip() for x in f.readlines()]
+            self.dataset_samples = self.get_sbd_images_and_ids_list()
 
     def get_sample(self, index) -> DSample:
         image_name, instance_id = self.dataset_samples[index]

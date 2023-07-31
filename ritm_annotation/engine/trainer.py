@@ -48,7 +48,9 @@ class ISTrainer(object):
         max_num_next_clicks=0,
         click_models=None,
         prev_mask_drop_prob=0.0,
+        dry_run=False,
     ):
+        self._ran_before_needed = False
         self.cfg = cfg
         self.model_cfg = model_cfg
         self.max_interactive_points = max_interactive_points
@@ -92,11 +94,13 @@ class ISTrainer(object):
             cfg.batch_size,
             sampler=get_sampler(
                 trainset, shuffle=True, distributed=cfg.distributed
-            ),
+            )
+            if not dry_run
+            else None,
             drop_last=True,
             pin_memory=True,
             num_workers=cfg.workers,
-            persistent_workers=True,
+            persistent_workers=cfg.workers > 0,
         )
 
         self.val_data = DataLoader(
@@ -104,15 +108,13 @@ class ISTrainer(object):
             cfg.val_batch_size,
             sampler=get_sampler(
                 valset, shuffle=False, distributed=cfg.distributed
-            ),
+            )
+            if not dry_run
+            else None,
             drop_last=True,
             pin_memory=True,
             num_workers=cfg.workers,
-            persistent_workers=True,
-        )
-        logger.debug(f"First train batch: {repr(next(iter(self.train_data)))}")
-        logger.debug(
-            f"First evaluation batch: {repr(next(iter(self.val_data)))}"
+            persistent_workers=cfg.workers > 0,
         )
 
         self.optim = get_optimizer(model, optimizer, optimizer_params)
@@ -148,7 +150,17 @@ class ISTrainer(object):
         logger.info("Run experiment with config:")
         logger.info(pprint.pformat(cfg, indent=4))
 
+    def _before_needed_hook(self):
+        if self._ran_before_needed:
+            return
+        self._ran_before_needed = True
+        logger.debug(f"First train batch: {repr(next(iter(self.train_data)))}")
+        logger.debug(
+            f"First evaluation batch: {repr(next(iter(self.val_data)))}"
+        )
+
     def run(self, num_epochs, start_epoch=None, validation=True):
+        self._before_needed_hook()
         if start_epoch is None:
             start_epoch = self.cfg.start_epoch
 
@@ -160,6 +172,7 @@ class ISTrainer(object):
                 self.validation(epoch)
 
     def training(self, epoch):
+        self._before_needed_hook()
         if self.sw is None and self.is_master:
             self.sw = SummaryWriterAvg(
                 log_dir=str(self.cfg.LOGS_PATH),
@@ -285,6 +298,7 @@ class ISTrainer(object):
             self.lr_scheduler.step()
 
     def validation(self, epoch):
+        self._before_needed_hook()
         if self.sw is None and self.is_master:
             self.sw = SummaryWriterAvg(
                 log_dir=str(self.cfg.LOGS_PATH),
@@ -353,6 +367,7 @@ class ISTrainer(object):
                 )
 
     def batch_forward(self, batch_data, validation=False):
+        self._before_needed_hook()
         metrics = self.val_metrics if validation else self.train_metrics
         losses_logging = dict()
 
@@ -542,7 +557,7 @@ class ISTrainer(object):
             checkpoints = list(self.cfg.CHECKPOINTS_PATH.glob(checkpoint_glob))
             assert (
                 len(checkpoints) == 1
-            ), f"'{self.cfg.CHECKPOINTS_PATH}/{checkpoint_glob}' didn't match anything"
+            ), f"'{self.cfg.CHECKPOINTS_PATH}/{checkpoint_glob}' didn't match anything"  # noqa: E501
 
             checkpoint_path = checkpoints[0]
             load_weights(net, str(checkpoint_path))

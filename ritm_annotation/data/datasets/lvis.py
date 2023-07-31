@@ -12,7 +12,12 @@ from ritm_annotation.data.sample import DSample
 
 class LvisDataset(ISDataset):
     def __init__(
-        self, dataset_path, split="train", max_overlap_ratio=0.5, **kwargs
+        self,
+        dataset_path,
+        split="train",
+        max_overlap_ratio=0.5,
+        dry_run=False,
+        **kwargs,
     ):
         super(LvisDataset, self).__init__(**kwargs)
         dataset_path = Path(dataset_path)
@@ -23,15 +28,22 @@ class LvisDataset(ISDataset):
         self.split = split
         self.max_overlap_ratio = max_overlap_ratio
 
-        with open(dataset_path / split / f"lvis_{self.split}.json", "r") as f:
-            json_annotation = json.loads(f.read())
+        if not dry_run:
+            with open(
+                dataset_path / split / f"lvis_{self.split}.json", "r"
+            ) as f:
+                json_annotation = json.loads(f.read())
+        else:
+            json_annotation = dict(annotations=[], images=[])
 
         self.annotations = defaultdict(list)
         for x in json_annotation["annotations"]:
             self.annotations[x["image_id"]].append(x)
 
         if not train_categories_path.exists():
-            self.generate_train_categories(dataset_path, train_categories_path)
+            self.generate_train_categories(
+                dataset_path, train_categories_path, dry_run=dry_run
+            )
         self.dataset_samples = [
             x
             for x in json_annotation["images"]
@@ -99,9 +111,14 @@ class LvisDataset(ISDataset):
         return mask
 
     @staticmethod
-    def generate_train_categories(dataset_path, train_categories_path):
-        with open(dataset_path / "train/lvis_train.json", "r") as f:
-            annotation = json.load(f)
+    def generate_train_categories(
+        dataset_path, train_categories_path, dry_run=False
+    ):
+        if not dry_run:
+            with open(dataset_path / "train/lvis_train.json", "r") as f:
+                annotation = json.load(f)
+        else:
+            annotation = dict(categories=[])
 
         with open(train_categories_path, "w") as f:
             json.dump(annotation["categories"], f, indent=1)

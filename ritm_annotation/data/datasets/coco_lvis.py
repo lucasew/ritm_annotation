@@ -19,6 +19,7 @@ class CocoLvisDataset(ISDataset):
         stuff_prob=0.0,
         allow_list_name=None,
         anno_file="hannotation.pickle",
+        dry_run=False,
         **kwargs,
     ):
         super(CocoLvisDataset, self).__init__(**kwargs)
@@ -29,8 +30,11 @@ class CocoLvisDataset(ISDataset):
         self._masks_path = self._split_path / "masks"
         self.stuff_prob = stuff_prob
 
-        with open(self._split_path / anno_file, "rb") as f:
-            self.dataset_samples = sorted(pickle.load(f).items())
+        if not dry_run:
+            with open(self._split_path / anno_file, "rb") as f:
+                self.dataset_samples = sorted(pickle.load(f).items())
+        else:
+            self.dataset_samples = []
 
         if allow_list_name is not None:
             allow_list_path = self._split_path / allow_list_name

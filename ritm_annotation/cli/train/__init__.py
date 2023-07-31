@@ -1,4 +1,3 @@
-import importlib.util
 import logging
 import os
 from pathlib import Path
@@ -6,6 +5,7 @@ from pathlib import Path
 import torch
 
 from ritm_annotation.utils.exp import init_experiment
+from ritm_annotation.utils.misc import load_module
 
 logger = logging.getLogger(__name__)
 
@@ -131,17 +131,8 @@ def command(parser):
         torch.backends.cudnn.benchmark = True
         torch.multiprocessing.set_sharing_strategy("file_system")
         logger.debug("Basic validations passed")
-
-        model_script.main(cfg)
+        model, model_cfg = model_script.init_model(cfg)
+        trainer = model_script.get_trainer(model, cfg, model_cfg)
+        trainer.run(num_epochs=model_cfg.default_num_epochs)
 
     return handle
-
-
-def load_module(script_path):
-    logger.debug(f"Loading module '{script_path}'...")
-    spec = importlib.util.spec_from_file_location("model_script", script_path)
-    assert spec is not None, f"Can't import model at '{script_path}'"
-    model_script = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(model_script)
-
-    return model_script

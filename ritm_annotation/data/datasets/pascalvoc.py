@@ -9,7 +9,7 @@ from ritm_annotation.data.sample import DSample
 
 
 class PascalVocDataset(ISDataset):
-    def __init__(self, dataset_path, split="train", **kwargs):
+    def __init__(self, dataset_path, split="train", dry_run=False, **kwargs):
         super().__init__(**kwargs)
         assert split in {"train", "val", "trainval", "test"}
 
@@ -17,17 +17,23 @@ class PascalVocDataset(ISDataset):
         self._images_path = self.dataset_path / "JPEGImages"
         self._insts_path = self.dataset_path / "SegmentationObject"
         self.dataset_split = split
-
-        if split == "test":
-            with open(
-                self.dataset_path / "ImageSets/Segmentation/test.pickle", "rb"
-            ) as f:
-                self.dataset_samples, self.instance_ids = pkl.load(f)
+        if dry_run:
+            self.dataset_samples = []
         else:
-            with open(
-                self.dataset_path / f"ImageSets/Segmentation/{split}.txt", "r"
-            ) as f:
-                self.dataset_samples = [name.strip() for name in f.readlines()]
+            if split == "test":
+                with open(
+                    self.dataset_path / "ImageSets/Segmentation/test.pickle",
+                    "rb",
+                ) as f:
+                    self.dataset_samples, self.instance_ids = pkl.load(f)
+            else:
+                with open(
+                    self.dataset_path / f"ImageSets/Segmentation/{split}.txt",
+                    "r",
+                ) as f:
+                    self.dataset_samples = [
+                        name.strip() for name in f.readlines()
+                    ]
 
     def get_sample(self, index) -> DSample:
         sample_id = self.dataset_samples[index]

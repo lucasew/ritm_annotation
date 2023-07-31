@@ -20,6 +20,7 @@ class ISDataset(torch.utils.data.dataset.Dataset):
         samples_scores_path=None,
         samples_scores_gamma=1.0,
         epoch_len=-1,
+        dry_run=False,
     ):
         super(ISDataset, self).__init__()
         self.epoch_len = epoch_len
@@ -29,11 +30,12 @@ class ISDataset(torch.utils.data.dataset.Dataset):
         self.points_sampler = points_sampler
         self.with_image_info = with_image_info
         self.samples_precomputed_scores = self._load_samples_scores(
-            samples_scores_path, samples_scores_gamma
+            samples_scores_path, samples_scores_gamma, dry_run=dry_run
         )
         self.to_tensor = transforms.ToTensor()
 
         self.dataset_samples = None
+        self.dry_run = dry_run
 
     def __getitem__(self, index):
         if self.samples_precomputed_scores is not None:
@@ -92,10 +94,11 @@ class ISDataset(torch.utils.data.dataset.Dataset):
         return len(self.dataset_samples)
 
     @staticmethod
-    def _load_samples_scores(samples_scores_path, samples_scores_gamma):
-        if samples_scores_path is None:
+    def _load_samples_scores(
+        samples_scores_path, samples_scores_gamma, dry_run=False
+    ):
+        if samples_scores_path is None or (not dry_run):
             return None
-
         with open(samples_scores_path, "rb") as f:
             images_scores = pickle.load(f)
 

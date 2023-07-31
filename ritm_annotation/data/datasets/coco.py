@@ -10,11 +10,19 @@ from ritm_annotation.data.sample import DSample
 
 
 class CocoDataset(ISDataset):
-    def __init__(self, dataset_path, split="train", stuff_prob=0.0, **kwargs):
+    def __init__(
+        self,
+        dataset_path,
+        split="train",
+        stuff_prob=0.0,
+        dry_run=False,
+        **kwargs,
+    ):
         super(CocoDataset, self).__init__(**kwargs)
         self.split = split
         self.dataset_path = Path(dataset_path)
         self.stuff_prob = stuff_prob
+        self.dry_run = dry_run
 
         self.load_samples()
 
@@ -27,8 +35,11 @@ class CocoDataset(ISDataset):
         )
         self.images_path = self.dataset_path / self.split
 
-        with open(annotation_path, "r") as f:
-            annotation = json.load(f)
+        if not self.dry_run:
+            with open(annotation_path, "r") as f:
+                annotation = json.load(f)
+        else:
+            annotation = dict(annotations=[], categories=[])
 
         self.dataset_samples = annotation["annotations"]
 

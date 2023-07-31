@@ -12,7 +12,14 @@ from ritm_annotation.utils.misc import get_labels_with_sizes
 
 
 class ADE20kDataset(ISDataset):
-    def __init__(self, dataset_path, split="train", stuff_prob=0.0, **kwargs):
+    def __init__(
+        self,
+        dataset_path,
+        split="train",
+        stuff_prob=0.0,
+        dry_run=False,
+        **kwargs,
+    ):
         super().__init__(**kwargs)
         assert split in {"train", "val"}
 
@@ -29,6 +36,8 @@ class ADE20kDataset(ISDataset):
         if os.path.exists(anno_path):
             with anno_path.open("rb") as f:
                 annotations = pkl.load(f)
+        elif dry_run:
+            annotations = {}
         else:
             raise RuntimeError(f"Can't find annotations at {anno_path}")
         self.annotations = annotations
