@@ -13,6 +13,7 @@ import sys
 from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
 from pathlib import Path
 
+from ritm_annotation.utils.misc import load_module
 from ritm_annotation.cli.annotate import command as command_annotate
 from ritm_annotation.cli.model_info import command as command_model_info
 from ritm_annotation.cli.train import command as command_train
@@ -20,10 +21,10 @@ from ritm_annotation.cli.train import command as command_train
 logger = logging.getLogger(__name__)
 
 
-def add_subcommand(subparsers, name: str, command_fn):
-    subparser = subparsers.add_parser(name)
+def add_subcommand(subparsers, name: str, submodule):
+    subparser = subparsers.add_parser(name, help=submodule.COMMAND_DESCRIPTION)
     common_flags(subparser)
-    handler = command_fn(subparser)
+    handler = submodule.command(subparser)
     subparser.set_defaults(fn=handler)
 
 
@@ -66,9 +67,14 @@ def main():  # pragma: no cover
     )
     common_flags(parser)
     subparsers = parser.add_subparsers()
-    add_subcommand(subparsers, "annotate", command_annotate)
-    add_subcommand(subparsers, "train", command_train)
-    add_subcommand(subparsers, "model_info", command_model_info)
+
+    for module in Path(__file__).parent.glob('*/__init__.py'):
+        if str(module).find('pycache') > 0:
+            continue
+        module_name = module.parent.name
+        subcommand_module = load_module(module, module_name=f"ritm_annotation.cli.{module_name}")
+        add_subcommand(subparsers, module_name, subcommand_module)
+
     args = parser.parse_args()
 
     if args.verbose:

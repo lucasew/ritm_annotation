@@ -603,8 +603,10 @@ class InteractiveDemoApp(ttk.Frame):
         return all_checked
 
 
+COMMAND_DESCRIPTION = "Interactively annotate a dataset"
+
+
 def command(subparser):
-    subparser.description = "Interactively annotate a dataset"
     subparser.add_argument("input", type=Path)
     subparser.add_argument("output", type=Path)
     subparser.add_argument(

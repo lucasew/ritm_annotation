@@ -10,9 +10,10 @@ from ritm_annotation.inference.utils import (
 
 logger = logging.getLogger(__name__)
 
+COMMAND_DESCRIPTION = "Show information about a model pth file"
+
 
 def command(subparser):
-    subparser.description = "Show information about a model pth"
     subparser.add_argument("model", type=Path)
 
     def handle(args):

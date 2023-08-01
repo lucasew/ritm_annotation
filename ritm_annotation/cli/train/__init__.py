@@ -9,6 +9,8 @@ from ritm_annotation.utils.misc import load_module
 
 logger = logging.getLogger(__name__)
 
+COMMAND_DESCRIPTION = "Run from-scratch trains using off the shelf datasets"
+
 
 def command(parser):
     parser.add_argument(
