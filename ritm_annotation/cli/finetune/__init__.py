@@ -50,7 +50,7 @@ class AnnotationDataset(ISDataset):
             self.classes[class_name] = i  # O(1) instead of O(n)
 
         total_amount = len(self.dataset_samples)
-        train_amount = int(total_amount * 0.7)
+        train_amount = int(total_amount * 0.8)
         val_amount = total_amount - train_amount
         if split == 'train':
             self.dataset_samples = self.dataset_samples[:train_amount]
@@ -61,22 +61,28 @@ class AnnotationDataset(ISDataset):
 
     def get_sample(self, index: int) -> DSample:
         item = self.dataset_samples[index]
+        # logger.debug(f"Dataset get {index}: '{item}'")
         image_path = self.images_path / item
+        masks_path = self.masks_path / item
+
         image = cv2.imread(str(image_path))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         objects = []
         ignored_regions = []
-        masks = []
-        for i, mask_path in enumerate((self.masks_path / item).iterdir()):
+        (w, h, *_rest) = image.shape
+        masks = np.zeros((len(self.classes), w, h), dtype='int32')
+        for i, mask_path in enumerate(masks_path.iterdir()):
             class_id = self.classes[mask_path.stem]
             gt_mask = cv2.imread(str(mask_path), 0).astype('int32')
             instances_mask = np.zeros_like(gt_mask)
             instances_mask[gt_mask > 0] = 1
             instances_mask[gt_mask == 0] = 2
-            masks.append(instances_mask)
+            masks[class_id, :, :] = instances_mask
             objects.append((class_id, 1))
+            # objects.append((i, 1))
             ignored_regions.append((class_id, 2))
+            # ignored_regions.append((i, 2))
         return DSample(
             image,
             np.stack(masks, axis=2),
@@ -84,8 +90,6 @@ class AnnotationDataset(ISDataset):
             ignore_ids=ignored_regions,
             sample_id=index,
         )
-
-
 
 
 COMMAND_DESCRIPTION = "Run finetune trains using a dataset in the format the annotator generates"
