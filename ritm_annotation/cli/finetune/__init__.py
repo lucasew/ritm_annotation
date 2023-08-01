@@ -20,12 +20,14 @@ class AnnotationDataset(ISDataset):
         images_path: Path,
         masks_path: Path,
         split="train",
-        dry_run=False
+        dry_run=False,
+        **kwargs
     ):
+        super(AnnotationDataset, self).__init__(**kwargs)
         self.images_path = images_path
         self.masks_path = masks_path
         self.classes = set()
-        self.items = []
+        self.dataset_samples = []
         if not dry_run:
             for item in masks_path.iterdir():
                 image_file = images_path / item.name
@@ -38,27 +40,27 @@ class AnnotationDataset(ISDataset):
                 for mask_file in item.iterdir():
                     class_name = mask_file.stem
                     self.classes.add(class_name)
-                self.items.append(item.name)
-        self.items.sort()
+                self.dataset_samples.append(item.name)
+        self.dataset_samples.sort()
         self.classes = list(self.classes)
         self.classes.sort()
         classes = self.classes
         self.classes = {}
         for i, class_name in enumerate(classes):
-            classes[class_name] = i  # O(1) instead of O(n)
+            self.classes[class_name] = i  # O(1) instead of O(n)
 
-        total_amount = len(self.items)
+        total_amount = len(self.dataset_samples)
         train_amount = int(total_amount * 0.7)
         val_amount = total_amount - train_amount
         if split == 'train':
-            self.items = self.items[:train_amount]
+            self.dataset_samples = self.dataset_samples[:train_amount]
         elif split == 'val':
-            self.items = self.items[-val_amount:]
+            self.dataset_samples = self.dataset_samples[-val_amount:]
         else:
             raise ValueError("split must be either train or val")
 
     def get_sample(self, index: int) -> DSample:
-        item = self.items[index]
+        item = self.dataset_samples[index]
         image_path = self.images_path / item
         image = cv2.imread(str(image_path))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -220,7 +222,7 @@ def command(parser):
         torch.multiprocessing.set_sharing_strategy("file_system")
         logger.debug("Basic validations passed")
         model, model_cfg = model_script.init_model(cfg)
-        trainer = model_script.get_trainer(model, cfg, model_cfg)
+        trainer = model_script.get_trainer(model, cfg, model_cfg, no_dataset=True)
         # TODO: dataset
         trainer.trainset = AnnotationDataset(
             images_path=args.images_path,

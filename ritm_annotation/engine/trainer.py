@@ -84,6 +84,9 @@ class ISTrainer(object):
         self.valset = valset
         self.device = self.cfg.device
         self.lr_scheduler_fn = lr_scheduler
+        self.model = model
+        self.optimizer = optimizer
+        self.optimizer_params = optimizer_params
 
         self.tqdm_out = TqdmToLogger(logger, level=logging.INFO)
 
@@ -134,6 +137,7 @@ class ISTrainer(object):
         logger.debug("Initializing model")
         self.optim = get_optimizer(self.model, self.optimizer, self.optimizer_params)
         model = self._load_weights(self.model)
+        self.model = None
 
         if self.cfg.multi_gpu:
             model = get_dp_wrapper(self.cfg.distributed)(
@@ -147,7 +151,7 @@ class ISTrainer(object):
         self.net = model.to(self.device)
         self.lr = self.optimizer_params["lr"]
 
-        if self.lr_scheduler is not None:
+        if self.lr_scheduler_fn is not None:
             self.lr_scheduler = self.lr_scheduler_fn(optimizer=self.optim)
             if self.cfg.start_epoch > 0:
                 for _ in range(self.cfg.start_epoch):
@@ -162,8 +166,8 @@ class ISTrainer(object):
                 click_model.to(self.device)
                 click_model.eval()
 
-        logger.debug(f"First train batch: {repr(next(iter(self.train_data)))}")
-        logger.debug(f"First evaluation batch: {repr(next(iter(self.val_data)))}")
+        # logger.debug(f"First train batch: {repr(next(iter(self.train_data)))}")
+        # logger.debug(f"First evaluation batch: {repr(next(iter(self.val_data)))}")
 
         logger.info("Run experiment with config:")
         logger.info(pprint.pformat(self.cfg, indent=4))
