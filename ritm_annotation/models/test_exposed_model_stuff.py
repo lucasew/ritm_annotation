@@ -41,18 +41,11 @@ def test_model_exposes_the_right_stuff(model_file):
     cfg.multi_gpu = False
     cfg.local_rank = 0  # master
     cfg.start_epoch = 0
-    cfg.IMAGENET_PRETRAINED_MODELS = edict()
-    cfg.IMAGENET_PRETRAINED_MODELS.HRNETV2_W18 = testing_tmpdir
-    cfg.PASCALVOC_PATH = testing_tmpdir
-    cfg.LVIS_PATH = testing_tmpdir
-    cfg.LVIS_v1_PATH = testing_tmpdir
-    cfg.COCO_PATH = testing_tmpdir
-    cfg.SBD_PATH = testing_tmpdir
-    cfg.OPENIMAGES_PATH = testing_tmpdir
-    cfg.ADE20K_PATH = testing_tmpdir
 
     model, model_cfg = model_script.init_model(cfg, dry_run=True)
-    trainer = model_script.get_trainer(model, cfg, model_cfg, dry_run=True)
+    trainer = model_script.get_trainer(model, cfg, model_cfg, dry_run=True, no_dataset=True)
 
     assert type(model_cfg.default_num_epochs) == int
     assert type(trainer) == ISTrainer
+    assert trainer.trainset is None  # test handling of no_dataset
+    assert trainer.valset is None

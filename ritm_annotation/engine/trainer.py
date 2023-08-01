@@ -33,8 +33,8 @@ class ISTrainer(object):
         cfg,
         model_cfg,
         loss_cfg,
-        trainset,
-        valset,
+        trainset=None,
+        valset=None,
         optimizer="adam",
         optimizer_params=None,
         image_dump_interval=200,
@@ -85,24 +85,25 @@ class ISTrainer(object):
         self.device = self.cfg.device
         self.lr_scheduler_fn = lr_scheduler
 
-        logger.info(
-            f"Dataset of {trainset.get_samples_number()} samples was loaded for training."  # noqa: E501
-        )
-        logger.info(
-            f"Dataset of {valset.get_samples_number()} samples was loaded for validation."  # noqa: E501
-        )
-
-        self.trainset = trainset
-        self.valset = valset
-
         self.tqdm_out = TqdmToLogger(logger, level=logging.INFO)
 
     def _before_needed_hook(self):
         if self._ran_before_needed:
             return
         self._ran_before_needed = True
-        logger.debug(f'Setting up dataloder')
 
+        logger.debug('Looking for basic assumptions')
+        assert self.trainset is not None, "Missing train dataset"
+        assert self.valset is not None, "Missing validation dataset"
+
+        logger.info(
+            f"Dataset of {self.trainset.get_samples_number()} samples was loaded for training."  # noqa: E501
+        )
+        logger.info(
+            f"Dataset of {self.valset.get_samples_number()} samples was loaded for validation."  # noqa: E501
+        )
+
+        logger.debug(f'Setting up dataloder')
         self.train_data = DataLoader(
             self.trainset,
             self.cfg.batch_size,

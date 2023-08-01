@@ -31,7 +31,7 @@ def init_model(cfg, dry_run=False):
     return model, model_cfg
 
 
-def get_trainer(model, cfg, model_cfg, dry_run=False):
+def get_trainer(model, cfg, model_cfg, dry_run=False, no_dataset=False):
     cfg.batch_size = 28 if cfg.batch_size < 1 else cfg.batch_size
     cfg.val_batch_size = cfg.batch_size
     crop_size = model_cfg.crop_size
@@ -79,28 +79,32 @@ def get_trainer(model, cfg, model_cfg, dry_run=False):
         max_num_merged_objects=2,
     )
 
-    trainset = CocoDataset(
-        cfg.COCO_PATH,
-        split="train",
-        augmentator=train_augmentator,
-        min_object_area=1000,
-        keep_background_prob=0.05,
-        points_sampler=points_sampler,
-        stuff_prob=0.30,
-        epoch_len=30000,
-        dry_run=dry_run,
-    )
+    if no_dataset:
+        trainset = None
+        valset = None
+    else:
+        trainset = CocoDataset(
+            cfg.COCO_PATH,
+            split="train",
+            augmentator=train_augmentator,
+            min_object_area=1000,
+            keep_background_prob=0.05,
+            points_sampler=points_sampler,
+            stuff_prob=0.30,
+            epoch_len=30000,
+            dry_run=dry_run,
+        )
 
-    valset = CocoDataset(
-        cfg.COCO_PATH,
-        split="val",
-        augmentator=val_augmentator,
-        min_object_area=1000,
-        keep_background_prob=0.05,
-        points_sampler=points_sampler,
-        epoch_len=2000,
-        dry_run=dry_run,
-    )
+        valset = CocoDataset(
+            cfg.COCO_PATH,
+            split="val",
+            augmentator=val_augmentator,
+            min_object_area=1000,
+            keep_background_prob=0.05,
+            points_sampler=points_sampler,
+            epoch_len=2000,
+            dry_run=dry_run,
+        )
 
     optimizer_params = {"lr": 5e-4, "betas": (0.9, 0.999), "eps": 1e-8}
 
