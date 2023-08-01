@@ -10,6 +10,7 @@ from ritm_annotation.utils.exp import init_experiment
 from ritm_annotation.utils.misc import load_module
 from ritm_annotation.data.base import ISDataset
 from ritm_annotation.data.sample import DSample
+from ritm_annotation.utils.exp_imports.default import *
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +27,7 @@ class AnnotationDataset(ISDataset):
         super(AnnotationDataset, self).__init__(**kwargs)
         self.images_path = images_path
         self.masks_path = masks_path
-        self.classes = set()
+        # self.classes = set()
         self.dataset_samples = []
         if not dry_run:
             for item in masks_path.iterdir():
@@ -37,17 +38,17 @@ class AnnotationDataset(ISDataset):
                 if not (image_file.exists() and image_file.is_file()):
                     logger.warn(f"Found mask for {item.name} but not image")
                     continue
-                for mask_file in item.iterdir():
-                    class_name = mask_file.stem
-                    self.classes.add(class_name)
+                # for mask_file in item.iterdir():
+                #     class_name = mask_file.stem
+                #     self.classes.add(class_name)
                 self.dataset_samples.append(item.name)
         self.dataset_samples.sort()
-        self.classes = list(self.classes)
-        self.classes.sort()
-        classes = self.classes
-        self.classes = {}
-        for i, class_name in enumerate(classes):
-            self.classes[class_name] = i  # O(1) instead of O(n)
+        # self.classes = list(self.classes)
+        # self.classes.sort()
+        # classes = self.classes
+        # self.classes = {}
+        # for i, class_name in enumerate(classes):
+        #     self.classes[class_name] = i  # O(1) instead of O(n)
 
         total_amount = len(self.dataset_samples)
         train_amount = int(total_amount * 0.8)
@@ -61,7 +62,6 @@ class AnnotationDataset(ISDataset):
 
     def get_sample(self, index: int) -> DSample:
         item = self.dataset_samples[index]
-        # logger.debug(f"Dataset get {index}: '{item}'")
         image_path = self.images_path / item
         masks_path = self.masks_path / item
 
@@ -71,18 +71,21 @@ class AnnotationDataset(ISDataset):
         objects = []
         ignored_regions = []
         (w, h, *_rest) = image.shape
-        masks = np.zeros((len(self.classes), w, h), dtype='int32')
+        # masks = np.zeros((len(self.classes), w, h), dtype='int32')
+        masks = []
         for i, mask_path in enumerate(masks_path.iterdir()):
-            class_id = self.classes[mask_path.stem]
+            # class_id = self.classes[mask_path.stem]
             gt_mask = cv2.imread(str(mask_path), 0).astype('int32')
             instances_mask = np.zeros_like(gt_mask)
             instances_mask[gt_mask > 0] = 1
             instances_mask[gt_mask == 0] = 2
-            masks[class_id, :, :] = instances_mask
-            objects.append((class_id, 1))
-            # objects.append((i, 1))
-            ignored_regions.append((class_id, 2))
-            # ignored_regions.append((i, 2))
+            # masks[class_id, :, :] = instances_mask
+            masks.append(instances_mask)
+            # objects.append((class_id, 1))
+            objects.append((i, 1))
+            # ignored_regions.append((class_id, 2))
+            ignored_regions.append((i, 2))
+        logger.debug(f"Processed item {index}: '{item}'")
         return DSample(
             image,
             np.stack(masks, axis=2),
@@ -226,17 +229,50 @@ def command(parser):
         torch.multiprocessing.set_sharing_strategy("file_system")
         logger.debug("Basic validations passed")
         model, model_cfg = model_script.init_model(cfg)
+
+        crop_size = model_cfg.crop_size
+        train_augmentator = Compose(
+            [
+                UniformRandomResize(scale_range=(0.75, 1.40)),
+                HorizontalFlip(),
+                PadIfNeeded(
+                    min_height=crop_size[0], min_width=crop_size[1], border_mode=0
+                ),
+                RandomCrop(*crop_size),
+                RandomBrightnessContrast(
+                    brightness_limit=(-0.25, 0.25),
+                    contrast_limit=(-0.15, 0.4),
+                    p=0.75,
+                ),
+                RGBShift(
+                    r_shift_limit=10, g_shift_limit=10, b_shift_limit=10, p=0.75
+                ),
+            ],
+            p=1.0,
+        )
+
+        val_augmentator = Compose(
+            [
+                PadIfNeeded(
+                    min_height=crop_size[0], min_width=crop_size[1], border_mode=0
+                ),
+                RandomCrop(*crop_size),
+            ],
+            p=1.0,
+        )
+
         trainer = model_script.get_trainer(model, cfg, model_cfg, no_dataset=True)
-        # TODO: dataset
         trainer.trainset = AnnotationDataset(
             images_path=args.images_path,
             masks_path=args.masks_path,
-            split='train'
+            split='train',
+            augmentator=train_augmentator
         )
         trainer.valset = AnnotationDataset(
             images_path=args.images_path,
             masks_path=args.masks_path,
-            split='val'
+            split='val',
+            augmentator=val_augmentator
         )
         if args.num_epochs is None:
             args.num_epochs = model_cfg.default_num_epochs
