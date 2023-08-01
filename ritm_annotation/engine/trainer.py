@@ -79,8 +79,11 @@ class ISTrainer(object):
         self.task_prefix = ""
         self.sw = None
 
+        self.dry_run = dry_run
         self.trainset = trainset
         self.valset = valset
+        self.device = self.cfg.device
+        self.lr_scheduler_fn = lr_scheduler
 
         logger.info(
             f"Dataset of {trainset.get_samples_number()} samples was loaded for training."  # noqa: E501
@@ -89,57 +92,67 @@ class ISTrainer(object):
             f"Dataset of {valset.get_samples_number()} samples was loaded for validation."  # noqa: E501
         )
 
+        self.trainset = trainset
+        self.valset = valset
+
+        self.tqdm_out = TqdmToLogger(logger, level=logging.INFO)
+
+    def _before_needed_hook(self):
+        if self._ran_before_needed:
+            return
+        self._ran_before_needed = True
+        logger.debug(f'Setting up dataloder')
+
         self.train_data = DataLoader(
-            trainset,
-            cfg.batch_size,
+            self.trainset,
+            self.cfg.batch_size,
             sampler=get_sampler(
-                trainset, shuffle=True, distributed=cfg.distributed
+                self.trainset, shuffle=True, distributed=self.cfg.distributed
             )
-            if not dry_run
+            if not self.dry_run
             else None,
             drop_last=True,
             pin_memory=True,
-            num_workers=cfg.workers,
-            persistent_workers=cfg.workers > 0,
+            num_workers=self.cfg.workers,
+            persistent_workers=self.cfg.workers > 0,
         )
 
         self.val_data = DataLoader(
-            valset,
-            cfg.val_batch_size,
+            self.valset,
+            self.cfg.val_batch_size,
             sampler=get_sampler(
-                valset, shuffle=False, distributed=cfg.distributed
+                self.valset, shuffle=False, distributed=self.cfg.distributed
             )
-            if not dry_run
+            if not self.dry_run
             else None,
             drop_last=True,
             pin_memory=True,
-            num_workers=cfg.workers,
-            persistent_workers=cfg.workers > 0,
+            num_workers=self.cfg.workers,
+            persistent_workers=self.cfg.workers > 0,
         )
+        logger.debug("Initializing model")
+        self.optim = get_optimizer(self.model, self.optimizer, self.optimizer_params)
+        model = self._load_weights(self.model)
 
-        self.optim = get_optimizer(model, optimizer, optimizer_params)
-        model = self._load_weights(model)
-
-        if cfg.multi_gpu:
-            model = get_dp_wrapper(cfg.distributed)(
-                model, device_ids=cfg.gpu_ids, output_device=cfg.gpu_ids[0]
+        if self.cfg.multi_gpu:
+            model = get_dp_wrapper(self.cfg.distributed)(
+                model, device_ids=self.cfg.gpu_ids, output_device=self.cfg.gpu_ids[0]
             )
 
         if self.is_master:
             logger.info(model)
             logger.info(get_config_repr(model._config))
 
-        self.device = cfg.device
         self.net = model.to(self.device)
-        self.lr = optimizer_params["lr"]
+        self.lr = self.optimizer_params["lr"]
 
-        if lr_scheduler is not None:
-            self.lr_scheduler = lr_scheduler(optimizer=self.optim)
-            if cfg.start_epoch > 0:
-                for _ in range(cfg.start_epoch):
+        if self.lr_scheduler is not None:
+            self.lr_scheduler = self.lr_scheduler_fn(optimizer=self.optim)
+            if self.cfg.start_epoch > 0:
+                for _ in range(self.cfg.start_epoch):
                     self.lr_scheduler.step()
 
-        self.tqdm_out = TqdmToLogger(logger, level=logging.INFO)
+        logger.debug('Initializing click models')
 
         if self.click_models is not None:
             for click_model in self.click_models:
@@ -147,17 +160,12 @@ class ISTrainer(object):
                     param.requires_grad = False
                 click_model.to(self.device)
                 click_model.eval()
-        logger.info("Run experiment with config:")
-        logger.info(pprint.pformat(cfg, indent=4))
 
-    def _before_needed_hook(self):
-        if self._ran_before_needed:
-            return
-        self._ran_before_needed = True
         logger.debug(f"First train batch: {repr(next(iter(self.train_data)))}")
-        logger.debug(
-            f"First evaluation batch: {repr(next(iter(self.val_data)))}"
-        )
+        logger.debug(f"First evaluation batch: {repr(next(iter(self.val_data)))}")
+
+        logger.info("Run experiment with config:")
+        logger.info(pprint.pformat(self.cfg, indent=4))
 
     def run(self, num_epochs, start_epoch=None, validation=True):
         self._before_needed_hook()
