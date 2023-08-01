@@ -1,10 +1,14 @@
 import cv2
 import numpy as np
 from pathlib import Path
+import logging
 
 from ritm_annotation.data.base import ISDataset
 from ritm_annotation.data.sample import DSample
 from ritm_annotation.utils.exp_imports.default import *
+from albumentations.augmentations.geometric import longest_max_size
+
+logger = logging.getLogger(__name__)
 
 
 def get_train_augmentator(model_cfg):
@@ -43,6 +47,15 @@ def get_val_augmentator(model_cfg):
     )
 
 
+def get_points_sampler(model_cfg):
+    return MultiPointSampler(
+        model_cfg.num_max_points,
+        prob_gamma=0.8,
+        merge_objects_prob=0.15,
+        max_num_merged_objects=2,
+    )
+
+
 class AnnotationDataset(ISDataset):
     def __init__(
         self,
@@ -50,12 +63,14 @@ class AnnotationDataset(ISDataset):
         masks_path: Path,
         split="train",
         dry_run=False,
+        max_bigger_dimension=None,  # the idea here is to resize the image to speed up training
         **kwargs
     ):
         super(AnnotationDataset, self).__init__(**kwargs)
         self.images_path = images_path
         self.masks_path = masks_path
-        # self.classes = set()
+        self.classes = set()
+        self.max_bigger_dimension = max_bigger_dimension
         self.dataset_samples = []
         if not dry_run:
             for item in masks_path.iterdir():
@@ -66,17 +81,20 @@ class AnnotationDataset(ISDataset):
                 if not (image_file.exists() and image_file.is_file()):
                     logger.warn(f"Found mask for {item.name} but not image")
                     continue
-                # for mask_file in item.iterdir():
-                #     class_name = mask_file.stem
-                #     self.classes.add(class_name)
-                self.dataset_samples.append(item.name)
+                has_mask = False
+                for mask_file in item.iterdir():
+                    has_mask = True
+                    class_name = mask_file.stem
+                    self.classes.add(class_name)
+                if has_mask:
+                    self.dataset_samples.append(item.name)
         self.dataset_samples.sort()
-        # self.classes = list(self.classes)
-        # self.classes.sort()
-        # classes = self.classes
-        # self.classes = {}
-        # for i, class_name in enumerate(classes):
-        #     self.classes[class_name] = i  # O(1) instead of O(n)
+        self.classes = list(self.classes)
+        self.classes.sort()
+        classes = self.classes
+        self.classes = {}
+        for i, class_name in enumerate(classes):
+            self.classes[class_name] = i  # O(1) instead of O(n)
 
         total_amount = len(self.dataset_samples)
         train_amount = int(total_amount * 0.8)
@@ -95,25 +113,28 @@ class AnnotationDataset(ISDataset):
 
         image = cv2.imread(str(image_path))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
+        if self.max_bigger_dimension is not None:
+            image = longest_max_size(image, self.max_bigger_dimension, cv2.INTER_LINEAR)
+        (w, h, *_rest) = image.shape
         objects = []
         ignored_regions = []
-        (w, h, *_rest) = image.shape
-        # masks = np.zeros((len(self.classes), w, h), dtype='int32')
-        masks = []
+        masks = np.zeros((len(self.classes), w, h), dtype='int32')
+        # masks = []
         for i, mask_path in enumerate(masks_path.iterdir()):
-            # class_id = self.classes[mask_path.stem]
+            class_id = self.classes[mask_path.stem]
             gt_mask = cv2.imread(str(mask_path), 0).astype('int32')
+            if self.max_bigger_dimension is not None:
+                gt_mask = longest_max_size(gt_mask, self.max_bigger_dimension, cv2.INTER_NEAREST_EXACT)
             instances_mask = np.zeros_like(gt_mask)
             instances_mask[gt_mask > 0] = 1
             instances_mask[gt_mask == 0] = 2
-            # masks[class_id, :, :] = instances_mask
-            masks.append(instances_mask)
-            # objects.append((class_id, 1))
-            objects.append((i, 1))
-            # ignored_regions.append((class_id, 2))
-            ignored_regions.append((i, 2))
-        logger.debug(f"Processed item {index}: '{item}'")
+            masks[class_id, :, :] = instances_mask
+            # masks.append(instances_mask)
+            objects.append((class_id, 1))
+            # objects.append((i, 1))
+            ignored_regions.append((class_id, 2))
+            # ignored_regions.append((i, 2))
+        logger.debug(f"Processed item {index}: '{item}' (shape: ({w}, {h})")
         return DSample(
             image,
             np.stack(masks, axis=2),
@@ -121,5 +142,3 @@ class AnnotationDataset(ISDataset):
             ignore_ids=ignored_regions,
             sample_id=index,
         )
-
-

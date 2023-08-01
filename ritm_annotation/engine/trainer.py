@@ -265,7 +265,7 @@ class ISTrainer(object):
                 )
 
                 tbar.set_description(
-                    f"Epoch {epoch}, training loss {train_loss/(i+1):.4f}"
+                    f"Epoch {epoch}, training loss {train_loss/(i+1):.8f}"
                 )
                 for metric in self.train_metrics:
                     metric.log_states(

@@ -6,7 +6,7 @@ import torch
 
 from ritm_annotation.utils.exp import init_experiment
 from ritm_annotation.utils.misc import load_module
-from .dataset import AnnotationDataset, get_train_augmentator, get_val_augmentator
+from .dataset import AnnotationDataset, get_train_augmentator, get_val_augmentator, get_points_sampler
 
 logger = logging.getLogger(__name__)
 
@@ -150,17 +150,24 @@ def command(parser):
         val_augmentator = get_val_augmentator(model_cfg)
 
         trainer = model_script.get_trainer(model, cfg, model_cfg, no_dataset=True)
+        points_sampler = get_points_sampler(model_cfg)
         trainer.trainset = AnnotationDataset(
             images_path=args.images_path,
             masks_path=args.masks_path,
             split='train',
-            augmentator=train_augmentator
+            augmentator=train_augmentator,
+            max_bigger_dimension=1024,
+            min_object_area=1000,
+            points_sampler=points_sampler
         )
         trainer.valset = AnnotationDataset(
             images_path=args.images_path,
             masks_path=args.masks_path,
             split='val',
-            augmentator=val_augmentator
+            augmentator=val_augmentator,
+            max_bigger_dimension=1024,
+            min_object_area=1000,
+            points_sampler=points_sampler
         )
         if args.num_epochs is None:
             args.num_epochs = model_cfg.default_num_epochs
