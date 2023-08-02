@@ -1,7 +1,7 @@
 import cv2
-import numpy as np
 from pathlib import Path
 import logging
+import random
 
 from ritm_annotation.data.base import ISDataset
 from ritm_annotation.data.sample import DSample
@@ -115,7 +115,7 @@ class AnnotationDataset(ISDataset):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         if self.max_bigger_dimension is not None:
             image = longest_max_size(image, self.max_bigger_dimension, cv2.INTER_LINEAR)
-        (w, h, *_rest) = image.shape
+        (h, w, *_rest) = image.shape
 
         mask_path = random.choice(list(masks_path.iterdir()))
         gt_mask = cv2.imread(str(mask_path), 0)
