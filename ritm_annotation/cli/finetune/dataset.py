@@ -72,7 +72,6 @@ class AnnotationDataset(ISDataset):
         super(AnnotationDataset, self).__init__(**kwargs)
         self.images_path = images_path
         self.masks_path = masks_path
-        self.classes = set()
         self.max_bigger_dimension = max_bigger_dimension
         self.dataset_samples = []
         if not dry_run:
@@ -87,17 +86,9 @@ class AnnotationDataset(ISDataset):
                 has_mask = False
                 for mask_file in item.iterdir():
                     has_mask = True
-                    class_name = mask_file.stem
-                    self.classes.add(class_name)
                 if has_mask:
                     self.dataset_samples.append(item.name)
         self.dataset_samples.sort()
-        self.classes = list(self.classes)
-        self.classes.sort()
-        classes = self.classes
-        self.classes = {}
-        for i, class_name in enumerate(classes):
-            self.classes[class_name] = i  # O(1) instead of O(n)
 
         total_amount = len(self.dataset_samples)
         train_amount = int(total_amount * 0.8)
