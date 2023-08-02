@@ -1,6 +1,5 @@
 { buildPythonPackage
 , wrapPython
-, pytest
 , cython
 , easydict
 , albumentations
@@ -12,6 +11,7 @@
 , torchvision
 , opencv4
 , pythonRelaxDepsHook
+, pytestCheckHook
 }:
 
 buildPythonPackage {
@@ -39,7 +39,7 @@ buildPythonPackage {
     opencv4
   ];
 
-  checkInputs = [ pytest ];
+  checkInputs = [ pytestCheckHook ];
 
   pythonImportsCheck = [ "ritm_annotation" ];
 }
