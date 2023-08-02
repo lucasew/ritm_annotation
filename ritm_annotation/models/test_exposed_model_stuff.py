@@ -24,7 +24,7 @@ for model in Path(__file__).parent.glob("**/*.py"):
 def test_model_exposes_the_right_stuff(model_file):
     model_script = load_module(model_file)
 
-    assert type(model_script.MODEL_NAME) == str
+    assert isinstance(model_script.MODEL_NAME, str)
     assert (
         model_script.__dict__.get("main") is None
     ), "Remove the main function"
@@ -45,7 +45,7 @@ def test_model_exposes_the_right_stuff(model_file):
         model, cfg, model_cfg, dry_run=True, no_dataset=True
     )
 
-    assert type(model_cfg.default_num_epochs) == int
-    assert type(trainer) == ISTrainer
+    assert isinstance(model_cfg.default_num_epochs, int)
+    assert isinstance(trainer, ISTrainer)
     assert trainer.trainset is None  # test handling of no_dataset
     assert trainer.valset is None
