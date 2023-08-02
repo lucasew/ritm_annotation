@@ -135,20 +135,19 @@ class ISTrainer(object):
             persistent_workers=self.cfg.workers > 0,
         )
         logger.debug("Initializing model")
+        self.model = self._load_weights(self.model)
         self.optim = get_optimizer(self.model, self.optimizer, self.optimizer_params)
-        model = self._load_weights(self.model)
-        self.model = None
 
         if self.cfg.multi_gpu:
-            model = get_dp_wrapper(self.cfg.distributed)(
-                model, device_ids=self.cfg.gpu_ids, output_device=self.cfg.gpu_ids[0]
+            self.model = get_dp_wrapper(self.cfg.distributed)(
+                self.model, device_ids=self.cfg.gpu_ids, output_device=self.cfg.gpu_ids[0]
             )
 
         if self.is_master:
-            logger.info(model)
-            logger.info(get_config_repr(model._config))
+            logger.info(self.model)
+            logger.info(get_config_repr(self.model._config))
 
-        self.net = model.to(self.device)
+        self.net = self.model.to(self.device)
         self.lr = self.optimizer_params["lr"]
 
         if self.lr_scheduler_fn is not None:
@@ -166,8 +165,8 @@ class ISTrainer(object):
                 click_model.to(self.device)
                 click_model.eval()
 
-        # logger.debug(f"First train batch: {repr(next(iter(self.train_data)))}")
-        # logger.debug(f"First evaluation batch: {repr(next(iter(self.val_data)))}")
+        logger.debug(f"First train batch: {repr(next(iter(self.train_data)))}")
+        logger.debug(f"First evaluation batch: {repr(next(iter(self.val_data)))}")
 
         logger.info("Run experiment with config:")
         logger.info(pprint.pformat(self.cfg, indent=4))
@@ -559,6 +558,7 @@ class ISTrainer(object):
     def _load_weights(self, net):
         if self.cfg.weights is not None:
             if os.path.isfile(self.cfg.weights):
+                logger.info(f"Loading weights from '{self.cfg.weights}'")
                 load_weights(net, self.cfg.weights)
                 self.cfg.weights = None
             else:

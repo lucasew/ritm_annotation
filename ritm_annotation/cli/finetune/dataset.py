@@ -116,29 +116,13 @@ class AnnotationDataset(ISDataset):
         if self.max_bigger_dimension is not None:
             image = longest_max_size(image, self.max_bigger_dimension, cv2.INTER_LINEAR)
         (w, h, *_rest) = image.shape
-        objects = []
-        ignored_regions = []
-        masks = np.zeros((len(self.classes), w, h), dtype='int32')
-        # masks = []
-        for i, mask_path in enumerate(masks_path.iterdir()):
-            class_id = self.classes[mask_path.stem]
-            gt_mask = cv2.imread(str(mask_path), 0).astype('int32')
-            if self.max_bigger_dimension is not None:
-                gt_mask = longest_max_size(gt_mask, self.max_bigger_dimension, cv2.INTER_NEAREST_EXACT)
-            instances_mask = np.zeros_like(gt_mask)
-            instances_mask[gt_mask > 0] = 1
-            instances_mask[gt_mask == 0] = 2
-            masks[class_id, :, :] = instances_mask
-            # masks.append(instances_mask)
-            objects.append((class_id, 1))
-            # objects.append((i, 1))
-            ignored_regions.append((class_id, 2))
-            # ignored_regions.append((i, 2))
+
+        mask_path = random.choice(list(masks_path.iterdir()))
+        gt_mask = cv2.imread(str(mask_path), 0)
+
+        if self.max_bigger_dimension is not None:
+            gt_mask = longest_max_size(gt_mask, self.max_bigger_dimension, cv2.INTER_NEAREST_EXACT)
+        gt_mask[gt_mask > 0] = 1
+        gt_mask = gt_mask.astype('int32')
         logger.debug(f"Processed item {index}: '{item}' (shape: ({w}, {h})")
-        return DSample(
-            image,
-            np.stack(masks, axis=2),
-            objects_ids=objects,
-            ignore_ids=ignored_regions,
-            sample_id=index,
-        )
+        return DSample(image, gt_mask, objects_ids=[1], sample_id=index)

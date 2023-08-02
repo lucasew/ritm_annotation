@@ -133,6 +133,7 @@ def command(parser):
 
         args.distributed = "WORLD_SIZE" in os.environ
         cfg = init_experiment(args, model_base_name)
+        cfg.weights = args.weights
         for k, v in os.environ.items():
             if k.startswith("RITM_"):
                 cfgkey = k.replace("RITM_", "")
@@ -157,6 +158,7 @@ def command(parser):
             split='train',
             augmentator=train_augmentator,
             max_bigger_dimension=1024,
+            keep_background_prob=0.05,
             min_object_area=1000,
             points_sampler=points_sampler
         )
@@ -167,10 +169,13 @@ def command(parser):
             augmentator=val_augmentator,
             max_bigger_dimension=1024,
             min_object_area=1000,
-            points_sampler=points_sampler
+            keep_background_prob=0.05,
+            points_sampler=points_sampler,
         )
         if args.num_epochs is None:
             args.num_epochs = model_cfg.default_num_epochs
+        trainer._before_needed_hook()
+        assert trainer.lr_scheduler is not None
         trainer.run(num_epochs=args.num_epochs)
 
     return handle
