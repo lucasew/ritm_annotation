@@ -18,11 +18,21 @@ def command(parser):
     )
 
     parser.add_argument(
-        "-o", '--output',
-        dest="experiment_path", type=Path, default=Path('.'), help="Where to store experiment data"
+        "-o",
+        "--output",
+        dest="experiment_path",
+        type=Path,
+        default=Path("."),
+        help="Where to store experiment data",
     )
 
-    parser.add_argument('-n', '--num-epochs', dest='num_epochs', type=int, help="Amount of epochs")
+    parser.add_argument(
+        "-n",
+        "--num-epochs",
+        dest="num_epochs",
+        type=int,
+        help="Amount of epochs",
+    )
 
     parser.add_argument(
         "--exp-name",

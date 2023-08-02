@@ -80,8 +80,8 @@ def get_trainer(model, cfg, model_cfg, dry_run=False, no_dataset=False):
     )
 
     if no_dataset:
-        trainset=None
-        valset=None
+        trainset = None
+        valset = None
     else:
         trainset = ADE20kDataset(
             cfg.ADE20K_PATH,

@@ -6,12 +6,20 @@ import torch
 
 from ritm_annotation.utils.exp import init_experiment
 from ritm_annotation.utils.misc import load_module
-from .dataset import AnnotationDataset, get_train_augmentator, get_val_augmentator, get_points_sampler
+
+from .dataset import (
+    AnnotationDataset,
+    get_points_sampler,
+    get_train_augmentator,
+    get_val_augmentator,
+)
 
 logger = logging.getLogger(__name__)
 
 
-COMMAND_DESCRIPTION = "Run finetune trains using a dataset in the format the annotator generates"
+COMMAND_DESCRIPTION = (
+    "Run finetune trains using a dataset in the format the annotator generates"
+)
 
 
 def command(parser):
@@ -25,11 +33,21 @@ def command(parser):
         "masks_path", type=Path, help="Path to the dataset masks."
     )
     parser.add_argument(
-        "-o", '--output',
-        dest="experiment_path", type=Path, default=Path('.'), help="Where to store experiment data"
+        "-o",
+        "--output",
+        dest="experiment_path",
+        type=Path,
+        default=Path("."),
+        help="Where to store experiment data",
     )
 
-    parser.add_argument('-n', '--num-epochs', dest='num_epochs', type=int, help="Amount of epochs")
+    parser.add_argument(
+        "-n",
+        "--num-epochs",
+        dest="num_epochs",
+        type=int,
+        help="Amount of epochs",
+    )
 
     parser.add_argument(
         "--exp-name",
@@ -129,7 +147,7 @@ def command(parser):
 
         model_script = load_module(model_path)
 
-        model_base_name = model_script.__dict__.get('MODEL_NAME')
+        model_base_name = model_script.__dict__.get("MODEL_NAME")
 
         args.distributed = "WORLD_SIZE" in os.environ
         cfg = init_experiment(args, model_base_name)
@@ -150,22 +168,24 @@ def command(parser):
         train_augmentator = get_train_augmentator(model_cfg)
         val_augmentator = get_val_augmentator(model_cfg)
 
-        trainer = model_script.get_trainer(model, cfg, model_cfg, no_dataset=True)
+        trainer = model_script.get_trainer(
+            model, cfg, model_cfg, no_dataset=True
+        )
         points_sampler = get_points_sampler(model_cfg)
         trainer.trainset = AnnotationDataset(
             images_path=args.images_path,
             masks_path=args.masks_path,
-            split='train',
+            split="train",
             augmentator=train_augmentator,
             max_bigger_dimension=1024,
             keep_background_prob=0.05,
             min_object_area=1000,
-            points_sampler=points_sampler
+            points_sampler=points_sampler,
         )
         trainer.valset = AnnotationDataset(
             images_path=args.images_path,
             masks_path=args.masks_path,
-            split='val',
+            split="val",
             augmentator=val_augmentator,
             max_bigger_dimension=1024,
             min_object_area=1000,

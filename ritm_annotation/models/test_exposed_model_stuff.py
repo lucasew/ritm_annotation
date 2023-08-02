@@ -1,5 +1,4 @@
 from pathlib import Path
-from tempfile import mkdtemp
 
 import pytest
 from easydict import EasyDict as edict
@@ -30,7 +29,6 @@ def test_model_exposes_the_right_stuff(model_file):
         model_script.__dict__.get("main") is None
     ), "Remove the main function"
 
-    testing_tmpdir = mkdtemp()
     cfg = edict()
     cfg.device = "cpu"
     cfg.batch_size = -1  # use default
@@ -43,7 +41,9 @@ def test_model_exposes_the_right_stuff(model_file):
     cfg.start_epoch = 0
 
     model, model_cfg = model_script.init_model(cfg, dry_run=True)
-    trainer = model_script.get_trainer(model, cfg, model_cfg, dry_run=True, no_dataset=True)
+    trainer = model_script.get_trainer(
+        model, cfg, model_cfg, dry_run=True, no_dataset=True
+    )
 
     assert type(model_cfg.default_num_epochs) == int
     assert type(trainer) == ISTrainer

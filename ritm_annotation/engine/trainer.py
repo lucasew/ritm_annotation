@@ -95,7 +95,7 @@ class ISTrainer(object):
             return
         self._ran_before_needed = True
 
-        logger.debug('Looking for basic assumptions')
+        logger.debug("Looking for basic assumptions")
         assert self.trainset is not None, "Missing train dataset"
         assert self.valset is not None, "Missing validation dataset"
 
@@ -106,7 +106,7 @@ class ISTrainer(object):
             f"Dataset of {self.valset.get_samples_number()} samples was loaded for validation."  # noqa: E501
         )
 
-        logger.debug(f'Setting up dataloder')
+        logger.debug("Setting up dataloder")
         self.train_data = DataLoader(
             self.trainset,
             self.cfg.batch_size,
@@ -136,11 +136,15 @@ class ISTrainer(object):
         )
         logger.debug("Initializing model")
         self.model = self._load_weights(self.model)
-        self.optim = get_optimizer(self.model, self.optimizer, self.optimizer_params)
+        self.optim = get_optimizer(
+            self.model, self.optimizer, self.optimizer_params
+        )
 
         if self.cfg.multi_gpu:
             self.model = get_dp_wrapper(self.cfg.distributed)(
-                self.model, device_ids=self.cfg.gpu_ids, output_device=self.cfg.gpu_ids[0]
+                self.model,
+                device_ids=self.cfg.gpu_ids,
+                output_device=self.cfg.gpu_ids[0],
             )
 
         if self.is_master:
@@ -156,7 +160,7 @@ class ISTrainer(object):
                 for _ in range(self.cfg.start_epoch):
                     self.lr_scheduler.step()
 
-        logger.debug('Initializing click models')
+        logger.debug("Initializing click models")
 
         if self.click_models is not None:
             for click_model in self.click_models:
@@ -166,7 +170,9 @@ class ISTrainer(object):
                 click_model.eval()
 
         logger.debug(f"First train batch: {repr(next(iter(self.train_data)))}")
-        logger.debug(f"First evaluation batch: {repr(next(iter(self.val_data)))}")
+        logger.debug(
+            f"First evaluation batch: {repr(next(iter(self.val_data)))}"
+        )
 
         logger.info("Run experiment with config:")
         logger.info(pprint.pformat(self.cfg, indent=4))

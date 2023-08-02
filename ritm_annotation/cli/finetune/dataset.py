@@ -1,12 +1,13 @@
-import cv2
-from pathlib import Path
 import logging
 import random
+from pathlib import Path
+
+import cv2
+from albumentations.augmentations.geometric import longest_max_size
 
 from ritm_annotation.data.base import ISDataset
 from ritm_annotation.data.sample import DSample
 from ritm_annotation.utils.exp_imports.default import *
-from albumentations.augmentations.geometric import longest_max_size
 
 logger = logging.getLogger(__name__)
 
@@ -63,8 +64,10 @@ class AnnotationDataset(ISDataset):
         masks_path: Path,
         split="train",
         dry_run=False,
-        max_bigger_dimension=None,  # the idea here is to resize the image to speed up training
-        **kwargs
+
+        # the idea here is to resize the image to speed up data ingestion and training  # noqa:E501
+        max_bigger_dimension=None,
+        **kwargs,
     ):
         super(AnnotationDataset, self).__init__(**kwargs)
         self.images_path = images_path
@@ -99,9 +102,9 @@ class AnnotationDataset(ISDataset):
         total_amount = len(self.dataset_samples)
         train_amount = int(total_amount * 0.8)
         val_amount = total_amount - train_amount
-        if split == 'train':
+        if split == "train":
             self.dataset_samples = self.dataset_samples[:train_amount]
-        elif split == 'val':
+        elif split == "val":
             self.dataset_samples = self.dataset_samples[-val_amount:]
         else:
             raise ValueError("split must be either train or val")
@@ -114,15 +117,19 @@ class AnnotationDataset(ISDataset):
         image = cv2.imread(str(image_path))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         if self.max_bigger_dimension is not None:
-            image = longest_max_size(image, self.max_bigger_dimension, cv2.INTER_LINEAR)
+            image = longest_max_size(
+                image, self.max_bigger_dimension, cv2.INTER_LINEAR
+            )
         (h, w, *_rest) = image.shape
 
         mask_path = random.choice(list(masks_path.iterdir()))
         gt_mask = cv2.imread(str(mask_path), 0)
 
         if self.max_bigger_dimension is not None:
-            gt_mask = longest_max_size(gt_mask, self.max_bigger_dimension, cv2.INTER_NEAREST_EXACT)
+            gt_mask = longest_max_size(
+                gt_mask, self.max_bigger_dimension, cv2.INTER_NEAREST_EXACT
+            )
         gt_mask[gt_mask > 0] = 1
-        gt_mask = gt_mask.astype('int32')
+        gt_mask = gt_mask.astype("int32")
         logger.debug(f"Processed item {index}: '{item}' (shape: ({w}, {h})")
         return DSample(image, gt_mask, objects_ids=[1], sample_id=index)
