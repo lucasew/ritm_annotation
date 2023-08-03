@@ -61,13 +61,6 @@ def ext_modules():
     return modules
 
 
-def build_ext(*args, **kwargs):
-    try:
-        from Cython.Distutils import build_ext as cython_build_ext
-        return cython_build_ext(*args, **kwargs)
-    except ImportError:
-        return None
-
 setup(
     name="ritm_annotation",
     version=read("ritm_annotation", "VERSION"),
@@ -78,7 +71,6 @@ setup(
     author="lucasew",
     packages=find_packages(exclude=["tests", ".github"]),
     ext_modules=ext_modules(),
-    cmdclass={'build_ext': build_ext},
     install_requires=read_requirements("requirements.txt"),
     entry_points={
         "console_scripts": ["ritm_annotation = ritm_annotation.__main__:main"]
