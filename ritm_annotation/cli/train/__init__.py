@@ -136,13 +136,7 @@ def command(parser):
 
         args.distributed = "WORLD_SIZE" in os.environ
         cfg = init_experiment(args, model_base_name)
-        for k, v in os.environ.items():
-            if k.startswith("RITM_"):
-                cfgkey = k.replace("RITM_", "")
-                logger.warning(
-                    f"Changing configuration entry from environment variable: {cfgkey}={v}"  # noqa:E501
-                )  # noqa: E501
-                cfg[cfgkey] = v
+        cfg = load_cfg_from_env(cfg, os.environ)
 
         torch.backends.cudnn.benchmark = True
         torch.multiprocessing.set_sharing_strategy("file_system")
