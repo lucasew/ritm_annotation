@@ -4,9 +4,9 @@ from pathlib import Path
 
 import torch
 
+from ritm_annotation.utils.env import load_cfg_from_env
 from ritm_annotation.utils.exp import init_experiment
 from ritm_annotation.utils.misc import load_module
-from ritm_annotation.utils.env import load_cfg_from_env
 
 from .dataset import (
     AnnotationDataset,

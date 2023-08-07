@@ -141,7 +141,9 @@ def find_resume_exp(exp_parent_path, exp_pattern):
         print(
             f'No experiments could be found that satisfies the pattern = "*{exp_pattern}"'  # noqa:E501
         )
-        print(f"Candidates: {' '.join([e.name for e in exp_parent_path.iterdir()])}")  # noqa:E501
+        print(
+            f"Candidates: {' '.join([e.name for e in exp_parent_path.iterdir()])}"  # noqa: E501
+        )
         sys.exit(1)
     elif len(candidates) > 1:
         print("More than one experiment found:")

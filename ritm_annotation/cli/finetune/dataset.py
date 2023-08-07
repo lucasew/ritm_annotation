@@ -64,7 +64,6 @@ class AnnotationDataset(ISDataset):
         masks_path: Path,
         split="train",
         dry_run=False,
-
         # the idea here is to resize the image to speed up data ingestion and training  # noqa:E501
         max_bigger_dimension=None,
         **kwargs,
