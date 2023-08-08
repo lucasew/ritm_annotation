@@ -562,16 +562,7 @@ class ISTrainer(object):
         _save_image("instance_segmentation", viz_image[:, :, ::-1])
 
     def _load_weights(self, net):
-        if self.cfg.weights is not None:
-            if os.path.isfile(self.cfg.weights):
-                logger.info(f"Loading weights from '{self.cfg.weights}'")
-                load_weights(net, self.cfg.weights)
-                self.cfg.weights = None
-            else:
-                raise RuntimeError(
-                    f"=> no checkpoint found at '{self.cfg.weights}'"
-                )
-        elif self.cfg.resume_exp is not None:
+        if self.cfg.resume_exp is not None:
             checkpoint_glob = f"{self.cfg.resume_prefix}*.pth"
             checkpoints = list(self.cfg.CHECKPOINTS_PATH.glob(checkpoint_glob))
             assert (
@@ -580,6 +571,15 @@ class ISTrainer(object):
 
             checkpoint_path = checkpoints[0]
             load_weights(net, str(checkpoint_path))
+        elif self.cfg.weights is not None:
+            if os.path.isfile(self.cfg.weights):
+                load_weights(net, self.cfg.weights)
+                self.cfg.weights = None
+            else:
+                raise RuntimeError(
+                    f"=> no checkpoint found at '{self.cfg.weights}'"
+                )
+
         return net
 
     @property
