@@ -9,15 +9,22 @@ Based on [SamsungLabs/ritm_interactive_segmentation](https://github.com/SamsungL
 
 **Work in progress**
 
-## Install it from PyPI
+## Installation
 
+- Pip
 ```bash
 pip install ritm_annotation
 ```
 
+- Nix flakes
 ## Running it using Nix flakes
 ```
 nix run github:lucasew/ritm_annotation -- --help
+```
+
+- Docker
+```
+docker run -ti ghcr.io/lucasew/ritm_annotation:latest bash
 ```
 
 ## Usage
