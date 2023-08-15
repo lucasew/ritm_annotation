@@ -129,6 +129,13 @@ def command(parser):
         help="Do not use this argument (for internal purposes).",
     )  # noqa:E501
 
+    parser.add_argument(
+        "--max-bigger-dimension",
+        dest="max_bigger_dimension",
+        type=int,
+        help="Resize the input dataset so the bigger dimension is this value",
+    )
+
     parser.add_argument("--local_rank", type=int, default=0)
 
     def handle(args):
@@ -167,25 +174,27 @@ def command(parser):
             model, cfg, model_cfg, no_dataset=True
         )
         points_sampler = get_points_sampler(model_cfg)
-        trainer.trainset = AnnotationDataset(
+        dataset_common_args = dict(
             images_path=args.images_path,
-            masks_path=args.masks_path,
-            split="train",
-            augmentator=train_augmentator,
-            max_bigger_dimension=1024,
             keep_background_prob=0.05,
             min_object_area=1000,
             points_sampler=points_sampler,
+        )
+        if args.max_bigger_dimension is not None:
+            dataset_common_args[
+                "max_bigger_dimension"
+            ] = args.max_bigger_dimension
+        trainer.trainset = AnnotationDataset(
+            split="train",
+            augmentator=train_augmentator,
+            **dataset_common_args,
         )
         trainer.valset = AnnotationDataset(
             images_path=args.images_path,
             masks_path=args.masks_path,
             split="val",
             augmentator=val_augmentator,
-            max_bigger_dimension=1024,
-            min_object_area=1000,
-            keep_background_prob=0.05,
-            points_sampler=points_sampler,
+            **dataset_common_args,
         )
         if args.num_epochs is None:
             args.num_epochs = model_cfg.default_num_epochs
