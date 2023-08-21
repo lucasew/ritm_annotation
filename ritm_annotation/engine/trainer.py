@@ -165,7 +165,7 @@ class ISTrainer(object):
         if self.lr_scheduler_fn is not None:
             self.lr_scheduler = self.lr_scheduler_fn(optimizer=self.optim)
             if self.cfg.start_epoch > 0:
-                for _ in range(self.cfg.start_epoch):
+                for __ in range(self.cfg.start_epoch):
                     self.lr_scheduler.step()
 
         logger.debug(_("Initializing click models"))
@@ -601,7 +601,7 @@ class ISTrainer(object):
                 self.cfg.weights = None
             else:
                 raise RuntimeError(
-                    _(f"=> no checkpoint found at '{weights_dir}'").format(
+                    _("=> no checkpoint found at '{weights_dir}'").format(
                         weights_dir=self.cfg.weights
                     )
                 )

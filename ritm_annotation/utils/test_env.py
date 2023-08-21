@@ -1,6 +1,6 @@
-from easydict import EasyDict as edict
+import ritm_annotation.utils.i18n  # noqa:F401
 
-import ritm_annotation.utils.i18n
+from easydict import EasyDict as edict
 
 from .env import load_cfg_from_env
 

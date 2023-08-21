@@ -69,7 +69,7 @@ def command(parser):
             for mask in item.iterdir():
                 mask_img = cv2.imread(str(mask), 0)
                 if mask_img is None:
-                    logger.error(_("'{mask}': Invalid mask").format(mask=maks))
+                    logger.error(_("'{mask}': Invalid mask").format(mask=mask))
                     continue
                 if item_img is not None:
                     (wi, hi, di) = item_img.shape

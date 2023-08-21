@@ -1,4 +1,4 @@
-import ritm_annotation.utils.i18n
+import ritm_annotation.utils.i18n  # F401
 
 """CLI interface for ritm_annotation project.
 

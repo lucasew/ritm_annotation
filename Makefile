@@ -32,7 +32,7 @@ fmt:              ## Format code using black & isort.
 
 .PHONY: lint
 lint:             ## Run pep8, black, mypy linters.
-	$(ENV_PREFIX)flake8 --ignore=E203,W503 ritm_annotation/
+	$(ENV_PREFIX)flake8 --ignore=E203,W503 --builtins="_" ritm_annotation/
 	$(ENV_PREFIX)black -l 79 --check ritm_annotation/
 	$(ENV_PREFIX)black -l 79 --check tests/
 	$(ENV_PREFIX)mypy --ignore-missing-imports ritm_annotation/

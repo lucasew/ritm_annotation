@@ -163,7 +163,7 @@ class InteractiveDemoApp(ttk.Frame):
         button.pack(side=tk.LEFT)
         self.save_mask_btn = FocusButton(
             self.menubar,
-            text=f"{_f('Save mask')} (l)",
+            text=f"{_('Save mask')} (l)",
             command=self._save_mask_callback,
         )
         self.save_mask_btn.pack(side=tk.LEFT)
