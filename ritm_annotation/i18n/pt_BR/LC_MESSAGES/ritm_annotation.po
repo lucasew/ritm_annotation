@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-21 14:49-0300\n"
+"POT-Creation-Date: 2023-08-21 15:22-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: ritm_annotation/cli/__init__.py:36
 msgid "Give more details about what is happening"
-msgstr ""
+msgstr "Dar mais detalhes sobre o que está acontecendo"
 
 #: ritm_annotation/cli/__init__.py:43
 msgid "Print version and exit"
@@ -147,7 +147,7 @@ msgstr ""
 msgid "Unknown activation type {activation}"
 msgstr ""
 
-#: ritm_annotation/models/test_exposed_model_stuff.py:30
+#: ritm_annotation/models/test_exposed_model_stuff.py:32
 msgid "Remove the main function"
 msgstr ""
 
@@ -189,6 +189,11 @@ msgstr ""
 #: ritm_annotation/utils/exp.py:151
 #, python-brace-format
 msgid "Continue with experiment \"{exp_path}\""
+msgstr ""
+
+#: ritm_annotation/utils/i18n.py:8
+#, python-brace-format
+msgid "Loading locale data from \"{locale_folder}\""
 msgstr ""
 
 #: ritm_annotation/utils/misc.py:33

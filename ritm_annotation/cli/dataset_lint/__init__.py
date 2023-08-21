@@ -53,7 +53,7 @@ def command(parser):
                 else:
                     item_img = cv2.imread(str(image_file))
                     if item_img is None:
-                        logger.error(_("'{item_img}': Invalid image").format(item_img=item_img)
+                        logger.error(_("'{item_img}': Invalid image").format(item_img=item_img))
                     else:
                         item_img = cv2.cvtColor(item_img, cv2.COLOR_BGR2RGB)
             for mask in item.iterdir():

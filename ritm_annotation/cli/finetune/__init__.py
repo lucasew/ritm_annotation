@@ -54,8 +54,7 @@ def command(parser):
         "--exp-name",
         type=str,
         default="",
-        help=_("Here you can specify the name of the experiment.")
-        _("It will be added as a suffix to the experiment folder."),
+        help=_("Here you can specify the name of the experiment. It will be added as a suffix to the experiment folder."),
     )  # noqa:E501
 
     parser.add_argument(

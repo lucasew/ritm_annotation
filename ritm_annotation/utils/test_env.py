@@ -2,6 +2,8 @@ from easydict import EasyDict as edict
 
 from .env import load_cfg_from_env
 
+import ritm_annotation.utils.i18n
+
 
 def test_load_cfg_from_env():
     input_dict = {"RITM_a": 2, "RITM_eoq__trabson": 3}

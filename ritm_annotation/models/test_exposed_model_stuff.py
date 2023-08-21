@@ -6,6 +6,8 @@ from easydict import EasyDict as edict
 from ritm_annotation.engine.trainer import ISTrainer
 from ritm_annotation.utils.misc import load_module
 
+import ritm_annotation.utils.i18n
+
 all_models = []
 
 for model in Path(__file__).parent.glob("**/*.py"):

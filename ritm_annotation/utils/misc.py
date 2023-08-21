@@ -30,7 +30,7 @@ def save_checkpoint(
         checkpoints_path.mkdir(parents=True)
 
     checkpoint_path = checkpoints_path / checkpoint_name
-    logger.debug(_("Save checkpoint to {checkpoint_path}").format(checkpoint_path=str(checkpoint_path))
+    logger.debug(_("Save checkpoint to {checkpoint_path}").format(checkpoint_path=str(checkpoint_path)))
 
     net = net.module if multi_gpu else net
     torch.save(
