@@ -31,7 +31,7 @@ class OpenImagesDataset(ISDataset):
         elif dry_run:
             annotations = dict(image_id_to_masks=[], dataset_samples=[])
         else:
-            raise RuntimeError(f"Can't find annotations at {clean_anno_path}")
+            raise RuntimeError(_("Can't find annotations at {anno_path}").format(anno_path=clean_anno_path))
         self.image_id_to_masks = annotations["image_id_to_masks"]
         self.dataset_samples = annotations["dataset_samples"]
 

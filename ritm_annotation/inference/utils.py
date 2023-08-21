@@ -153,7 +153,7 @@ def get_results_table(
     row_width = len(table_header)
 
     header = (
-        f"Eval results for model: {model_name}\n"
+        _("Eval results for model: {model_name}\n").format(model_name=model_name)
         if model_name is not None
         else ""
     )

@@ -11,7 +11,7 @@ def load_cfg_from_env(cfg: edict, env: Dict[str, str]):
         if k.startswith("RITM_"):
             cfgkey = k.replace("RITM_", "").replace("__", ".")
             logger.warning(
-                f"Changing configuration entry from environment variable: {cfgkey}={v}"  # noqa:E501
+                _("Changing configuration entry from environment variable: {k}={v}").format(k=cfgkey, v=v)  # noqa:E501
             )  # noqa: E501
             *parts, last = cfgkey.split(".")
             this_cfg = cfg

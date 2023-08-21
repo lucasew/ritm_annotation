@@ -95,18 +95,18 @@ class ISTrainer(object):
             return
         self._ran_before_needed = True
 
-        logger.debug("Looking for basic assumptions")
-        assert self.trainset is not None, "Missing train dataset"
-        assert self.valset is not None, "Missing validation dataset"
+        logger.debug(_("Looking for basic assumptions"))
+        assert self.trainset is not None, _("Missing train dataset")
+        assert self.valset is not None, _("Missing validation dataset")
 
         logger.info(
-            f"Dataset of {self.trainset.get_samples_number()} samples was loaded for training."  # noqa: E501
+            _("Dataset of {num_samples} samples was loaded for training.").format(num_samples=self.trainset.get_samples_number())  # noqa: E501
         )
         logger.info(
-            f"Dataset of {self.valset.get_samples_number()} samples was loaded for validation."  # noqa: E501
+            _("Dataset of {num_samples} samples was loaded for validation.").format(num_samples=self.valset.get_samples_number())  # noqa: E501
         )
 
-        logger.debug("Setting up dataloder")
+        logger.debug(_("Setting up dataloder"))
         self.train_data = DataLoader(
             self.trainset,
             self.cfg.batch_size,
@@ -134,7 +134,7 @@ class ISTrainer(object):
             num_workers=self.cfg.workers,
             persistent_workers=self.cfg.workers > 0,
         )
-        logger.debug("Initializing model")
+        logger.debug(_("Initializing model"))
         self.model = self._load_weights(self.model)
         self.optim = get_optimizer(
             self.model, self.optimizer, self.optimizer_params
@@ -160,7 +160,7 @@ class ISTrainer(object):
                 for _ in range(self.cfg.start_epoch):
                     self.lr_scheduler.step()
 
-        logger.debug("Initializing click models")
+        logger.debug(_("Initializing click models"))
 
         if self.click_models is not None:
             for click_model in self.click_models:
@@ -169,12 +169,10 @@ class ISTrainer(object):
                 click_model.to(self.device)
                 click_model.eval()
 
-        logger.debug(f"First train batch: {repr(next(iter(self.train_data)))}")
-        logger.debug(
-            f"First evaluation batch: {repr(next(iter(self.val_data)))}"
-        )
+        logger.debug(_("First train batch: {batch}").format(batch=repr(next(iter(self.train_data)))))
+        logger.debug(_("First evaluation batch: {batch}").format(batch=repr(next(iter(self.val_data)))))
 
-        logger.info("Run experiment with config:")
+        logger.info(_("Run experiment with config:"))
         logger.info(pprint.pformat(self.cfg, indent=4))
 
     def run(self, num_epochs, start_epoch=None, validation=True):
@@ -182,8 +180,8 @@ class ISTrainer(object):
         if start_epoch is None:
             start_epoch = self.cfg.start_epoch
 
-        logger.info(f"Starting Epoch: {start_epoch}")
-        logger.info(f"Total Epochs: {num_epochs}")
+        logger.info(_("Starting Epoch: {start_epoch}").format(start_epoch=start_epoch))
+        logger.info(_("Total Epochs: {num_epochs}").format(num_epochs=num_epochs))
         for epoch in range(start_epoch, num_epochs):
             self.training(epoch)
             if validation:
@@ -269,9 +267,7 @@ class ISTrainer(object):
                     global_step=global_step,
                 )
 
-                tbar.set_description(
-                    f"Epoch {epoch}, training loss {train_loss/(i+1):.8f}"
-                )
+                tbar.set_description(_("Epoch {epoch}, training loss {train_loss:.8f}").format(epoch=epoch, train_loss=train_loss/(i+1)))
                 for metric in self.train_metrics:
                     metric.log_states(
                         self.sw,
@@ -356,7 +352,7 @@ class ISTrainer(object):
 
             if self.is_master:
                 tbar.set_description(
-                    f"Epoch {epoch}, validation loss: {val_loss/(i + 1):.4f}"
+                    _("Epoch {epoch}, validation loss: {val_loss:.4f}").format(epoch=epoch, val_loss=val_loss/(i + 1))
                 )
                 for metric in self.val_metrics:
                     metric.log_states(
@@ -366,7 +362,7 @@ class ISTrainer(object):
                     )
 
         if self.is_master:
-            logging.debug("Saving epoch level losses")
+            logging.debug(_("Saving epoch level losses"))
             for loss_name, loss_values in losses_logging.items():
                 self.sw.add_scalar(
                     tag=f"{log_prefix}Losses/{loss_name}",
@@ -375,7 +371,7 @@ class ISTrainer(object):
                     disable_avg=True,
                 )
 
-            logging.debug("Saving epoch level metrics")
+            logging.debug(_("Saving epoch level metrics"))
             for metric in self.val_metrics:
                 self.sw.add_scalar(
                     tag=f"{log_prefix}Metrics/{metric.name}",
@@ -567,7 +563,7 @@ class ISTrainer(object):
             checkpoints = list(self.cfg.CHECKPOINTS_PATH.glob(checkpoint_glob))
             assert (
                 len(checkpoints) == 1
-            ), f"'{self.cfg.CHECKPOINTS_PATH}/{checkpoint_glob}' didn't match anything"  # noqa: E501
+            ), _("'{checkpoint_glob}' didn't match anything").format(checkpoint_glob=f"{self.cfg.CHECKPOINTS_PATH}/{checkpoint_glob}")
 
             checkpoint_path = checkpoints[0]
             load_weights(net, str(checkpoint_path))
@@ -576,9 +572,7 @@ class ISTrainer(object):
                 load_weights(net, self.cfg.weights)
                 self.cfg.weights = None
             else:
-                raise RuntimeError(
-                    f"=> no checkpoint found at '{self.cfg.weights}'"
-                )
+                raise RuntimeError(_(f"=> no checkpoint found at '{weights_dir}'").format(weights_dir=self.cfg.weights))
 
         return net
 
@@ -640,7 +634,7 @@ def get_next_points(pred, gt, points, click_indx, pred_thresh=0.49):
 
 
 def load_weights(model, path_to_weights):
-    logger.info(f"Loading weights from path: '{path_to_weights}'")
+    logger.info(_("Loading weights from path: '{path_to_weights}'").format(path_to_weights=path_to_weights))
     current_state_dict = model.state_dict()
     new_state_dict = torch.load(path_to_weights, map_location="cpu")[
         "state_dict"

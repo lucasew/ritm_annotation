@@ -27,7 +27,7 @@ def test_model_exposes_the_right_stuff(model_file):
     assert isinstance(model_script.MODEL_NAME, str)
     assert (
         model_script.__dict__.get("main") is None
-    ), "Remove the main function"
+    ), _("Remove the main function")
 
     cfg = edict()
     cfg.device = "cpu"

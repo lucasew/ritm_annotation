@@ -15,6 +15,8 @@ from pathlib import Path
 
 from ritm_annotation.utils.misc import load_module
 
+import ritm_annotation.utils.i18n
+
 logger = logging.getLogger(__name__)
 
 
@@ -31,14 +33,14 @@ def common_flags(parser):
         "--verbose",
         dest="verbose",
         action="store_true",
-        help="Give more details about what is happening",
+        help=_("Give more details about what is happening"),
     )  # noqa: E501
     parser.add_argument(
         "-V",
         "--version",
         dest="is_show_version",
         action="store_true",
-        help="Print version and exit",
+        help=_("Print version and exit"),
     )  # noqa: E501
 
 
@@ -83,7 +85,7 @@ def main():  # pragma: no cover
     if args.is_show_version:
         print(version)
         exit(0)
-    logger.debug(f"Starting ritm_annotation v{version}")
+    logger.debug(f"{_('Starting')} ritm_annotation v{version}")
 
     fn = args.__dict__.get("fn")
     args.__dict__["fn"] = None

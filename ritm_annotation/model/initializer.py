@@ -111,7 +111,7 @@ class XavierGluon(Initializer):
         elif self.factor_type == "out":
             factor = fan_out
         else:
-            raise ValueError("Incorrect factor type")
+            raise ValueError(_("Incorrect factor type"))
         scale = np.sqrt(self.magnitude / factor)
 
         if self.rnd_type == "uniform":
@@ -119,4 +119,4 @@ class XavierGluon(Initializer):
         elif self.rnd_type == "gaussian":
             nn.init.normal_(arr, 0, scale)
         else:
-            raise ValueError("Unknown random type")
+            raise ValueError(_("Unknown random type"))

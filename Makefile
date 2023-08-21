@@ -115,6 +115,10 @@ switch-to-poetry: ## Switch to poetry package manager.
 init:             ## Initialize the project based on an application template.
 	@./.github/init.sh
 
+.PHONY: update-locales
+update-locales:
+	xgettext -d ritm_annotation -o ritm_annotation/i18n/ritm_annotation.pot ritm_annotation/*/**.py
+	sed -i 's;CHARSET;UTF-8;g' ritm_annotation/i18n/ritm_annotation.pot
 
 # This project has been generated from rochacbruno/python-project-template
 # __author__ = 'rochacbruno'

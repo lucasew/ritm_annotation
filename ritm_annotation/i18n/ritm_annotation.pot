@@ -1,0 +1,207 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-21 14:49-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ritm_annotation/cli/__init__.py:36
+msgid "Give more details about what is happening"
+msgstr ""
+
+#: ritm_annotation/cli/__init__.py:43
+msgid "Print version and exit"
+msgstr ""
+
+#: ritm_annotation/data/base.py:113
+#, python-brace-format
+msgid "Loaded {num_weights} weights with gamma={gamma}"
+msgstr ""
+
+#: ritm_annotation/data/compose.py:30
+msgid "The number of datasets must match the number of ratios"
+msgstr ""
+
+#: ritm_annotation/data/compose.py:33
+msgid "The sum of ratios must be equal to 1"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:98
+msgid "Looking for basic assumptions"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:99
+msgid "Missing train dataset"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:100
+msgid "Missing validation dataset"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:103
+#, python-brace-format
+msgid "Dataset of {num_samples} samples was loaded for training."
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:106
+#, python-brace-format
+msgid "Dataset of {num_samples} samples was loaded for validation."
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:109
+msgid "Setting up dataloder"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:137
+msgid "Initializing model"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:163
+msgid "Initializing click models"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:172
+#, python-brace-format
+msgid "First train batch: {batch}"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:173
+#, python-brace-format
+msgid "First evaluation batch: {batch}"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:175
+msgid "Run experiment with config:"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:183
+#, python-brace-format
+msgid "Starting Epoch: {start_epoch}"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:184
+#, python-brace-format
+msgid "Total Epochs: {num_epochs}"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:270
+#, python-brace-format
+msgid "Epoch {epoch}, training loss {train_loss:.8f}"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:355
+#, python-brace-format
+msgid "Epoch {epoch}, validation loss: {val_loss:.4f}"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:365
+msgid "Saving epoch level losses"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:374
+msgid "Saving epoch level metrics"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:566
+#, python-brace-format
+msgid "'{checkpoint_glob}' didn't match anything"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:575
+#, python-brace-format
+msgid "=> no checkpoint found at '{weights_dir}'"
+msgstr ""
+
+#: ritm_annotation/engine/trainer.py:637
+#, python-brace-format
+msgid "Loading weights from path: '{path_to_weights}'"
+msgstr ""
+
+#: ritm_annotation/inference/utils.py:156
+#, python-brace-format
+msgid "Eval results for model: {model_name}\n"
+msgstr ""
+
+#: ritm_annotation/model/initializer.py:114
+msgid "Incorrect factor type"
+msgstr ""
+
+#: ritm_annotation/model/initializer.py:122
+msgid "Unknown random type"
+msgstr ""
+
+#: ritm_annotation/model/ops.py:15 ritm_annotation/model/ops.py:19
+#, python-brace-format
+msgid "Unknown activation type {activation}"
+msgstr ""
+
+#: ritm_annotation/models/test_exposed_model_stuff.py:30
+msgid "Remove the main function"
+msgstr ""
+
+#: ritm_annotation/utils/env.py:14
+#, python-brace-format
+msgid "Changing configuration entry from environment variable: {k}={v}"
+msgstr ""
+
+#: ritm_annotation/utils/exp.py:25
+msgid ""
+"Models can only be located in the \"models\" directory in the root of the "
+"repository"
+msgstr ""
+
+#: ritm_annotation/utils/exp.py:102
+#, python-brace-format
+msgid "Number of GPUs: {n}"
+msgstr ""
+
+#: ritm_annotation/utils/exp.py:104
+msgid "Multi-Process Multi-GPU Distributed Training"
+msgstr ""
+
+#: ritm_annotation/utils/exp.py:141
+#, python-brace-format
+msgid ""
+"No experiments could be found that satisfies the pattern = \"{exp_pattern}\""
+msgstr ""
+
+#: ritm_annotation/utils/exp.py:142
+#, python-brace-format
+msgid "Candidates: {candidates}"
+msgstr ""
+
+#: ritm_annotation/utils/exp.py:145
+msgid "More than one experiment found:"
+msgstr ""
+
+#: ritm_annotation/utils/exp.py:151
+#, python-brace-format
+msgid "Continue with experiment \"{exp_path}\""
+msgstr ""
+
+#: ritm_annotation/utils/misc.py:33
+#, python-brace-format
+msgid "Save checkpoint to {checkpoint_path}"
+msgstr ""
+
+#: ritm_annotation/utils/misc.py:107
+#, python-brace-format
+msgid "Loading module '{module_path}'..."
+msgstr ""
+
+#: ritm_annotation/utils/misc.py:109
+#, python-brace-format
+msgid "Can't import model at '{module_path}'"
+msgstr ""

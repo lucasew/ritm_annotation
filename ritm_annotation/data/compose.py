@@ -27,10 +27,10 @@ class ProportionalComposeDataset(ISDataset):
 
         assert len(ratios) == len(
             datasets
-        ), "The number of datasets must match the number of ratios"
+        ), _("The number of datasets must match the number of ratios")
         assert isclose(
             sum(ratios), 1.0
-        ), "The sum of ratios must be equal to 1"
+        ), _("The sum of ratios must be equal to 1")
 
         self._ratios = ratios
         self._datasets = datasets

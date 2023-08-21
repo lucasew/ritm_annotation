@@ -583,12 +583,13 @@ class HighResolutionNet(nn.Module):
         model_dict = self.state_dict()
 
         if not os.path.exists(pretrained_path):
-            print(f'\nFile "{pretrained_path}" does not exist.')
-            print(
+            print()
+            print(_('File "{file}" does not exist.').format(file=pretrained_path))
+            print(_(
                 "You need to specify the correct path to the pre-trained weights.\n"  # noqa: E501
                 "You can download the weights for HRNet from the repository:\n"
                 "https://github.com/HRNet/HRNet-Image-Classification"
-            )
+            ))
             exit(1)
         pretrained_dict = torch.load(
             pretrained_path, map_location={"cuda:0": "cpu"}

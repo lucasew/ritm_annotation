@@ -340,7 +340,7 @@ class ResNetV1b(nn.Module):
                 )
             )
         else:
-            raise RuntimeError("=> unknown dilation size: {}".format(dilation))
+            raise RuntimeError(_("=> unknown dilation size: {dilation}").format(dilation))
 
         self.inplanes = planes * block.expansion
         for _ in range(1, blocks):
@@ -382,7 +382,7 @@ def _safe_state_dict_filtering(orig_dict, model_dict_keys):
         if k in model_dict_keys:
             filtered_orig_dict[k] = v
         else:
-            print(f"[ERROR] Failed to load <{k}> in backbone")
+            print(_("[ERROR] Failed to load <{k}> in backbone").format(k=k))
     return filtered_orig_dict
 
 

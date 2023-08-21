@@ -32,7 +32,7 @@ class InteractiveDemoApp(ttk.Frame):
         self.tasks_iterator = tasks_iterator
         self.master = master
         master.title(
-            "Reviving Iterative Training with Mask Guidance for Interactive Segmentation"  # noqa: E501
+            _("Reviving Iterative Training with Mask Guidance for Interactive Segmentation")  # noqa: E501
         )
         master.withdraw()
         master.update_idletasks()
@@ -101,18 +101,19 @@ class InteractiveDemoApp(ttk.Frame):
 
     def _handle_classe_finalizada(self, classe):
         messagebox.showwarning(
-            "Classe finalizada", f"A classe '{classe}' foi finalizada"
+            _("Classe finalizada"),
+            _("The class '{class_name}' was finalized").format(class_name=classe)
         )
 
     def _get_current_task(self, ask_next=False):
         current_class = (
             self._current_task.class_name
             if self._current_task is not None
-            else "* nenhuma *"
+            else _("* no one *")
         )
         try:
             if self._current_task is None or ask_next:
-                logger.debug("Pulling next task from the iterator")
+                logger.debug(_("Pulling next task from the iterator"))
                 next_task = next(self.tasks_iterator)
                 if current_class != next_task.class_name:
                     self._handle_classe_finalizada(current_class)
@@ -152,34 +153,34 @@ class InteractiveDemoApp(ttk.Frame):
 
         button = FocusButton(
             self.menubar,
-            text="Load image (n)",
+            text=f"{_('Load image')} (n)",
             command=self._load_image_callback,
         )
         button.pack(side=tk.LEFT)
         self.save_mask_btn = FocusButton(
             self.menubar,
-            text="Save mask (l)",
+            text=f"{_f('Save mask')} (l)",
             command=self._save_mask_callback,
         )
         self.save_mask_btn.pack(side=tk.LEFT)
         self.save_mask_btn.configure(state=tk.DISABLED)
 
         self.load_mask_btn = FocusButton(
-            self.menubar, text="Load mask", command=self._load_mask_callback
+            self.menubar, text=_('Load mask'), command=self._load_mask_callback
         )
         self.load_mask_btn.pack(side=tk.LEFT)
         self.load_mask_btn.configure(state=tk.DISABLED)
 
         button = FocusButton(
-            self.menubar, text="About", command=self._about_callback
+            self.menubar, text=_("About"), command=self._about_callback
         )
         button.pack(side=tk.LEFT)
         button = FocusButton(
-            self.menubar, text="Exit", command=self.master.quit
+            self.menubar, text=_("Exit"), command=self.master.quit
         )
         button.pack(side=tk.LEFT)
 
-        self.task_label = tk.Label(self.menubar, text="* status *")
+        self.task_label = tk.Label(self.menubar, text=_("* status *"))
         self.task_label.pack(side=tk.LEFT)
 
     def _add_canvas(self):
@@ -202,13 +203,13 @@ class InteractiveDemoApp(ttk.Frame):
         )
 
     def _add_buttons(self):
-        self.control_frame = FocusLabelFrame(self, text="Controls")
+        self.control_frame = FocusLabelFrame(self, text=_("Controls"))
         self.control_frame.pack(side=tk.TOP, fill="x", padx=5, pady=5)
         master = self.control_frame
 
         FocusCheckButton(
             master,
-            text="Mostrar máscara ao invés da imagem (j)",
+            text=f"{_('Mostrar máscara ao invés da imagem')} (j)",
             variable=self.state["visualize_mask"],
         ).pack(side=tk.TOP)
         self.state["visualize_mask"].trace(
@@ -216,7 +217,7 @@ class InteractiveDemoApp(ttk.Frame):
         )
         FocusCheckButton(
             master,
-            text="Mostrar sobreposição da máscara com mais contraste (k)",
+            text=f"{_('Mostrar sobreposição da máscara com mais contraste')} (k)",
             variable=self.state["visualize_blender_contrast"],
         ).pack(side=tk.TOP)
         self.state["visualize_blender_contrast"].trace(
@@ -224,12 +225,12 @@ class InteractiveDemoApp(ttk.Frame):
         )
 
         self.clicks_options_frame = FocusLabelFrame(
-            master, text="Clicks management"
+            master, text=_("Clicks management")
         )
         self.clicks_options_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=3)
         self.finish_object_button = FocusButton(
             self.clicks_options_frame,
-            text="Finish\nobject",
+            text=_("Finish\nobject"),
             bg="#b6d7a8",
             fg="black",
             width=10,
@@ -242,7 +243,7 @@ class InteractiveDemoApp(ttk.Frame):
         )
         self.undo_click_button = FocusButton(
             self.clicks_options_frame,
-            text="Undo click (h)",
+            text=f"{_('Undo click')} (h)",
             bg="#ffe599",
             fg="black",
             width=10,
@@ -253,7 +254,7 @@ class InteractiveDemoApp(ttk.Frame):
         self.undo_click_button.pack(side=tk.LEFT, fill=tk.X, padx=10, pady=3)
         self.reset_clicks_button = FocusButton(
             self.clicks_options_frame,
-            text="Reset clicks (m)",
+            text=f"{_('Reset clicks')} (m)",
             bg="#ea9999",
             fg="black",
             width=10,
@@ -264,28 +265,28 @@ class InteractiveDemoApp(ttk.Frame):
         self.reset_clicks_button.pack(side=tk.LEFT, fill=tk.X, padx=10, pady=3)
 
         self.zoomin_options_frame = FocusLabelFrame(
-            master, text="ZoomIn options"
+            master, text=_("ZoomIn options")
         )
         self.zoomin_options_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=3)
         FocusCheckButton(
             self.zoomin_options_frame,
-            text="Use ZoomIn",
+            text=_("Use ZoomIn"),
             command=self._reset_predictor,
             variable=self.state["zoomin_params"]["use_zoom_in"],
         ).grid(row=0, column=0, padx=10)
         FocusCheckButton(
             self.zoomin_options_frame,
-            text="Fixed crop",
+            text=_("Fixed crop"),
             command=self._reset_predictor,
             variable=self.state["zoomin_params"]["fixed_crop"],
         ).grid(row=1, column=0, padx=10)
-        tk.Label(self.zoomin_options_frame, text="Skip clicks").grid(
+        tk.Label(self.zoomin_options_frame, text=_("Skip clicks")).grid(
             row=0, column=1, pady=1, sticky="e"
         )
-        tk.Label(self.zoomin_options_frame, text="Target size").grid(
+        tk.Label(self.zoomin_options_frame, text=_("Target size")).grid(
             row=1, column=1, pady=1, sticky="e"
         )
-        tk.Label(self.zoomin_options_frame, text="Expand ratio").grid(
+        tk.Label(self.zoomin_options_frame, text=_("Expand ratio")).grid(
             row=2, column=1, pady=1, sticky="e"
         )
         BoundedNumericalEntry(
@@ -314,7 +315,7 @@ class InteractiveDemoApp(ttk.Frame):
         ).grid(row=2, column=2, padx=10, pady=1, sticky="w")
         self.zoomin_options_frame.columnconfigure((0, 1, 2), weight=1)
 
-        self.brs_options_frame = FocusLabelFrame(master, text="BRS options")
+        self.brs_options_frame = FocusLabelFrame(master, text=_("BRS options"))
         self.brs_options_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=3)
         menu = tk.OptionMenu(
             self.brs_options_frame,
@@ -325,7 +326,7 @@ class InteractiveDemoApp(ttk.Frame):
         menu.config(width=11)
         menu.grid(rowspan=2, column=0, padx=10)
         self.net_clicks_label = tk.Label(
-            self.brs_options_frame, text="Network clicks"
+            self.brs_options_frame, text=_("Network clicks")
         )
         self.net_clicks_label.grid(row=0, column=1, pady=2, sticky="e")
         self.net_clicks_entry = BoundedNumericalEntry(
@@ -341,7 +342,7 @@ class InteractiveDemoApp(ttk.Frame):
             row=0, column=2, padx=10, pady=2, sticky="w"
         )
         self.lbfgs_iters_label = tk.Label(
-            self.brs_options_frame, text="L-BFGS\nmax iterations"
+            self.brs_options_frame, text=_("L-BFGS\nmax iterations")
         )
         self.lbfgs_iters_label.grid(row=1, column=1, pady=2, sticky="e")
         self.lbfgs_iters_entry = BoundedNumericalEntry(
@@ -358,7 +359,7 @@ class InteractiveDemoApp(ttk.Frame):
         self.brs_options_frame.columnconfigure((0, 1), weight=1)
 
         self.prob_thresh_frame = FocusLabelFrame(
-            master, text="Predictions threshold"
+            master, text=_("Predictions threshold")
         )
         self.prob_thresh_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=3)
         FocusHorizontalScale(
@@ -370,7 +371,7 @@ class InteractiveDemoApp(ttk.Frame):
         ).pack(padx=10)
 
         self.alpha_blend_frame = FocusLabelFrame(
-            master, text="Alpha blending coefficient"
+            master, text=_("Alpha blending coefficient")
         )
         self.alpha_blend_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=3)
         FocusHorizontalScale(
@@ -382,7 +383,7 @@ class InteractiveDemoApp(ttk.Frame):
         ).pack(padx=10, anchor=tk.CENTER)
 
         self.click_radius_frame = FocusLabelFrame(
-            master, text="Visualisation click radius"
+            master, text=_("Visualisation click radius")
         )
         self.click_radius_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=3)
         FocusHorizontalScale(
@@ -399,7 +400,7 @@ class InteractiveDemoApp(ttk.Frame):
         if self._check_entry(self):
             current_task = self._get_current_task(ask_next=True)
             filename = str(current_task.image.resolve())
-            logger.info(f"Carregando '{filename}'")
+            logger.info(_("Loading '{filename}'").format(filename=filename))
             image = cv2.cvtColor(cv2.imread(filename), cv2.COLOR_BGR2RGB)
             self.controller.set_image(image)
             if (
@@ -421,15 +422,14 @@ class InteractiveDemoApp(ttk.Frame):
             current_task = self._get_current_task()
             filename = str(current_task.mask_output.resolve())
             mask = (mask > 0) * 255
-            logger.info(f"Salvando '{filename}'")
+            logger.info(_("Salvando '{filename}'").format(filename=filename))
             cv2.imwrite(filename, mask)
 
     def _load_mask_callback(self):
         if not self.controller.net.with_prev_mask:
             messagebox.showwarning(
-                "Warning",
-                "The current model doesn't support loading external masks. "
-                "Please use ITER-M models for that purpose.",
+                _("Warning"),
+                _("The current model doesn't support loading external masks. Please use ITER-M models for that purpose."),
             )
             return
 
@@ -437,7 +437,7 @@ class InteractiveDemoApp(ttk.Frame):
         if self._check_entry(self):
             current_task = self._get_current_task()
             filename = str(current_task.mask_output.resolve())
-            logger.debug(f"Carregando '{filename}'")
+            logger.debug(_("Carregando '{filename}'").format(filename=filename))
             mask = cv2.imread(filename)[:, :, 0] > 127
             self.controller.set_mask(mask)
             self._update_image()
@@ -446,12 +446,12 @@ class InteractiveDemoApp(ttk.Frame):
         self.menubar.focus_set()
 
         text = [
-            "Developed by:",
+            _("Developed by:"),
             "K.Sofiiuk and I. Petrov",
             "The MIT License, 2021",
         ]
 
-        messagebox.showinfo("About Demo", "\n".join(text))
+        messagebox.showinfo(_("About Demo"), "\n".join(text))
 
     def _reset_last_object(self):
         self.state["alpha_blend"].set(0.5)
@@ -535,7 +535,7 @@ class InteractiveDemoApp(ttk.Frame):
         self.canvas.focus_set()
 
         if self.image_on_canvas is None:
-            messagebox.showwarning("Warning", "Please load an image first")
+            messagebox.showwarning(_("Warning"), _("Please load an image first"))
             return
 
         if self._check_entry(self):
@@ -603,7 +603,7 @@ class InteractiveDemoApp(ttk.Frame):
         return all_checked
 
 
-COMMAND_DESCRIPTION = "Interactively annotate a dataset"
+COMMAND_DESCRIPTION = _("Interactively annotate a dataset")
 
 
 def command(subparser):
@@ -627,16 +627,19 @@ def command(subparser):
         "--seed",
         dest="seed",
         type=Path,
-        help="Pasta com segmentações pré definidas para serem ajustadas",
+        help=_("Folder with pre-defined segmentations to be adjusted"),
+        # help="Pasta com segmentações pré definidas para serem ajustadas",
     )
 
     def handle(args):
-        logger.debug("classes: " + ", ".join(args.classes))
+        logger.debug(_("classes: ") + ", ".join(args.classes))
 
-        assert args.input.is_dir(), "Origem precisa ser uma pasta"
+        assert args.input.is_dir(), _("Origin should be a folder")
+        # assert args.input.is_dir(), _("Origem precisa ser uma pasta")
         assert (
             not args.output.exists() or args.output.is_dir()
-        ), "Destino precisa ser uma pasta, se não existe vai ser criada"
+        ), _("Destination should be a folder, if it isn't exist it will be created")
+        # ), "Destino precisa ser uma pasta, se não existe vai ser criada"
 
         torch.backends.cudnn.determistic = True
 

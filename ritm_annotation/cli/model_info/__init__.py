@@ -10,17 +10,17 @@ from ritm_annotation.inference.utils import (
 
 logger = logging.getLogger(__name__)
 
-COMMAND_DESCRIPTION = "Show information about a model pth file"
+COMMAND_DESCRIPTION = _("Show information about a model pth file")
 
 
 def command(subparser):
     subparser.add_argument("model", type=Path)
 
     def handle(args):
-        logger.debug("Loading model")
+        logger.debug(_("Loading model"))
         assert (
             args.model.exists() and args.model.is_file()
-        ), "Model must exist and be a file"
+        ), _("Model must exist and be a file")
         checkpoint_path = find_checkpoint(args.model.parent, args.model.name)
         state_dict = torch.load(checkpoint_path, map_location="cpu")
         print(f"model {state_dict['config']['class']}")

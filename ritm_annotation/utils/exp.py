@@ -22,7 +22,7 @@ def init_experiment(args, model_name):
 
     if ftree is None:
         print(
-            'Models can only be located in the "models" directory in the root of the repository'  # noqa:E501
+            _('Models can only be located in the "models" directory in the root of the repository')  # noqa:E501
         )
         sys.exit(1)
 
@@ -99,9 +99,9 @@ def init_experiment(args, model_name):
 
     if cfg.local_rank == 0:
         # add_logging(cfg.LOGS_PATH, prefix="train_")
-        logger.info(f"Number of GPUs: {cfg.ngpus}")
+        logger.info(_("Number of GPUs: {n}").format(n=cfg.ngpus))
         if cfg.distributed:
-            logger.info("Multi-Process Multi-GPU Distributed Training")
+            logger.info(_("Multi-Process Multi-GPU Distributed Training"))
 
     return cfg
 
@@ -138,21 +138,17 @@ def find_last_exp_indx(exp_parent_path):
 def find_resume_exp(exp_parent_path, exp_pattern):
     candidates = sorted(exp_parent_path.glob(f"{exp_pattern}*"))
     if len(candidates) == 0:
-        print(
-            f'No experiments could be found that satisfies the pattern = "*{exp_pattern}"'  # noqa:E501
-        )
-        print(
-            f"Candidates: {' '.join([e.name for e in exp_parent_path.iterdir()])}"  # noqa: E501
-        )
+        logger.warning(_('No experiments could be found that satisfies the pattern = "{exp_pattern}"').format(pattern=f"*{exp_pattern}"))
+        logger.info(_("Candidates: {candidates}").format(candidates=' '.join([e.name for e in exp_parent_path.iterdir()])))
         sys.exit(1)
     elif len(candidates) > 1:
-        print("More than one experiment found:")
+        print(_("More than one experiment found:"))
         for x in candidates:
             print(x)
         sys.exit(1)
     else:
         exp_path = candidates[0]
-        print(f'Continue with experiment "{exp_path}"')
+        print(_('Continue with experiment "{exp_path}"').format(exp_path=exp_path))
 
     return exp_path
 

@@ -43,8 +43,8 @@ class InteractiveController:
     def set_mask(self, mask):
         if self.image.shape[:2] != mask.shape[:2]:
             messagebox.showwarning(
-                "Warning",
-                "A segmentation mask must have the same sizes as the current image!",  # noqa: E501
+                _("Warning"),
+                _("A segmentation mask must have the same sizes as the current image!"),  # noqa: E501
             )
             return
 

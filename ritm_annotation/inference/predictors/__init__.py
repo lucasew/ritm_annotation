@@ -45,7 +45,7 @@ def get_predictor(
     if isinstance(net, (list, tuple)):
         assert (
             brs_mode == "NoBRS"
-        ), "Multi-stage models support only NoBRS mode."
+        ), _("Multi-stage models support only NoBRS mode.")
 
     if brs_mode == "NoBRS":
         if predictor_params is not None:

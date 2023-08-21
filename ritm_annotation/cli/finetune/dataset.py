@@ -77,10 +77,10 @@ class AnnotationDataset(ISDataset):
             for item in masks_path.iterdir():
                 image_file = images_path / item.name
                 if not item.is_dir():
-                    logger.warn(f"AnnotationDataset: found impurities: {item}")
+                    logger.warn(_("AnnotationDataset: found impurities: {item}").format(item=item))
                     continue
                 if not (image_file.exists() and image_file.is_file()):
-                    logger.warn(f"Found mask for {item.name} but not image")
+                    logger.warn(_("Found mask for {item_name} but not image").format(item_name=item.name))
                     continue
                 has_mask = False
                 for mask_file in item.iterdir():
@@ -97,7 +97,7 @@ class AnnotationDataset(ISDataset):
         elif split == "val":
             self.dataset_samples = self.dataset_samples[-val_amount:]
         else:
-            raise ValueError("split must be either train or val")
+            raise ValueError(_("split must be either train or val"))
 
     def get_sample(self, index: int) -> DSample:
         item = self.dataset_samples[index]
@@ -121,5 +121,10 @@ class AnnotationDataset(ISDataset):
             )
         gt_mask[gt_mask > 0] = 1
         gt_mask = gt_mask.astype("int32")
-        logger.debug(f"Processed item {index}: '{item}' (shape: ({w}, {h})")
+        logger.debug(_("Processed item {index}: '{item}' (shape: ({w}, {h})").format(
+            index=index,
+            item=item,
+            w=w,
+            h=h
+        ))
         return DSample(image, gt_mask, objects_ids=[1], sample_id=index)
