@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-21 16:32-0300\n"
+"POT-Creation-Date: 2023-08-21 16:48-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -171,7 +170,7 @@ msgid "Loading '{filename}'"
 msgstr "Carregando '{filename}'"
 
 #: ritm_annotation/cli/annotate/__init__.py:425
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Salving '{filename}'"
 msgstr "Salvando '{filename}'"
 
@@ -288,7 +287,6 @@ msgstr "Caminho até o script de modelo."
 
 #: ritm_annotation/cli/train/__init__.py:27
 #: ritm_annotation/cli/finetune/__init__.py:42
-#, fuzzy
 msgid "Where to store experiment data"
 msgstr "Onde guardar dados de experimento"
 
@@ -377,13 +375,12 @@ msgstr "Passando a usar temp_model_path porque model_path não foi especificado"
 
 #: ritm_annotation/cli/train/__init__.py:127
 #: ritm_annotation/cli/finetune/__init__.py:149
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Final model path: '{model_path}'"
 msgstr "Não é possível importar o módulo em '{module_path}'"
 
 #: ritm_annotation/cli/train/__init__.py:139
 #: ritm_annotation/cli/finetune/__init__.py:162
-#, fuzzy
 msgid "Basic validations passed"
 msgstr "Dataset de validação em falta"
 
@@ -440,7 +437,6 @@ msgid "Show information about a model pth file"
 msgstr "Mostrar informação sobre um arquivo de modelo pth"
 
 #: ritm_annotation/cli/model_info/__init__.py:20
-#, fuzzy
 msgid "Loading model"
 msgstr "Inicializando modelo"
 
@@ -538,7 +534,7 @@ msgstr ""
 "https://github.com/HRNet/HRNet-Image-Classification"
 
 #: ritm_annotation/model/modeling/resnetv1b.py:343
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "=> unknown dilation size: {dilation}"
 msgstr "=> tamanho de dilation desconhecido: {dilation}"
 
@@ -668,3 +664,155 @@ msgstr "Anotações não encontradas em {anno_path}"
 #: ritm_annotation/models/test_exposed_model_stuff.py:33
 msgid "Remove the main function"
 msgstr "Remova a função main"
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:296
+msgid "usage: "
+msgstr "uso: "
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:868
+msgid ".__call__() not defined"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1211
+#, python-format
+msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1271
+#, python-format
+msgid "argument \"-\" with mode %r"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1280
+#, python-format
+msgid "can't open '%(filename)s': %(error)s"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1489
+#, python-format
+msgid "cannot merge actions - two groups are named %r"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1527
+msgid "'required' is an invalid argument for positionals"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1549
+#, python-format
+msgid ""
+"invalid option string %(option)r: must start with a character "
+"%(prefix_chars)r"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1567
+#, python-format
+msgid "dest= is required for options like %r"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1584
+#, python-format
+msgid "invalid conflict_resolution value: %r"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1602
+#, python-format
+msgid "conflicting option string: %s"
+msgid_plural "conflicting option strings: %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1668
+msgid "mutually exclusive arguments must be optional"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1736
+msgid "positional arguments"
+msgstr "argumentos posicionais"
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1737
+msgid "options"
+msgstr "opções"
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1752
+msgid "show this help message and exit"
+msgstr "mostra esta mensagem de ajuda e sai"
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1783
+msgid "cannot have multiple subparser arguments"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1835
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2350
+#, python-format
+msgid "unrecognized arguments: %s"
+msgstr "argumentos desconhecidos: %s"
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1936
+#, python-format
+msgid "not allowed with argument %s"
+msgstr "não permitido com argumento %s"
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1986
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2000
+#, python-format
+msgid "ignored explicit argument %r"
+msgstr "argumento explícito ignorado %r"
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2107
+#, python-format
+msgid "the following arguments are required: %s"
+msgstr "os argumentos a seguir são obrigatórios: %s"
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2122
+#, python-format
+msgid "one of the arguments %s is required"
+msgstr "um dos argumentos %s é obrigatório"
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2165
+msgid "expected one argument"
+msgstr "esperado um argumento"
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2166
+msgid "expected at most one argument"
+msgstr "esperado no máximo um argumento"
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2167
+msgid "expected at least one argument"
+msgstr "esperado pelo menos um argumento"
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2171
+#, python-format
+msgid "expected %s argument"
+msgid_plural "expected %s arguments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2229
+#, python-format
+msgid "ambiguous option: %(option)s could match %(matches)s"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2293
+#, python-format
+msgid "unexpected option string: %s"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2490
+#, python-format
+msgid "%r is not callable"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2507
+#, python-format
+msgid "invalid %(type)s value: %(value)r"
+msgstr ""
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2518
+#, python-format
+msgid "invalid choice: %(value)r (choose from %(choices)s)"
+msgstr "escolha inválida: %(value)r (escolha entre %(choices)s)"
+
+#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2594
+#, python-format
+msgid "%(prog)s: error: %(message)s\n"
+msgstr "%(prog)s: erro: %(message)s\n"
