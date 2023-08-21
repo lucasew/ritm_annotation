@@ -1,3 +1,4 @@
+import ritm_annotation.utils.i18n
 """CLI interface for ritm_annotation project.
 
 Be creative! do whatever you want!
@@ -15,7 +16,6 @@ from pathlib import Path
 
 from ritm_annotation.utils.misc import load_module
 
-import ritm_annotation.utils.i18n
 
 logger = logging.getLogger(__name__)
 

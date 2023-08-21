@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-21 15:42-0300\n"
+"POT-Creation-Date: 2023-08-21 15:51-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -147,7 +147,7 @@ msgstr "Tipo aleatório desconhecido"
 msgid "Unknown activation type {activation}"
 msgstr "Tipo de ativação inválido {activation}"
 
-#: ritm_annotation/models/test_exposed_model_stuff.py:32
+#: ritm_annotation/models/test_exposed_model_stuff.py:33
 msgid "Remove the main function"
 msgstr "Remova a função main"
 
