@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-21 16:48-0300\n"
+"POT-Creation-Date: 2023-08-21 17:18-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -444,7 +444,7 @@ msgstr "Inicializando modelo"
 msgid "Model must exist and be a file"
 msgstr "Modelo precisa existir e ser um arquivo"
 
-#: ritm_annotation/utils/i18n.py:16
+#: ritm_annotation/utils/i18n.py:15
 #, python-brace-format
 msgid "Loading locale data from \"{locale_folder}\""
 msgstr "Carregando dados de internacionalização da pasta \"{locale_folder}\""
@@ -735,7 +735,7 @@ msgstr "opções"
 
 #: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1752
 msgid "show this help message and exit"
-msgstr "mostra esta mensagem de ajuda e sai"
+msgstr "Mostra esta mensagem de ajuda e sai"
 
 #: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1783
 msgid "cannot have multiple subparser arguments"
