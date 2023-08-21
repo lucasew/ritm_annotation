@@ -340,7 +340,9 @@ class ResNetV1b(nn.Module):
                 )
             )
         else:
-            raise RuntimeError(_("=> unknown dilation size: {dilation}").format(dilation))
+            raise RuntimeError(
+                _("=> unknown dilation size: {dilation}").format(dilation)
+            )
 
         self.inplanes = planes * block.expansion
         for _ in range(1, blocks):

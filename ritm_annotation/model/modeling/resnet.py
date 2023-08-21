@@ -26,7 +26,9 @@ class ResNetBackbone(torch.nn.Module):
                 pretrained=pretrained_base, dilated=dilated, **kwargs
             )
         else:
-            raise RuntimeError(_("unknown backbone: {backbone}").format(backbone=backbone))
+            raise RuntimeError(
+                _("unknown backbone: {backbone}").format(backbone=backbone)
+            )
 
         self.conv1 = pretrained.conv1
         self.bn1 = pretrained.bn1

@@ -4,8 +4,8 @@ from pathlib import Path
 
 import torch
 
-from ritm_annotation.utils.exp import init_experiment
 from ritm_annotation.utils.env import load_cfg_from_env
+from ritm_annotation.utils.exp import init_experiment
 from ritm_annotation.utils.misc import load_module
 
 logger = logging.getLogger(__name__)
@@ -39,7 +39,9 @@ def command(parser):
         "--exp-name",
         type=str,
         default="",
-        help=_("Here you can specify the name of the experiment. It will be added as a suffix to the experiment folder."),
+        help=_(
+            "Here you can specify the name of the experiment. It will be added as a suffix to the experiment folder."
+        ),
     )  # noqa:E501
 
     parser.add_argument(
@@ -56,14 +58,18 @@ def command(parser):
         dest="batch_size",
         type=int,
         default=-1,
-        help=_("You can override model batch size by specify positive number."),
+        help=_(
+            "You can override model batch size by specify positive number."
+        ),
     )  # noqa:E501
 
     parser.add_argument(
         "--ngpus",
         type=int,
         default=1,
-        help=_('Number of GPUs. If you only specify "--gpus" argument, the ngpus value will be calculated automatically. You should use either this argument or "--gpus".'),
+        help=_(
+            'Number of GPUs. If you only specify "--gpus" argument, the ngpus value will be calculated automatically. You should use either this argument or "--gpus".'
+        ),
     )  # noqa:E501
 
     parser.add_argument(
@@ -71,14 +77,18 @@ def command(parser):
         type=str,
         default="",
         required=False,
-        help=_('Ids of used GPUs. You should use either this argument or "--ngpus".'),  # noqa: E501
+        help=_(
+            'Ids of used GPUs. You should use either this argument or "--ngpus".'
+        ),  # noqa: E501
     )  # noqa:E501
 
     parser.add_argument(
         "--resume-exp",
         type=str,
         default=None,
-        help=_('The prefix of the name of the experiment to be continued. If you use this field, you must specify the "--resume-prefix" argument.'),  # noqa:E501
+        help=_(
+            'The prefix of the name of the experiment to be continued. If you use this field, you must specify the "--resume-prefix" argument.'
+        ),  # noqa:E501
     )  # noqa:E501
 
     parser.add_argument(
@@ -92,14 +102,18 @@ def command(parser):
         "--start-epoch",
         type=int,
         default=0,
-        help=_("The number of the starting epoch from which training will continue. (it is important for correct logging and learning rate)"),
+        help=_(
+            "The number of the starting epoch from which training will continue. (it is important for correct logging and learning rate)"
+        ),
     )  # noqa:E501
 
     parser.add_argument(
         "--weights",
         type=str,
         default=None,
-        help=_("Model weights will be loaded from the specified path if you use this argument."),  # noqa: E501
+        help=_(
+            "Model weights will be loaded from the specified path if you use this argument."
+        ),  # noqa: E501
     )  # noqa:E501
 
     parser.add_argument(
@@ -115,7 +129,9 @@ def command(parser):
         model_path = Path(args.model_path)
         if args.temp_model_path != "":
             logger.debug(
-                _("Falling back to temp_model_path because model_path wasn't specified")  # noqa:E501
+                _(
+                    "Falling back to temp_model_path because model_path wasn't specified"
+                )  # noqa:E501
             )
             model_path = Path(args.temp_model_path)
         if not model_path.is_absolute():
@@ -124,7 +140,9 @@ def command(parser):
             )
         model_path = model_path.resolve()
         args.model_path = model_path
-        logger.debug(_("Final model path: '{model_path}'").format(model_path=model_path))
+        logger.debug(
+            _("Final model path: '{model_path}'").format(model_path=model_path)
+        )
 
         model_script = load_module(model_path)
 

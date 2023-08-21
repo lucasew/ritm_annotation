@@ -22,7 +22,9 @@ def init_experiment(args, model_name):
 
     if ftree is None:
         print(
-            _('Models can only be located in the "models" directory in the root of the repository')  # noqa:E501
+            _(
+                'Models can only be located in the "models" directory in the root of the repository'
+            )  # noqa:E501
         )
         sys.exit(1)
 
@@ -138,8 +140,18 @@ def find_last_exp_indx(exp_parent_path):
 def find_resume_exp(exp_parent_path, exp_pattern):
     candidates = sorted(exp_parent_path.glob(f"{exp_pattern}*"))
     if len(candidates) == 0:
-        logger.warning(_('No experiments could be found that satisfies the pattern = "{exp_pattern}"').format(pattern=f"*{exp_pattern}"))
-        logger.info(_("Candidates: {candidates}").format(candidates=' '.join([e.name for e in exp_parent_path.iterdir()])))
+        logger.warning(
+            _(
+                'No experiments could be found that satisfies the pattern = "{exp_pattern}"'
+            ).format(pattern=f"*{exp_pattern}")
+        )
+        logger.info(
+            _("Candidates: {candidates}").format(
+                candidates=" ".join(
+                    [e.name for e in exp_parent_path.iterdir()]
+                )
+            )
+        )
         sys.exit(1)
     elif len(candidates) > 1:
         print(_("More than one experiment found:"))
@@ -148,7 +160,11 @@ def find_resume_exp(exp_parent_path, exp_pattern):
         sys.exit(1)
     else:
         exp_path = candidates[0]
-        print(_('Continue with experiment "{exp_path}"').format(exp_path=exp_path))
+        print(
+            _('Continue with experiment "{exp_path}"').format(
+                exp_path=exp_path
+            )
+        )
 
     return exp_path
 

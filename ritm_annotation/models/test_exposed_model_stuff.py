@@ -1,13 +1,11 @@
-import ritm_annotation.utils.i18n
-
 from pathlib import Path
 
 import pytest
 from easydict import EasyDict as edict
 
+import ritm_annotation.utils.i18n
 from ritm_annotation.engine.trainer import ISTrainer
 from ritm_annotation.utils.misc import load_module
-
 
 all_models = []
 
@@ -28,9 +26,9 @@ def test_model_exposes_the_right_stuff(model_file):
     model_script = load_module(model_file)
 
     assert isinstance(model_script.MODEL_NAME, str)
-    assert (
-        model_script.__dict__.get("main") is None
-    ), _("Remove the main function")
+    assert model_script.__dict__.get("main") is None, _(
+        "Remove the main function"
+    )
 
     cfg = edict()
     cfg.device = "cpu"

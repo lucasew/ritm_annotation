@@ -30,7 +30,11 @@ def save_checkpoint(
         checkpoints_path.mkdir(parents=True)
 
     checkpoint_path = checkpoints_path / checkpoint_name
-    logger.debug(_("Save checkpoint to {checkpoint_path}").format(checkpoint_path=str(checkpoint_path)))
+    logger.debug(
+        _("Save checkpoint to {checkpoint_path}").format(
+            checkpoint_path=str(checkpoint_path)
+        )
+    )
 
     net = net.module if multi_gpu else net
     torch.save(
@@ -104,9 +108,13 @@ def ignore_params_then_call(func):
 
 
 def load_module(script_path, module_name="module"):
-    logger.debug(_("Loading module '{module_path}'...").format(module_path=script_path))
+    logger.debug(
+        _("Loading module '{module_path}'...").format(module_path=script_path)
+    )
     spec = importlib.util.spec_from_file_location(module_name, script_path)
-    assert spec is not None, _("Can't import module at '{module_path}'").format(module_path=script_path)
+    assert spec is not None, _(
+        "Can't import module at '{module_path}'"
+    ).format(module_path=script_path)
     model_script = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(model_script)
 

@@ -32,7 +32,9 @@ class InteractiveDemoApp(ttk.Frame):
         self.tasks_iterator = tasks_iterator
         self.master = master
         master.title(
-            _("Reviving Iterative Training with Mask Guidance for Interactive Segmentation")  # noqa: E501
+            _(
+                "Reviving Iterative Training with Mask Guidance for Interactive Segmentation"
+            )  # noqa: E501
         )
         master.withdraw()
         master.update_idletasks()
@@ -102,7 +104,9 @@ class InteractiveDemoApp(ttk.Frame):
     def _handle_classe_finalizada(self, classe):
         messagebox.showwarning(
             _("Class finished"),
-            _("The class '{class_name}' was finalized").format(class_name=classe)
+            _("The class '{class_name}' was finalized").format(
+                class_name=classe
+            ),
         )
 
     def _get_current_task(self, ask_next=False):
@@ -166,7 +170,7 @@ class InteractiveDemoApp(ttk.Frame):
         self.save_mask_btn.configure(state=tk.DISABLED)
 
         self.load_mask_btn = FocusButton(
-            self.menubar, text=_('Load mask'), command=self._load_mask_callback
+            self.menubar, text=_("Load mask"), command=self._load_mask_callback
         )
         self.load_mask_btn.pack(side=tk.LEFT)
         self.load_mask_btn.configure(state=tk.DISABLED)
@@ -429,7 +433,9 @@ class InteractiveDemoApp(ttk.Frame):
         if not self.controller.net.with_prev_mask:
             messagebox.showwarning(
                 _("Warning"),
-                _("The current model doesn't support loading external masks. Please use ITER-M models for that purpose."),
+                _(
+                    "The current model doesn't support loading external masks. Please use ITER-M models for that purpose."
+                ),
             )
             return
 
@@ -535,7 +541,9 @@ class InteractiveDemoApp(ttk.Frame):
         self.canvas.focus_set()
 
         if self.image_on_canvas is None:
-            messagebox.showwarning(_("Warning"), _("Please load an image first"))
+            messagebox.showwarning(
+                _("Warning"), _("Please load an image first")
+            )
             return
 
         if self._check_entry(self):
@@ -636,9 +644,9 @@ def command(subparser):
 
         assert args.input.is_dir(), _("Origin should be a folder")
         # assert args.input.is_dir(), _("Origem precisa ser uma pasta")
-        assert (
-            not args.output.exists() or args.output.is_dir()
-        ), _("Destination should be a folder, if it isn't exist it will be created")
+        assert not args.output.exists() or args.output.is_dir(), _(
+            "Destination should be a folder, if it isn't exist it will be created"
+        )
         # ), "Destino precisa ser uma pasta, se não existe vai ser criada"
 
         torch.backends.cudnn.determistic = True

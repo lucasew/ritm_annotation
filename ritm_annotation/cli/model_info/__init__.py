@@ -18,9 +18,9 @@ def command(subparser):
 
     def handle(args):
         logger.debug(_("Loading model"))
-        assert (
-            args.model.exists() and args.model.is_file()
-        ), _("Model must exist and be a file")
+        assert args.model.exists() and args.model.is_file(), _(
+            "Model must exist and be a file"
+        )
         checkpoint_path = find_checkpoint(args.model.parent, args.model.name)
         state_dict = torch.load(checkpoint_path, map_location="cpu")
         print(f"model {state_dict['config']['class']}")

@@ -39,7 +39,11 @@ class ADE20kDataset(ISDataset):
         elif dry_run:
             annotations = {}
         else:
-            raise RuntimeError(_("Can't find annotations at {anno_path}").format(anno_path=anno_path))
+            raise RuntimeError(
+                _("Can't find annotations at {anno_path}").format(
+                    anno_path=anno_path
+                )
+            )
         self.annotations = annotations
         self.dataset_samples = list(annotations.keys())
 

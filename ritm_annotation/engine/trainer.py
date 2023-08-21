@@ -100,10 +100,18 @@ class ISTrainer(object):
         assert self.valset is not None, _("Missing validation dataset")
 
         logger.info(
-            _("Dataset of {num_samples} samples was loaded for training.").format(num_samples=self.trainset.get_samples_number())  # noqa: E501
+            _(
+                "Dataset of {num_samples} samples was loaded for training."
+            ).format(
+                num_samples=self.trainset.get_samples_number()
+            )  # noqa: E501
         )
         logger.info(
-            _("Dataset of {num_samples} samples was loaded for validation.").format(num_samples=self.valset.get_samples_number())  # noqa: E501
+            _(
+                "Dataset of {num_samples} samples was loaded for validation."
+            ).format(
+                num_samples=self.valset.get_samples_number()
+            )  # noqa: E501
         )
 
         logger.debug(_("Setting up dataloder"))
@@ -169,8 +177,16 @@ class ISTrainer(object):
                 click_model.to(self.device)
                 click_model.eval()
 
-        logger.debug(_("First train batch: {batch}").format(batch=repr(next(iter(self.train_data)))))
-        logger.debug(_("First evaluation batch: {batch}").format(batch=repr(next(iter(self.val_data)))))
+        logger.debug(
+            _("First train batch: {batch}").format(
+                batch=repr(next(iter(self.train_data)))
+            )
+        )
+        logger.debug(
+            _("First evaluation batch: {batch}").format(
+                batch=repr(next(iter(self.val_data)))
+            )
+        )
 
         logger.info(_("Run experiment with config:"))
         logger.info(pprint.pformat(self.cfg, indent=4))
@@ -180,8 +196,12 @@ class ISTrainer(object):
         if start_epoch is None:
             start_epoch = self.cfg.start_epoch
 
-        logger.info(_("Starting Epoch: {start_epoch}").format(start_epoch=start_epoch))
-        logger.info(_("Total Epochs: {num_epochs}").format(num_epochs=num_epochs))
+        logger.info(
+            _("Starting Epoch: {start_epoch}").format(start_epoch=start_epoch)
+        )
+        logger.info(
+            _("Total Epochs: {num_epochs}").format(num_epochs=num_epochs)
+        )
         for epoch in range(start_epoch, num_epochs):
             self.training(epoch)
             if validation:
@@ -267,7 +287,11 @@ class ISTrainer(object):
                     global_step=global_step,
                 )
 
-                tbar.set_description(_("Epoch {epoch}, training loss {train_loss:.8f}").format(epoch=epoch, train_loss=train_loss/(i+1)))
+                tbar.set_description(
+                    _("Epoch {epoch}, training loss {train_loss:.8f}").format(
+                        epoch=epoch, train_loss=train_loss / (i + 1)
+                    )
+                )
                 for metric in self.train_metrics:
                     metric.log_states(
                         self.sw,
@@ -352,7 +376,9 @@ class ISTrainer(object):
 
             if self.is_master:
                 tbar.set_description(
-                    _("Epoch {epoch}, validation loss: {val_loss:.4f}").format(epoch=epoch, val_loss=val_loss/(i + 1))
+                    _("Epoch {epoch}, validation loss: {val_loss:.4f}").format(
+                        epoch=epoch, val_loss=val_loss / (i + 1)
+                    )
                 )
                 for metric in self.val_metrics:
                     metric.log_states(
@@ -561,9 +587,11 @@ class ISTrainer(object):
         if self.cfg.resume_exp is not None:
             checkpoint_glob = f"{self.cfg.resume_prefix}*.pth"
             checkpoints = list(self.cfg.CHECKPOINTS_PATH.glob(checkpoint_glob))
-            assert (
-                len(checkpoints) == 1
-            ), _("'{checkpoint_glob}' didn't match anything").format(checkpoint_glob=f"{self.cfg.CHECKPOINTS_PATH}/{checkpoint_glob}")
+            assert len(checkpoints) == 1, _(
+                "'{checkpoint_glob}' didn't match anything"
+            ).format(
+                checkpoint_glob=f"{self.cfg.CHECKPOINTS_PATH}/{checkpoint_glob}"
+            )
 
             checkpoint_path = checkpoints[0]
             load_weights(net, str(checkpoint_path))
@@ -572,7 +600,11 @@ class ISTrainer(object):
                 load_weights(net, self.cfg.weights)
                 self.cfg.weights = None
             else:
-                raise RuntimeError(_(f"=> no checkpoint found at '{weights_dir}'").format(weights_dir=self.cfg.weights))
+                raise RuntimeError(
+                    _(f"=> no checkpoint found at '{weights_dir}'").format(
+                        weights_dir=self.cfg.weights
+                    )
+                )
 
         return net
 
@@ -634,7 +666,11 @@ def get_next_points(pred, gt, points, click_indx, pred_thresh=0.49):
 
 
 def load_weights(model, path_to_weights):
-    logger.info(_("Loading weights from path: '{path_to_weights}'").format(path_to_weights=path_to_weights))
+    logger.info(
+        _("Loading weights from path: '{path_to_weights}'").format(
+            path_to_weights=path_to_weights
+        )
+    )
     current_state_dict = model.state_dict()
     new_state_dict = torch.load(path_to_weights, map_location="cpu")[
         "state_dict"

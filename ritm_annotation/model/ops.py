@@ -12,11 +12,19 @@ def select_activation_function(activation):
         elif activation.lower() == "softplus":
             return nn.Softplus
         else:
-            raise ValueError(_("Unknown activation type {activation}").format(activation=activation))
+            raise ValueError(
+                _("Unknown activation type {activation}").format(
+                    activation=activation
+                )
+            )
     elif isinstance(activation, nn.Module):
         return activation
     else:
-        raise ValueError(_("Unknown activation type {activation}").format(activation=activation))
+        raise ValueError(
+            _("Unknown activation type {activation}").format(
+                activation=activation
+            )
+        )
 
 
 class BilinearConvTranspose2d(nn.ConvTranspose2d):

@@ -1,6 +1,6 @@
-import ritm_annotation.utils.i18n
-
 from easydict import EasyDict as edict
+
+import ritm_annotation.utils.i18n
 
 from .env import load_cfg_from_env
 

@@ -110,5 +110,9 @@ class ISDataset(torch.utils.data.dataset.Dataset):
             "indices": [x[0] for x in images_scores],
             "probs": probs,
         }
-        print(_("Loaded {num_weights} weights with gamma={gamma}").format(num_weights=len(probs), gamma=samples_scores_gamma))
+        print(
+            _("Loaded {num_weights} weights with gamma={gamma}").format(
+                num_weights=len(probs), gamma=samples_scores_gamma
+            )
+        )
         return samples_scores

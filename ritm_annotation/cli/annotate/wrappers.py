@@ -69,12 +69,11 @@ class BoundedNumericalEntry(tk.Entry):
         mx = "+inf" if self.max_value is None else str(self.max_value)
         messagebox.showwarning(
             _("Incorrect value in input field"),
-            _("Value for {name} should be in [{mn}; {mx}] and of type {vartype}").format(
-                name=self._name,
-                mn=mn,
-                mx=mx,
-                vartype=self.vartype.__name__
-            )
+            _(
+                "Value for {name} should be in [{mn}; {mx}] and of type {vartype}"
+            ).format(
+                name=self._name, mn=mn, mx=mx, vartype=self.vartype.__name__
+            ),
         )
 
         return False
