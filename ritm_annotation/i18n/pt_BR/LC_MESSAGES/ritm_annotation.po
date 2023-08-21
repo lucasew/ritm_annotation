@@ -23,190 +23,190 @@ msgstr "Dar mais detalhes sobre o que está acontecendo"
 
 #: ritm_annotation/cli/__init__.py:43
 msgid "Print version and exit"
-msgstr ""
+msgstr "Exibir versão e sair"
 
 #: ritm_annotation/data/base.py:113
 #, python-brace-format
 msgid "Loaded {num_weights} weights with gamma={gamma}"
-msgstr ""
+msgstr "Carregados {num_weights} pesos com gamma={gamma}"
 
 #: ritm_annotation/data/compose.py:30
 msgid "The number of datasets must match the number of ratios"
-msgstr ""
+msgstr "O número de datasets tem que bater com o número de ratios"
 
 #: ritm_annotation/data/compose.py:33
 msgid "The sum of ratios must be equal to 1"
-msgstr ""
+msgstr "A soma de ratios tem que ser igual a 1"
 
 #: ritm_annotation/engine/trainer.py:98
 msgid "Looking for basic assumptions"
-msgstr ""
+msgstr "Testando as premissas básicas"
 
 #: ritm_annotation/engine/trainer.py:99
 msgid "Missing train dataset"
-msgstr ""
+msgstr "Dataset de treino em falta"
 
 #: ritm_annotation/engine/trainer.py:100
 msgid "Missing validation dataset"
-msgstr ""
+msgstr "Dataset de validação em falta"
 
 #: ritm_annotation/engine/trainer.py:103
 #, python-brace-format
 msgid "Dataset of {num_samples} samples was loaded for training."
-msgstr ""
+msgstr "Dataset com {num_samples} elementos foi carregado apra treino."
 
 #: ritm_annotation/engine/trainer.py:106
 #, python-brace-format
 msgid "Dataset of {num_samples} samples was loaded for validation."
-msgstr ""
+msgstr "Dataset com {num_samples} elementos foi carregado para validação."
 
 #: ritm_annotation/engine/trainer.py:109
 msgid "Setting up dataloder"
-msgstr ""
+msgstr "Configurando dataloader"
 
 #: ritm_annotation/engine/trainer.py:137
 msgid "Initializing model"
-msgstr ""
+msgstr "Inicializando modelo"
 
 #: ritm_annotation/engine/trainer.py:163
 msgid "Initializing click models"
-msgstr ""
+msgstr "Inicializando modelos de clique"
 
 #: ritm_annotation/engine/trainer.py:172
 #, python-brace-format
 msgid "First train batch: {batch}"
-msgstr ""
+msgstr "Primeiro batch de treino: {batch}"
 
 #: ritm_annotation/engine/trainer.py:173
 #, python-brace-format
 msgid "First evaluation batch: {batch}"
-msgstr ""
+msgstr "Primeiro batch de avaliação: {batch}"
 
 #: ritm_annotation/engine/trainer.py:175
 msgid "Run experiment with config:"
-msgstr ""
+msgstr "Execução do experimento com configuração:"
 
 #: ritm_annotation/engine/trainer.py:183
 #, python-brace-format
 msgid "Starting Epoch: {start_epoch}"
-msgstr ""
+msgstr "Iniciando época: {start_epoch}"
 
 #: ritm_annotation/engine/trainer.py:184
 #, python-brace-format
 msgid "Total Epochs: {num_epochs}"
-msgstr ""
+msgstr "Total de épocas: {num_epochs}"
 
 #: ritm_annotation/engine/trainer.py:270
 #, python-brace-format
 msgid "Epoch {epoch}, training loss {train_loss:.8f}"
-msgstr ""
+msgstr "Época {epoch}, loss de treinamento {train_loss:8f}"
 
 #: ritm_annotation/engine/trainer.py:355
 #, python-brace-format
 msgid "Epoch {epoch}, validation loss: {val_loss:.4f}"
-msgstr ""
+msgstr "Época {epoch}, loss de validação {val_loss:4f}"
 
 #: ritm_annotation/engine/trainer.py:365
 msgid "Saving epoch level losses"
-msgstr ""
+msgstr "Salvando losses da época"
 
 #: ritm_annotation/engine/trainer.py:374
 msgid "Saving epoch level metrics"
-msgstr ""
+msgstr "Salvando métricas da época"
 
 #: ritm_annotation/engine/trainer.py:566
 #, python-brace-format
 msgid "'{checkpoint_glob}' didn't match anything"
-msgstr ""
+msgstr "'{checkpoint_glob}' não captou nada"
 
 #: ritm_annotation/engine/trainer.py:575
 #, python-brace-format
 msgid "=> no checkpoint found at '{weights_dir}'"
-msgstr ""
+msgstr "=> sem checkpoint encontrado em '{weights_dir}'"
 
 #: ritm_annotation/engine/trainer.py:637
 #, python-brace-format
 msgid "Loading weights from path: '{path_to_weights}'"
-msgstr ""
+msgstr "Carregando pesos da pasta: '{path_to_weights}'"
 
 #: ritm_annotation/inference/utils.py:156
 #, python-brace-format
 msgid "Eval results for model: {model_name}\n"
-msgstr ""
+msgstr "Resultados da avaliação para o modelo: {model_name}\n"
 
 #: ritm_annotation/model/initializer.py:114
 msgid "Incorrect factor type"
-msgstr ""
+msgstr "Fator de tipo incorreto"
 
 #: ritm_annotation/model/initializer.py:122
 msgid "Unknown random type"
-msgstr ""
+msgstr "Tipo aleatório desconhecido"
 
 #: ritm_annotation/model/ops.py:15 ritm_annotation/model/ops.py:19
 #, python-brace-format
 msgid "Unknown activation type {activation}"
-msgstr ""
+msgstr "Tipo de ativação inválido {activation}"
 
 #: ritm_annotation/models/test_exposed_model_stuff.py:32
 msgid "Remove the main function"
-msgstr ""
+msgstr "Remova a função main"
 
 #: ritm_annotation/utils/env.py:14
 #, python-brace-format
 msgid "Changing configuration entry from environment variable: {k}={v}"
-msgstr ""
+msgstr "Mudando entrada de configuração a partir de variável de ambiente: {k}={v}"
 
 #: ritm_annotation/utils/exp.py:25
 msgid ""
 "Models can only be located in the \"models\" directory in the root of the "
 "repository"
-msgstr ""
+msgstr "Modelos podem só ser carregados da pasta \"models\" na raiz do repositório"
 
 #: ritm_annotation/utils/exp.py:102
 #, python-brace-format
 msgid "Number of GPUs: {n}"
-msgstr ""
+msgstr "Números de GPUs: {n}"
 
 #: ritm_annotation/utils/exp.py:104
 msgid "Multi-Process Multi-GPU Distributed Training"
-msgstr ""
+msgstr "Treinamento Distribuido Multi-Processo Multi-GPU"
 
 #: ritm_annotation/utils/exp.py:141
 #, python-brace-format
 msgid ""
 "No experiments could be found that satisfies the pattern = \"{exp_pattern}\""
-msgstr ""
+msgstr "Nenhum experimento pode ser encontrado que satisfaça o padrão \"{exp_pattern}\""
 
 #: ritm_annotation/utils/exp.py:142
 #, python-brace-format
 msgid "Candidates: {candidates}"
-msgstr ""
+msgstr "Candidatos: {candidates}"
 
 #: ritm_annotation/utils/exp.py:145
 msgid "More than one experiment found:"
-msgstr ""
+msgstr "Mais de um experimento foi encontrado:"
 
 #: ritm_annotation/utils/exp.py:151
 #, python-brace-format
 msgid "Continue with experiment \"{exp_path}\""
-msgstr ""
+msgstr "Continuar com o experimento \"{exp_path}\""
 
 #: ritm_annotation/utils/i18n.py:8
 #, python-brace-format
 msgid "Loading locale data from \"{locale_folder}\""
-msgstr ""
+msgstr "Carregando dados de internacionalização da pasta \"{locale_folder}\""
 
 #: ritm_annotation/utils/misc.py:33
 #, python-brace-format
 msgid "Save checkpoint to {checkpoint_path}"
-msgstr ""
+msgstr "Salvando checkpoint para {checkpoint_path}"
 
 #: ritm_annotation/utils/misc.py:107
 #, python-brace-format
 msgid "Loading module '{module_path}'..."
-msgstr ""
+msgstr "Carregando módulo '{module_path}'..."
 
 #: ritm_annotation/utils/misc.py:109
 #, python-brace-format
-msgid "Can't import model at '{module_path}'"
-msgstr ""
+msgid "Can't import module at '{module_path}'"
+msgstr "Não é possível importar o módulo em '{module_path}'"
