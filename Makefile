@@ -117,7 +117,7 @@ init:             ## Initialize the project based on an application template.
 
 .PHONY: update-locales
 update-locales:
-	xgettext -d ritm_annotation -o ritm_annotation/i18n/ritm_annotation.pot ritm_annotation/*/**.py
+	xgettext -d ritm_annotation -o ritm_annotation/i18n/ritm_annotation.pot --files-from=<(find ritm_annotation -name '*.py')
 	sed -i 's;CHARSET;UTF-8;g' ritm_annotation/i18n/ritm_annotation.pot
 	msgmerge -U ritm_annotation/i18n/pt_BR/LC_MESSAGES/ritm_annotation.po ritm_annotation/i18n/ritm_annotation.pot
 	msgfmt -o ritm_annotation/i18n/pt_BR/LC_MESSAGES/ritm_annotation.mo ritm_annotation/i18n/pt_BR/LC_MESSAGES/ritm_annotation.po

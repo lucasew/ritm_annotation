@@ -62,7 +62,7 @@ def command(parser):
         type=int,
         default=4,
         metavar="N",
-        help=_("Dataloader threads"),
+        help=_("Dataloader threads."),
     )
 
     parser.add_argument(

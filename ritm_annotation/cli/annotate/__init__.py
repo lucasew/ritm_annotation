@@ -101,7 +101,7 @@ class InteractiveDemoApp(ttk.Frame):
 
     def _handle_classe_finalizada(self, classe):
         messagebox.showwarning(
-            _("Classe finalizada"),
+            _("Class finished"),
             _("The class '{class_name}' was finalized").format(class_name=classe)
         )
 
@@ -422,7 +422,7 @@ class InteractiveDemoApp(ttk.Frame):
             current_task = self._get_current_task()
             filename = str(current_task.mask_output.resolve())
             mask = (mask > 0) * 255
-            logger.info(_("Salvando '{filename}'").format(filename=filename))
+            logger.info(_("Salving '{filename}'").format(filename=filename))
             cv2.imwrite(filename, mask)
 
     def _load_mask_callback(self):
@@ -437,7 +437,7 @@ class InteractiveDemoApp(ttk.Frame):
         if self._check_entry(self):
             current_task = self._get_current_task()
             filename = str(current_task.mask_output.resolve())
-            logger.debug(_("Carregando '{filename}'").format(filename=filename))
+            logger.debug(_("Loading '{filename}'").format(filename=filename))
             mask = cv2.imread(filename)[:, :, 0] > 127
             self.controller.set_mask(mask)
             self._update_image()
