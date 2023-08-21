@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-21 15:22-0300\n"
+"POT-Creation-Date: 2023-08-21 15:42-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -154,13 +154,15 @@ msgstr "Remova a função main"
 #: ritm_annotation/utils/env.py:14
 #, python-brace-format
 msgid "Changing configuration entry from environment variable: {k}={v}"
-msgstr "Mudando entrada de configuração a partir de variável de ambiente: {k}={v}"
+msgstr ""
+"Mudando entrada de configuração a partir de variável de ambiente: {k}={v}"
 
 #: ritm_annotation/utils/exp.py:25
 msgid ""
 "Models can only be located in the \"models\" directory in the root of the "
 "repository"
-msgstr "Modelos podem só ser carregados da pasta \"models\" na raiz do repositório"
+msgstr ""
+"Modelos podem só ser carregados da pasta \"models\" na raiz do repositório"
 
 #: ritm_annotation/utils/exp.py:102
 #, python-brace-format
@@ -175,7 +177,9 @@ msgstr "Treinamento Distribuido Multi-Processo Multi-GPU"
 #, python-brace-format
 msgid ""
 "No experiments could be found that satisfies the pattern = \"{exp_pattern}\""
-msgstr "Nenhum experimento pode ser encontrado que satisfaça o padrão \"{exp_pattern}\""
+msgstr ""
+"Nenhum experimento pode ser encontrado que satisfaça o padrão "
+"\"{exp_pattern}\""
 
 #: ritm_annotation/utils/exp.py:142
 #, python-brace-format
@@ -191,7 +195,7 @@ msgstr "Mais de um experimento foi encontrado:"
 msgid "Continue with experiment \"{exp_path}\""
 msgstr "Continuar com o experimento \"{exp_path}\""
 
-#: ritm_annotation/utils/i18n.py:8
+#: ritm_annotation/utils/i18n.py:16
 #, python-brace-format
 msgid "Loading locale data from \"{locale_folder}\""
 msgstr "Carregando dados de internacionalização da pasta \"{locale_folder}\""

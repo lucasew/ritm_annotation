@@ -5,8 +5,6 @@ logger = logging.getLogger(__name__)
 
 locale_dir = Path(__file__).parent.parent / "i18n"
 
-logger.debug(_('Loading locale data from "{locale_folder}"').format(locale_folder=locale_dir))
-
 translations = gettext.translation(
     'ritm_annotation',
     localedir=str(locale_dir),
@@ -14,3 +12,5 @@ translations = gettext.translation(
     # languages=['en'],
 )
 translations.install()
+
+logger.debug(_('Loading locale data from "{locale_folder}"').format(locale_folder=locale_dir))
