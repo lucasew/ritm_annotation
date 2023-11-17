@@ -191,6 +191,7 @@ def command(parser):
         points_sampler = get_points_sampler(model_cfg)
         dataset_common_args = dict(
             images_path=args.images_path,
+            masks_path=args.masks_path,
             keep_background_prob=0.05,
             min_object_area=1000,
             points_sampler=points_sampler,
@@ -205,8 +206,6 @@ def command(parser):
             **dataset_common_args,
         )
         trainer.valset = AnnotationDataset(
-            images_path=args.images_path,
-            masks_path=args.masks_path,
             split="val",
             augmentator=val_augmentator,
             **dataset_common_args,
