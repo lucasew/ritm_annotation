@@ -9,7 +9,6 @@ pillow
 scipy
 tensorboard
 # tkinter==3.10.12 # non nix python has tkinter shipped by default
-torch
 torchvision
 opencv-python-headless
 Cython
