@@ -45,8 +45,9 @@ class InteractiveController:
             messagebox.showwarning(
                 _("Warning"),
                 _(
+                    # noqa: E501
                     "A segmentation mask must have the same sizes as the current image!"
-                ),  # noqa: E501
+                ),
             )
             return
 

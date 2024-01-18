@@ -1,3 +1,5 @@
+# flake8: noqa E501
+
 import logging
 import tkinter as tk
 from pathlib import Path

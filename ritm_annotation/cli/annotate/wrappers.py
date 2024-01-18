@@ -70,6 +70,7 @@ class BoundedNumericalEntry(tk.Entry):
         messagebox.showwarning(
             _("Incorrect value in input field"),
             _(
+                # noqa: E501
                 "Value for {name} should be in [{mn}; {mx}] and of type {vartype}"
             ).format(
                 name=self._name, mn=mn, mx=mx, vartype=self.vartype.__name__
