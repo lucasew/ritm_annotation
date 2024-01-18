@@ -223,7 +223,7 @@ class CanvasImage:
             self.real_scale = (zoom_sx, zoom_sy)
 
             interpolation = (
-                Image.NEAREST if self.current_scale > 2.0 else Image.ANTIALIAS
+                Image.NEAREST if self.current_scale > 2.0 else Image.LANCZOS
             )
             __current_image = __current_image.resize(
                 (crop_zw, crop_zh), interpolation
