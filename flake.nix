@@ -42,6 +42,7 @@
           python3Packages.scipy
           python3Packages.tensorboard
           python3Packages.tkinter
+          python3Packages.tqdm
           python3Packages.pytorch-bin
           python3Packages.torchvision-bin
           python3Packages.opencv4
