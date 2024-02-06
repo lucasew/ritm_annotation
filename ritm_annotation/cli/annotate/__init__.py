@@ -32,7 +32,8 @@ class InteractiveDemoApp(ttk.Frame):
     def __init__(self, master, args, model, tasks_iterator):
         logger.info("Initializing...")
         super().__init__(master)
-        self.tasks_iterator = tasks_iterator
+        self.tasks = list(tasks_iterator)
+        self._current_task_idx = 0
         self.master = master
         master.title(
             _(
@@ -85,6 +86,7 @@ class InteractiveDemoApp(ttk.Frame):
         master.bind("h", lambda event: self._undo_click())
         master.bind("m", lambda event: self._reset_last_object())
         master.bind("n", lambda event: self._load_image_callback())
+        master.bind("b", lambda event: self._goto_previous_task())
 
         self.state["zoomin_params"]["skip_clicks"].trace(
             mode="w", callback=self._reset_predictor
@@ -112,6 +114,22 @@ class InteractiveDemoApp(ttk.Frame):
             ),
         )
 
+    def goto_task(self, idx=None):
+        if idx is None:
+            idx = self._current_task_idx + 1
+        if idx >= len(self.tasks):
+            raise StopIteration()
+        print('goto_task', idx, self.tasks[idx])
+        self._current_task = self.tasks[idx]
+        self._current_task_idx = idx
+        return self._current_task
+
+    def _goto_previous_task(self):
+        if self._current_task_idx < 1:
+            return
+        self._current_task_idx -= 1
+        self._load_image_callback(current_task=self.goto_task(self._current_task_idx))
+
     def _get_current_task(self, ask_next=False):
         current_class = (
             self._current_task.class_name
@@ -121,7 +139,7 @@ class InteractiveDemoApp(ttk.Frame):
         try:
             if self._current_task is None or ask_next:
                 logger.debug(_("Pulling next task from the iterator"))
-                next_task = next(self.tasks_iterator)
+                next_task = self.goto_task()
                 if current_class != next_task.class_name:
                     self._handle_classe_finalizada(current_class)
                 self._current_task = next_task
@@ -171,6 +189,12 @@ class InteractiveDemoApp(ttk.Frame):
         )
         self.save_mask_btn.pack(side=tk.LEFT)
         self.save_mask_btn.configure(state=tk.DISABLED)
+
+        self.previous_image_btn = FocusButton(
+            self.menubar, text=_("Previous image (b)"), command=self._goto_previous_task
+        )
+        self.previous_image_btn.pack(side=tk.LEFT)
+        # self.previous_image_btn.configure(state=tk.DISABLED)
 
         self.load_mask_btn = FocusButton(
             self.menubar, text=_("Load mask"), command=self._load_mask_callback
@@ -402,10 +426,11 @@ class InteractiveDemoApp(ttk.Frame):
             variable=self.state["click_radius"],
         ).pack(padx=10, anchor=tk.CENTER)
 
-    def _load_image_callback(self):
+    def _load_image_callback(self, current_task=None):
         self.menubar.focus_set()
         if self._check_entry(self):
-            current_task = self._get_current_task(ask_next=True)
+            if current_task is None:
+                current_task = self._get_current_task(ask_next=True)
             filename = str(current_task.image.resolve())
             logger.info(_("Loading '{filename}'").format(filename=filename))
             image = cv2.cvtColor(cv2.imread(filename), cv2.COLOR_BGR2RGB)
