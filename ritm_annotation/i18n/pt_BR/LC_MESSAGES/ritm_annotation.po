@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-21 17:18-0300\n"
+"POT-Creation-Date: 2024-02-06 16:59-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ritm_annotation/inference/predictors/__init__.py:48
+#: ritm_annotation/inference/predictors/__init__.py:47
 msgid "Multi-stage models support only NoBRS mode."
 msgstr "Modelos multi estágio suportam apenas o modo NoBRS."
 
@@ -26,12 +26,12 @@ msgid "Eval results for model: {model_name}\n"
 msgstr "Resultados da avaliação para o modelo: {model_name}\n"
 
 #: ritm_annotation/cli/annotate/controller.py:46
-#: ritm_annotation/cli/annotate/__init__.py:431
-#: ritm_annotation/cli/annotate/__init__.py:538
+#: ritm_annotation/cli/annotate/__init__.py:459
+#: ritm_annotation/cli/annotate/__init__.py:569
 msgid "Warning"
 msgstr "Aviso"
 
-#: ritm_annotation/cli/annotate/controller.py:47
+#: ritm_annotation/cli/annotate/controller.py:49
 msgid "A segmentation mask must have the same sizes as the current image!"
 msgstr ""
 "A máscara de segmentação precisa ter os mesmos tamanhos da imagem atual!"
@@ -40,7 +40,7 @@ msgstr ""
 msgid "Incorrect value in input field"
 msgstr "Valor incorreto no campo de entrada"
 
-#: ritm_annotation/cli/annotate/wrappers.py:72
+#: ritm_annotation/cli/annotate/wrappers.py:74
 #, python-brace-format
 msgid "Value for {name} should be in [{mn}; {mx}] and of type {vartype}"
 msgstr "Valor para {name} deve ser entre [{mn}; {mx}] e do tipo {vartype}"
@@ -50,60 +50,60 @@ msgstr "Valor para {name} deve ser entre [{mn}; {mx}] e do tipo {vartype}"
 msgid "Cannot use pack with the widget {name}"
 msgstr "Não é possível usar pack com o widget de nome {name}"
 
-#: ritm_annotation/cli/annotate/canvas.py:49
+#: ritm_annotation/cli/annotate/canvas.py:51
 #, python-brace-format
 msgid "Cannot use place with the widget {name}"
 msgstr "Não é possível usar place com o widget {name}"
 
-#: ritm_annotation/cli/annotate/__init__.py:35
+#: ritm_annotation/cli/annotate/__init__.py:39
 msgid ""
 "Reviving Iterative Training with Mask Guidance for Interactive Segmentation"
 msgstr ""
 "Revivendo Treino Iterativo com Mascaramento Guiado para Segmentação "
 "Interativa"
 
-#: ritm_annotation/cli/annotate/__init__.py:104
+#: ritm_annotation/cli/annotate/__init__.py:109
 msgid "Class finished"
 msgstr "Classe finalizada"
 
-#: ritm_annotation/cli/annotate/__init__.py:105
+#: ritm_annotation/cli/annotate/__init__.py:110
 #, python-brace-format
 msgid "The class '{class_name}' was finalized"
 msgstr "A classe '{class_name}' foi finalizada"
 
-#: ritm_annotation/cli/annotate/__init__.py:112
+#: ritm_annotation/cli/annotate/__init__.py:119
 msgid "* no one *"
 msgstr "* nenhum *"
 
-#: ritm_annotation/cli/annotate/__init__.py:116
+#: ritm_annotation/cli/annotate/__init__.py:123
 msgid "Pulling next task from the iterator"
 msgstr "Puxando a próxima tarefa do iterador"
 
-#: ritm_annotation/cli/annotate/__init__.py:169
+#: ritm_annotation/cli/annotate/__init__.py:176
 msgid "Load mask"
 msgstr "Carregar máscara"
 
-#: ritm_annotation/cli/annotate/__init__.py:175
+#: ritm_annotation/cli/annotate/__init__.py:182
 msgid "About"
 msgstr "Sobre"
 
-#: ritm_annotation/cli/annotate/__init__.py:179
+#: ritm_annotation/cli/annotate/__init__.py:186
 msgid "Exit"
 msgstr "Sair"
 
-#: ritm_annotation/cli/annotate/__init__.py:183
+#: ritm_annotation/cli/annotate/__init__.py:190
 msgid "* status *"
 msgstr "* estado *"
 
-#: ritm_annotation/cli/annotate/__init__.py:206
+#: ritm_annotation/cli/annotate/__init__.py:213
 msgid "Controls"
 msgstr "Controles"
 
-#: ritm_annotation/cli/annotate/__init__.py:228
+#: ritm_annotation/cli/annotate/__init__.py:235
 msgid "Clicks management"
 msgstr "Gerenciamento de cliques"
 
-#: ritm_annotation/cli/annotate/__init__.py:233
+#: ritm_annotation/cli/annotate/__init__.py:240
 msgid ""
 "Finish\n"
 "object"
@@ -111,39 +111,39 @@ msgstr ""
 "Finalizar\n"
 "objeto"
 
-#: ritm_annotation/cli/annotate/__init__.py:268
+#: ritm_annotation/cli/annotate/__init__.py:275
 msgid "ZoomIn options"
 msgstr "Opções de aproximação"
 
-#: ritm_annotation/cli/annotate/__init__.py:273
+#: ritm_annotation/cli/annotate/__init__.py:280
 msgid "Use ZoomIn"
 msgstr "Usar aproximação"
 
-#: ritm_annotation/cli/annotate/__init__.py:279
+#: ritm_annotation/cli/annotate/__init__.py:286
 msgid "Fixed crop"
 msgstr "Corte fixo"
 
-#: ritm_annotation/cli/annotate/__init__.py:283
+#: ritm_annotation/cli/annotate/__init__.py:290
 msgid "Skip clicks"
 msgstr "Pular cliques"
 
-#: ritm_annotation/cli/annotate/__init__.py:286
+#: ritm_annotation/cli/annotate/__init__.py:293
 msgid "Target size"
 msgstr "Tamanho alvo"
 
-#: ritm_annotation/cli/annotate/__init__.py:289
+#: ritm_annotation/cli/annotate/__init__.py:296
 msgid "Expand ratio"
 msgstr "Razão de expansão"
 
-#: ritm_annotation/cli/annotate/__init__.py:318
+#: ritm_annotation/cli/annotate/__init__.py:325
 msgid "BRS options"
 msgstr "Opções de BRS"
 
-#: ritm_annotation/cli/annotate/__init__.py:329
+#: ritm_annotation/cli/annotate/__init__.py:336
 msgid "Network clicks"
 msgstr "Cliques da rede"
 
-#: ritm_annotation/cli/annotate/__init__.py:345
+#: ritm_annotation/cli/annotate/__init__.py:352
 msgid ""
 "L-BFGS\n"
 "max iterations"
@@ -151,30 +151,30 @@ msgstr ""
 "L-BFGS\n"
 "iterações máximas"
 
-#: ritm_annotation/cli/annotate/__init__.py:362
+#: ritm_annotation/cli/annotate/__init__.py:369
 msgid "Predictions threshold"
 msgstr "Limiar de predições"
 
-#: ritm_annotation/cli/annotate/__init__.py:374
+#: ritm_annotation/cli/annotate/__init__.py:381
 msgid "Alpha blending coefficient"
 msgstr "Coeficiente de mistura de alfa"
 
-#: ritm_annotation/cli/annotate/__init__.py:386
+#: ritm_annotation/cli/annotate/__init__.py:393
 msgid "Visualisation click radius"
 msgstr "Raio do ponto de clique"
 
-#: ritm_annotation/cli/annotate/__init__.py:403
-#: ritm_annotation/cli/annotate/__init__.py:440
+#: ritm_annotation/cli/annotate/__init__.py:410
+#: ritm_annotation/cli/annotate/__init__.py:470
 #, python-brace-format
 msgid "Loading '{filename}'"
 msgstr "Carregando '{filename}'"
 
-#: ritm_annotation/cli/annotate/__init__.py:425
+#: ritm_annotation/cli/annotate/__init__.py:449
 #, python-brace-format
-msgid "Salving '{filename}'"
+msgid "Saving '{filename}'"
 msgstr "Salvando '{filename}'"
 
-#: ritm_annotation/cli/annotate/__init__.py:432
+#: ritm_annotation/cli/annotate/__init__.py:461
 msgid ""
 "The current model doesn't support loading external masks. Please use ITER-M "
 "models for that purpose."
@@ -182,39 +182,47 @@ msgstr ""
 "O modelo atual não suporta o carregamento de máscaras externas. Por favor "
 "use modelos ITER-M para isso."
 
-#: ritm_annotation/cli/annotate/__init__.py:449
+#: ritm_annotation/cli/annotate/__init__.py:479
 msgid "Developed by:"
 msgstr "Desenvolvido por:"
 
-#: ritm_annotation/cli/annotate/__init__.py:454
+#: ritm_annotation/cli/annotate/__init__.py:484
 msgid "About Demo"
 msgstr "Sobre a Demo"
 
-#: ritm_annotation/cli/annotate/__init__.py:538
+#: ritm_annotation/cli/annotate/__init__.py:569
 msgid "Please load an image first"
 msgstr "Por favor carregue uma imagem primeiro"
 
-#: ritm_annotation/cli/annotate/__init__.py:606
+#: ritm_annotation/cli/annotate/__init__.py:638
 msgid "Interactively annotate a dataset"
 msgstr "Anotador interativo de dataset"
 
-#: ritm_annotation/cli/annotate/__init__.py:630
+#: ritm_annotation/cli/annotate/__init__.py:643
+msgid "CUDA support not detected. Stuff will be way slower and sluggish!"
+msgstr "Suporte a CUDA não detectado. As coisas funcionarão muito mais lentas e travadas!"
+
+#: ritm_annotation/cli/annotate/__init__.py:664
 msgid "Folder with pre-defined segmentations to be adjusted"
 msgstr "Pasta com segmentações pré-definidas para serem ajustadas"
 
-#: ritm_annotation/cli/annotate/__init__.py:635
+#: ritm_annotation/cli/annotate/__init__.py:669
 msgid "classes: "
 msgstr "classes: "
 
-#: ritm_annotation/cli/annotate/__init__.py:637
+#: ritm_annotation/cli/annotate/__init__.py:671
 msgid "Origin should be a folder"
 msgstr "Origem precisa ser uma pasta"
 
-#: ritm_annotation/cli/annotate/__init__.py:641
+#: ritm_annotation/cli/annotate/__init__.py:674
 msgid "Destination should be a folder, if it isn't exist it will be created"
 msgstr "Destino precisa ser uma pasta, se não existe ela será criada"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:9
+#: ritm_annotation/cli/annotate/__init__.py:679
+msgid "Checkpoint not specified, using default..."
+msgstr "Checkpoint não especificado, usando o padrão..."
+
+#: ritm_annotation/cli/dataset_lint/__init__.py:11
 msgid ""
 "Looks for common problems in datasets in mask form that are used for "
 "finetuning and generated by the annotator"
@@ -222,56 +230,56 @@ msgstr ""
 "Procura por problemas comuns em datasets no formato de máscara que são "
 "usados para fazer ajuste fino e gerados pelo anotador"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:18
+#: ritm_annotation/cli/dataset_lint/__init__.py:21
 msgid "Folder where the ground truths/masks are stored"
 msgstr "Pasta onde as máscaras são salvas"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:25
+#: ritm_annotation/cli/dataset_lint/__init__.py:28
 msgid "Folder where the dataset images are stored"
 msgstr "Pasta onde as iamgens são salvas"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:33
+#: ritm_annotation/cli/dataset_lint/__init__.py:36
 msgid "How many concurrent checks"
 msgstr "Quantas checagens concorrentes"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:37
+#: ritm_annotation/cli/dataset_lint/__init__.py:40
 msgid "Dataset must be a directory"
 msgstr "Dataset deve ser uma pasta"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:40
+#: ritm_annotation/cli/dataset_lint/__init__.py:42
 msgid "Invalid image directory"
 msgstr "Pasta de imagem inválida"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:42
+#: ritm_annotation/cli/dataset_lint/__init__.py:45
 msgid "Using images with masks!"
 msgstr "Usando imagens com máscaras!"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:46
+#: ritm_annotation/cli/dataset_lint/__init__.py:49
 #, python-brace-format
 msgid "'{item}': Dataset noise"
 msgstr "'{item}': Ruído de dataset"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:52
+#: ritm_annotation/cli/dataset_lint/__init__.py:56
 #, python-brace-format
 msgid "'{image_file}': Image file doesn't exist"
 msgstr "'{image_file}': Arquivo de imagem não existe"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:56
+#: ritm_annotation/cli/dataset_lint/__init__.py:64
 #, python-brace-format
 msgid "'{item_img}': Invalid image"
 msgstr "'{item_img}': Imagem inválida"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:62
+#: ritm_annotation/cli/dataset_lint/__init__.py:73
 #, python-brace-format
 msgid "'{mask}': Invalid mask"
 msgstr "'{mask}': Máscara inválida"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:69
+#: ritm_annotation/cli/dataset_lint/__init__.py:81
 #, python-brace-format
 msgid "'{mask}': First dimension doesn't match for image and mask"
 msgstr "'{mask}': Primeira dimensão não é igual para imagem e máscara"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:73
+#: ritm_annotation/cli/dataset_lint/__init__.py:89
 #, python-brace-format
 msgid "'{mask}': Second dimension doesn't match for image and mask"
 msgstr "'{mask}': Segunda dimensão não é igual para imagem e máscara"
@@ -295,8 +303,8 @@ msgstr "Onde guardar dados de experimento"
 msgid "Amount of epochs"
 msgstr "Número de épocas"
 
-#: ritm_annotation/cli/train/__init__.py:42
-#: ritm_annotation/cli/finetune/__init__.py:57
+#: ritm_annotation/cli/train/__init__.py:43
+#: ritm_annotation/cli/finetune/__init__.py:58
 msgid ""
 "Here you can specify the name of the experiment. It will be added as a "
 "suffix to the experiment folder."
@@ -304,20 +312,20 @@ msgstr ""
 "Aqui você pode especificar o nome do experimento. Ele será adicionado como "
 "um sufixo na pasta do experimento."
 
-#: ritm_annotation/cli/train/__init__.py:50
-#: ritm_annotation/cli/finetune/__init__.py:65
+#: ritm_annotation/cli/train/__init__.py:52
+#: ritm_annotation/cli/finetune/__init__.py:67
 msgid "Dataloader threads."
 msgstr "Threads do DataLoader"
 
-#: ritm_annotation/cli/train/__init__.py:59
-#: ritm_annotation/cli/finetune/__init__.py:74
+#: ritm_annotation/cli/train/__init__.py:62
+#: ritm_annotation/cli/finetune/__init__.py:77
 msgid "You can override model batch size by specify positive number."
 msgstr ""
 "Você pode alterar o valor padrão de batch size do modelo ao especificar um "
 "valor positivo."
 
-#: ritm_annotation/cli/train/__init__.py:66
-#: ritm_annotation/cli/finetune/__init__.py:81
+#: ritm_annotation/cli/train/__init__.py:71
+#: ritm_annotation/cli/finetune/__init__.py:86
 msgid ""
 "Number of GPUs. If you only specify \"--gpus\" argument, the ngpus value "
 "will be calculated automatically. You should use either this argument or \"--"
@@ -327,13 +335,13 @@ msgstr ""
 "de ngpus vai ser calculado automaticamente. Você deve ou usar este argumento "
 "ou \"--gpus\"."
 
-#: ritm_annotation/cli/train/__init__.py:74
-#: ritm_annotation/cli/finetune/__init__.py:89
+#: ritm_annotation/cli/train/__init__.py:81
+#: ritm_annotation/cli/finetune/__init__.py:96
 msgid "Ids of used GPUs. You should use either this argument or \"--ngpus\"."
 msgstr "Ids das GPUs usadas. Você deve ou usar este argumento ou \"--ngpus\"."
 
-#: ritm_annotation/cli/train/__init__.py:81
-#: ritm_annotation/cli/finetune/__init__.py:96
+#: ritm_annotation/cli/train/__init__.py:90
+#: ritm_annotation/cli/finetune/__init__.py:105
 msgid ""
 "The prefix of the name of the experiment to be continued. If you use this "
 "field, you must specify the \"--resume-prefix\" argument."
@@ -341,13 +349,13 @@ msgstr ""
 "O prefixo do nome do experimento a ser retomado. Se você definir este "
 "argumento você deve também definir o argumento \"--resume-prefix\""
 
-#: ritm_annotation/cli/train/__init__.py:88
-#: ritm_annotation/cli/finetune/__init__.py:103
+#: ritm_annotation/cli/train/__init__.py:98
+#: ritm_annotation/cli/finetune/__init__.py:113
 msgid "The prefix of the name of the checkpoint to be loaded."
 msgstr "O prefixo do nome do checkpoint a ser carregado."
 
-#: ritm_annotation/cli/train/__init__.py:95
-#: ritm_annotation/cli/finetune/__init__.py:110
+#: ritm_annotation/cli/train/__init__.py:106
+#: ritm_annotation/cli/finetune/__init__.py:121
 msgid ""
 "The number of the starting epoch from which training will continue. (it is "
 "important for correct logging and learning rate)"
@@ -355,32 +363,32 @@ msgstr ""
 "O número da época inicial que o treinamento vai iniciar (é importante para "
 "geração correta dos relatórios e cálculo do learning rate)"
 
-#: ritm_annotation/cli/train/__init__.py:102
-#: ritm_annotation/cli/finetune/__init__.py:117
+#: ritm_annotation/cli/train/__init__.py:115
+#: ritm_annotation/cli/finetune/__init__.py:130
 msgid ""
 "Model weights will be loaded from the specified path if you use this "
 "argument."
 msgstr ""
 "Pesos serão carregados do seguinte caminho se você usar este argumento."
 
-#: ritm_annotation/cli/train/__init__.py:109
-#: ritm_annotation/cli/finetune/__init__.py:124
+#: ritm_annotation/cli/train/__init__.py:123
+#: ritm_annotation/cli/finetune/__init__.py:138
 msgid "Do not use this argument (for internal purposes)."
 msgstr "Não use este argumento (uso interno)."
 
-#: ritm_annotation/cli/train/__init__.py:118
-#: ritm_annotation/cli/finetune/__init__.py:140
+#: ritm_annotation/cli/train/__init__.py:133
+#: ritm_annotation/cli/finetune/__init__.py:157
 msgid "Falling back to temp_model_path because model_path wasn't specified"
 msgstr "Passando a usar temp_model_path porque model_path não foi especificado"
 
-#: ritm_annotation/cli/train/__init__.py:127
-#: ritm_annotation/cli/finetune/__init__.py:149
+#: ritm_annotation/cli/train/__init__.py:144
+#: ritm_annotation/cli/finetune/__init__.py:168
 #, python-brace-format
 msgid "Final model path: '{model_path}'"
 msgstr "Não é possível importar o módulo em '{module_path}'"
 
-#: ritm_annotation/cli/train/__init__.py:139
-#: ritm_annotation/cli/finetune/__init__.py:162
+#: ritm_annotation/cli/train/__init__.py:157
+#: ritm_annotation/cli/finetune/__init__.py:182
 msgid "Basic validations passed"
 msgstr "Dataset de validação em falta"
 
@@ -399,27 +407,27 @@ msgstr "Caminho para as imagens do dataset."
 msgid "Path to the dataset masks."
 msgstr "Caminho para as máscaras do dataset."
 
-#: ritm_annotation/cli/finetune/__init__.py:131
+#: ritm_annotation/cli/finetune/__init__.py:146
 msgid "Resize the input dataset so the bigger dimension is this value"
 msgstr ""
 "Redimensionar o dataset de entrada para que a maior dimensão tenha o "
 "seguinte valor"
 
-#: ritm_annotation/cli/finetune/dataset.py:80
+#: ritm_annotation/cli/finetune/dataset.py:82
 #, python-brace-format
 msgid "AnnotationDataset: found impurities: {item}"
 msgstr "AnnotationDataset: impurezas encontradas: {item}"
 
-#: ritm_annotation/cli/finetune/dataset.py:83
+#: ritm_annotation/cli/finetune/dataset.py:88
 #, python-brace-format
 msgid "Found mask for {item_name} but not image"
 msgstr "Encontrada máscara para {item_name} sem a imagem"
 
-#: ritm_annotation/cli/finetune/dataset.py:100
+#: ritm_annotation/cli/finetune/dataset.py:108
 msgid "split must be either train or val"
 msgstr "split precisa ser ou train ou val"
 
-#: ritm_annotation/cli/finetune/dataset.py:124
+#: ritm_annotation/cli/finetune/dataset.py:133
 #, python-brace-format
 msgid "Processed item {index}: '{item}' (shape: ({w}, {h})"
 msgstr "Processado item {index}: '{item}' (shape: ({w}, {h})"
@@ -440,32 +448,32 @@ msgstr "Mostrar informação sobre um arquivo de modelo pth"
 msgid "Loading model"
 msgstr "Inicializando modelo"
 
-#: ritm_annotation/cli/model_info/__init__.py:23
+#: ritm_annotation/cli/model_info/__init__.py:22
 msgid "Model must exist and be a file"
 msgstr "Modelo precisa existir e ser um arquivo"
 
-#: ritm_annotation/utils/i18n.py:15
+#: ritm_annotation/utils/i18n.py:17
 #, python-brace-format
 msgid "Loading locale data from \"{locale_folder}\""
 msgstr "Carregando dados de internacionalização da pasta \"{locale_folder}\""
 
-#: ritm_annotation/utils/exp.py:25
+#: ritm_annotation/utils/exp.py:26
 msgid ""
 "Models can only be located in the \"models\" directory in the root of the "
 "repository"
 msgstr ""
 "Modelos podem só ser carregados da pasta \"models\" na raiz do repositório"
 
-#: ritm_annotation/utils/exp.py:102
+#: ritm_annotation/utils/exp.py:104
 #, python-brace-format
 msgid "Number of GPUs: {n}"
 msgstr "Números de GPUs: {n}"
 
-#: ritm_annotation/utils/exp.py:104
+#: ritm_annotation/utils/exp.py:106
 msgid "Multi-Process Multi-GPU Distributed Training"
 msgstr "Treinamento Distribuido Multi-Processo Multi-GPU"
 
-#: ritm_annotation/utils/exp.py:141
+#: ritm_annotation/utils/exp.py:145
 #, python-brace-format
 msgid ""
 "No experiments could be found that satisfies the pattern = \"{exp_pattern}\""
@@ -473,57 +481,66 @@ msgstr ""
 "Nenhum experimento pode ser encontrado que satisfaça o padrão "
 "\"{exp_pattern}\""
 
-#: ritm_annotation/utils/exp.py:142
+#: ritm_annotation/utils/exp.py:149
 #, python-brace-format
 msgid "Candidates: {candidates}"
 msgstr "Candidatos: {candidates}"
 
-#: ritm_annotation/utils/exp.py:145
+#: ritm_annotation/utils/exp.py:157
 msgid "More than one experiment found:"
 msgstr "Mais de um experimento foi encontrado:"
 
-#: ritm_annotation/utils/exp.py:151
+#: ritm_annotation/utils/exp.py:164
 #, python-brace-format
 msgid "Continue with experiment \"{exp_path}\""
 msgstr "Continuar com o experimento \"{exp_path}\""
 
-#: ritm_annotation/utils/env.py:14
+#: ritm_annotation/utils/env.py:15
 #, python-brace-format
 msgid "Changing configuration entry from environment variable: {k}={v}"
 msgstr ""
 "Mudando entrada de configuração a partir de variável de ambiente: {k}={v}"
 
-#: ritm_annotation/utils/misc.py:33
+#: ritm_annotation/utils/misc.py:37
 #, python-brace-format
 msgid "Save checkpoint to {checkpoint_path}"
 msgstr "Salvando checkpoint para {checkpoint_path}"
 
-#: ritm_annotation/utils/misc.py:107
+#: ritm_annotation/utils/misc.py:115
 #, python-brace-format
 msgid "Loading module '{module_path}'..."
 msgstr "Carregando módulo '{module_path}'..."
 
-#: ritm_annotation/utils/misc.py:109
+#: ritm_annotation/utils/misc.py:119
 #, python-brace-format
 msgid "Can't import module at '{module_path}'"
 msgstr "Não é possível importar o módulo em '{module_path}'"
 
-#: ritm_annotation/model/ops.py:15 ritm_annotation/model/ops.py:19
+#: ritm_annotation/utils/misc.py:142
+msgid "Downloading"
+msgstr "Baixando"
+
+#: ritm_annotation/utils/misc.py:151
+#, python-brace-format
+msgid "SHA256 of default model is {actual_hash}, expected {expected_hash}"
+msgstr "O SHA256 do modelo padrão é {actual_hash}, esperado {expected_hash}"
+
+#: ritm_annotation/model/ops.py:16 ritm_annotation/model/ops.py:24
 #, python-brace-format
 msgid "Unknown activation type {activation}"
 msgstr "Tipo de ativação inválido {activation}"
 
-#: ritm_annotation/model/modeling/resnet.py:29
+#: ritm_annotation/model/modeling/resnet.py:30
 #, python-brace-format
 msgid "unknown backbone: {backbone}"
 msgstr "backbone desconhecido: {backbone}"
 
-#: ritm_annotation/model/modeling/hrnet_ocr.py:587
+#: ritm_annotation/model/modeling/hrnet_ocr.py:588
 #, python-brace-format
 msgid "File \"{file}\" does not exist."
 msgstr "Arquivo \"{file}\" não existe."
 
-#: ritm_annotation/model/modeling/hrnet_ocr.py:589
+#: ritm_annotation/model/modeling/hrnet_ocr.py:592
 msgid ""
 "You need to specify the correct path to the pre-trained weights.\n"
 "You can download the weights for HRNet from the repository:\n"
@@ -533,12 +550,12 @@ msgstr ""
 "Você pode baixar os pesos para a HRNet do repositório:\n"
 "https://github.com/HRNet/HRNet-Image-Classification"
 
-#: ritm_annotation/model/modeling/resnetv1b.py:343
+#: ritm_annotation/model/modeling/resnetv1b.py:344
 #, python-brace-format
 msgid "=> unknown dilation size: {dilation}"
 msgstr "=> tamanho de dilation desconhecido: {dilation}"
 
-#: ritm_annotation/model/modeling/resnetv1b.py:385
+#: ritm_annotation/model/modeling/resnetv1b.py:387
 #, python-brace-format
 msgid "[ERROR] Failed to load <{k}> in backbone"
 msgstr "[ERRO] Falha ao carregar <{k}> no backbone"
@@ -563,256 +580,275 @@ msgstr "Dataset de treino em falta"
 msgid "Missing validation dataset"
 msgstr "Dataset de validação em falta"
 
-#: ritm_annotation/engine/trainer.py:103
+#: ritm_annotation/engine/trainer.py:104
 #, python-brace-format
 msgid "Dataset of {num_samples} samples was loaded for training."
 msgstr "Dataset com {num_samples} elementos foi carregado apra treino."
 
-#: ritm_annotation/engine/trainer.py:106
+#: ritm_annotation/engine/trainer.py:111
 #, python-brace-format
 msgid "Dataset of {num_samples} samples was loaded for validation."
 msgstr "Dataset com {num_samples} elementos foi carregado para validação."
 
-#: ritm_annotation/engine/trainer.py:109
+#: ritm_annotation/engine/trainer.py:117
 msgid "Setting up dataloder"
 msgstr "Configurando dataloader"
 
-#: ritm_annotation/engine/trainer.py:137
+#: ritm_annotation/engine/trainer.py:145
 msgid "Initializing model"
 msgstr "Inicializando modelo"
 
-#: ritm_annotation/engine/trainer.py:163
+#: ritm_annotation/engine/trainer.py:171
 msgid "Initializing click models"
 msgstr "Inicializando modelos de clique"
 
-#: ritm_annotation/engine/trainer.py:172
+#: ritm_annotation/engine/trainer.py:181
 #, python-brace-format
 msgid "First train batch: {batch}"
 msgstr "Primeiro batch de treino: {batch}"
 
-#: ritm_annotation/engine/trainer.py:173
+#: ritm_annotation/engine/trainer.py:186
 #, python-brace-format
 msgid "First evaluation batch: {batch}"
 msgstr "Primeiro batch de avaliação: {batch}"
 
-#: ritm_annotation/engine/trainer.py:175
+#: ritm_annotation/engine/trainer.py:191
 msgid "Run experiment with config:"
 msgstr "Execução do experimento com configuração:"
 
-#: ritm_annotation/engine/trainer.py:183
+#: ritm_annotation/engine/trainer.py:200
 #, python-brace-format
 msgid "Starting Epoch: {start_epoch}"
 msgstr "Iniciando época: {start_epoch}"
 
-#: ritm_annotation/engine/trainer.py:184
+#: ritm_annotation/engine/trainer.py:203
 #, python-brace-format
 msgid "Total Epochs: {num_epochs}"
 msgstr "Total de épocas: {num_epochs}"
 
-#: ritm_annotation/engine/trainer.py:270
+#: ritm_annotation/engine/trainer.py:291
 #, python-brace-format
 msgid "Epoch {epoch}, training loss {train_loss:.8f}"
 msgstr "Época {epoch}, loss de treinamento {train_loss:8f}"
 
-#: ritm_annotation/engine/trainer.py:355
+#: ritm_annotation/engine/trainer.py:379
 #, python-brace-format
 msgid "Epoch {epoch}, validation loss: {val_loss:.4f}"
 msgstr "Época {epoch}, loss de validação {val_loss:4f}"
 
-#: ritm_annotation/engine/trainer.py:365
+#: ritm_annotation/engine/trainer.py:391
 msgid "Saving epoch level losses"
 msgstr "Salvando losses da época"
 
-#: ritm_annotation/engine/trainer.py:374
+#: ritm_annotation/engine/trainer.py:400
 msgid "Saving epoch level metrics"
 msgstr "Salvando métricas da época"
 
-#: ritm_annotation/engine/trainer.py:566
+#: ritm_annotation/engine/trainer.py:591
 #, python-brace-format
 msgid "'{checkpoint_glob}' didn't match anything"
 msgstr "'{checkpoint_glob}' não captou nada"
 
-#: ritm_annotation/engine/trainer.py:575
+#: ritm_annotation/engine/trainer.py:604
 #, python-brace-format
 msgid "=> no checkpoint found at '{weights_dir}'"
 msgstr "=> sem checkpoint encontrado em '{weights_dir}'"
 
-#: ritm_annotation/engine/trainer.py:637
+#: ritm_annotation/engine/trainer.py:670
 #, python-brace-format
 msgid "Loading weights from path: '{path_to_weights}'"
 msgstr "Carregando pesos da pasta: '{path_to_weights}'"
 
-#: ritm_annotation/data/compose.py:30
+#: ritm_annotation/data/compose.py:29
 msgid "The number of datasets must match the number of ratios"
 msgstr "O número de datasets tem que bater com o número de ratios"
 
-#: ritm_annotation/data/compose.py:33
+#: ritm_annotation/data/compose.py:32
 msgid "The sum of ratios must be equal to 1"
 msgstr "A soma de ratios tem que ser igual a 1"
 
-#: ritm_annotation/data/base.py:113
+#: ritm_annotation/data/base.py:114
 #, python-brace-format
 msgid "Loaded {num_weights} weights with gamma={gamma}"
 msgstr "Carregados {num_weights} pesos com gamma={gamma}"
 
-#: ritm_annotation/data/datasets/ade20k.py:42
-#: ritm_annotation/data/datasets/openimages.py:34
+#: ritm_annotation/data/datasets/ade20k.py:43
+#: ritm_annotation/data/datasets/openimages.py:35
 #, python-brace-format
 msgid "Can't find annotations at {anno_path}"
 msgstr "Anotações não encontradas em {anno_path}"
 
-#: ritm_annotation/models/test_exposed_model_stuff.py:33
+#: ritm_annotation/models/test_exposed_model_stuff.py:31
 msgid "Remove the main function"
 msgstr "Remova a função main"
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:296
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:299
 msgid "usage: "
 msgstr "uso: "
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:868
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:776
+#, python-format
+msgid "argument %(argument_name)s: %(message)s"
+msgstr ""
+
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:882
 msgid ".__call__() not defined"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1211
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1192
+#, python-format
+msgid "conflicting subparser: %s"
+msgstr ""
+
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1196
+#, python-format
+msgid "conflicting subparser alias: %s"
+msgstr ""
+
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1231
 #, python-format
 msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1271
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1291
 #, python-format
 msgid "argument \"-\" with mode %r"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1280
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1300
 #, python-format
 msgid "can't open '%(filename)s': %(error)s"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1489
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1509
 #, python-format
 msgid "cannot merge actions - two groups are named %r"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1527
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1547
 msgid "'required' is an invalid argument for positionals"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1549
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1569
 #, python-format
 msgid ""
 "invalid option string %(option)r: must start with a character "
 "%(prefix_chars)r"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1567
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1587
 #, python-format
 msgid "dest= is required for options like %r"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1584
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1604
 #, python-format
 msgid "invalid conflict_resolution value: %r"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1602
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1622
 #, python-format
 msgid "conflicting option string: %s"
 msgid_plural "conflicting option strings: %s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1668
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1696
 msgid "mutually exclusive arguments must be optional"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1736
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1772
 msgid "positional arguments"
 msgstr "argumentos posicionais"
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1737
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1773
 msgid "options"
 msgstr "opções"
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1752
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1788
 msgid "show this help message and exit"
 msgstr "Mostra esta mensagem de ajuda e sai"
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1783
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1819
 msgid "cannot have multiple subparser arguments"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1835
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2350
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1871
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2384
 #, python-format
 msgid "unrecognized arguments: %s"
 msgstr "argumentos desconhecidos: %s"
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1936
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:1971
 #, python-format
 msgid "not allowed with argument %s"
 msgstr "não permitido com argumento %s"
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:1986
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2000
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2021
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2035
 #, python-format
 msgid "ignored explicit argument %r"
 msgstr "argumento explícito ignorado %r"
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2107
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2142
 #, python-format
 msgid "the following arguments are required: %s"
 msgstr "os argumentos a seguir são obrigatórios: %s"
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2122
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2157
 #, python-format
 msgid "one of the arguments %s is required"
 msgstr "um dos argumentos %s é obrigatório"
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2165
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2199
 msgid "expected one argument"
 msgstr "esperado um argumento"
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2166
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2200
 msgid "expected at most one argument"
 msgstr "esperado no máximo um argumento"
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2167
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2201
 msgid "expected at least one argument"
 msgstr "esperado pelo menos um argumento"
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2171
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2205
 #, python-format
 msgid "expected %s argument"
 msgid_plural "expected %s arguments"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2229
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2263
 #, python-format
 msgid "ambiguous option: %(option)s could match %(matches)s"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2293
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2327
 #, python-format
 msgid "unexpected option string: %s"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2490
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2524
 #, python-format
 msgid "%r is not callable"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2507
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2541
 #, python-format
 msgid "invalid %(type)s value: %(value)r"
 msgstr ""
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2518
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2552
 #, python-format
 msgid "invalid choice: %(value)r (choose from %(choices)s)"
 msgstr "escolha inválida: %(value)r (escolha entre %(choices)s)"
 
-#: /nix/store/jhflvwr40xbb0xr6jx4311icp9cym1fp-python3-3.10.12/lib/python3.10/argparse.py:2594
+#: /nix/store/asiphbpiy2gmidfm3xbwcikayhs66289-python3-3.11.7/lib/python3.11/argparse.py:2630
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr "%(prog)s: erro: %(message)s\n"
+
+#, python-brace-format
+#~ msgid "Salving '{filename}'"
+#~ msgstr "Salvando '{filename}'"

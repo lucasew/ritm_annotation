@@ -27,6 +27,7 @@
       devShells.default = pkgs.mkShell {
         buildInputs = with pkgs; [
           gnumake
+          gettext # i18n
           # dev
           python3Packages.pylsp-mypy
           python3Packages.isort
