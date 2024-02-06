@@ -639,6 +639,8 @@ COMMAND_DESCRIPTION = _("Interactively annotate a dataset")
 
 
 def command(subparser):
+    if not torch.cuda.is_available():
+        logger.warn(_("CUDA support not detected. Stuff will be way slower and sluggish!"))
     subparser.add_argument("input", type=Path)
     subparser.add_argument("output", type=Path)
     subparser.add_argument(
