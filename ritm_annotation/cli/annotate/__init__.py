@@ -5,6 +5,7 @@ import tkinter as tk
 from pathlib import Path
 from sys import exit
 from tkinter import messagebox, ttk
+import json
 
 import cv2
 import numpy as np
@@ -81,7 +82,7 @@ class InteractiveDemoApp(ttk.Frame):
             ),
         )
         master.bind("l", lambda event: self._save_mask_callback())
-        master.bind("h", lambda event: self.controller.undo_click())
+        master.bind("h", lambda event: self._undo_click())
         master.bind("m", lambda event: self._reset_last_object())
         master.bind("n", lambda event: self._load_image_callback())
 
@@ -255,7 +256,7 @@ class InteractiveDemoApp(ttk.Frame):
             width=10,
             height=2,
             state=tk.DISABLED,
-            command=self.controller.undo_click,
+            command=self._undo_click,
         )
         self.undo_click_button.pack(side=tk.LEFT, fill=tk.X, padx=10, pady=3)
         self.reset_clicks_button = FocusButton(
@@ -409,15 +410,32 @@ class InteractiveDemoApp(ttk.Frame):
             logger.info(_("Loading '{filename}'").format(filename=filename))
             image = cv2.cvtColor(cv2.imread(filename), cv2.COLOR_BGR2RGB)
             self.controller.set_image(image)
-            if (
-                current_task.seed_mask is not None
-                and current_task.seed_mask.exists()
-            ):
-                mask = cv2.imread(str(current_task.seed_mask), 0)
-                self.controller.set_mask(mask)
+            points_json_name = current_task.class_name + ".json"
+            points_json = current_task.output_dir / points_json_name
+            if current_task.seed_mask is not None:
+                points_json = current_task.seed_mask.parent / points_json_name
+                if not points_json.exists():
+                    points_json = current_task.output_dir / points_json_name
+            if points_json.exists():
+                with points_json.open('r') as f:
+                    data = json.load(f)
+                    for item in data:
+                        self._click_callback(item['is_positive'], item['coords'][1], item['coords'][0])
+                    # from ritm_annotation.inference.clicker import Click
+                    # data = [Click(item['is_positive'], item['coords'][1], item['coords'][0]) for item in data]
+            else:
+                if current_task.seed_mask is not None:
+                    if current_task.seed_mask.exists():
+                        mask = cv2.imread(str(current_task.seed_mask), 0)
+                        self.controller.set_mask(mask)
             self.save_mask_btn.configure(state=tk.NORMAL)
             self.load_mask_btn.configure(state=tk.NORMAL)
             self._update_image()
+            self._reset_predictor()
+
+    def _undo_click(self):
+        self.controller.undo_click()
+        self._update_image()
 
     def _save_mask_callback(self):
         self.menubar.focus_set()
@@ -428,8 +446,12 @@ class InteractiveDemoApp(ttk.Frame):
             current_task = self._get_current_task()
             filename = str(current_task.mask_output.resolve())
             mask = (mask > 0) * 255
-            logger.info(_("Salving '{filename}'").format(filename=filename))
+            logger.info(_("Saving '{filename}'").format(filename=filename))
             cv2.imwrite(filename, mask)
+            points_json = current_task.output_dir / (current_task.class_name + ".json")
+            with points_json.open('w') as f:
+                # json.dump(self.controller.states, f)
+                json.dump([item.to_json() for item in self.controller.clicker.get_state()], f)
 
     def _load_mask_callback(self):
         if not self.controller.net.with_prev_mask:
@@ -673,6 +695,7 @@ def command(subparser):
                         continue
                     yield edict(
                         dict(
+                            output_dir=output_dir,
                             image=image,
                             name=image_name,
                             mask_output=mask_output,
