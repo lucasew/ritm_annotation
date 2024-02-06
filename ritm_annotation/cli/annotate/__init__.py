@@ -178,20 +178,20 @@ class InteractiveDemoApp(ttk.Frame):
 
         button = FocusButton(
             self.menubar,
-            text=f"{_('Load image')} (n)",
+            text=_("Load image") +  " (n)",
             command=self._load_image_callback,
         )
         button.pack(side=tk.LEFT)
         self.save_mask_btn = FocusButton(
             self.menubar,
-            text=f"{_('Save mask')} (l)",
+            text=_("Save mask") +  " (l)",
             command=self._save_mask_callback,
         )
         self.save_mask_btn.pack(side=tk.LEFT)
         self.save_mask_btn.configure(state=tk.DISABLED)
 
         self.previous_image_btn = FocusButton(
-            self.menubar, text=_("Previous image (b)"), command=self._goto_previous_task
+            self.menubar, text=_("Previous image") + " (b)", command=self._goto_previous_task
         )
         self.previous_image_btn.pack(side=tk.LEFT)
         # self.previous_image_btn.configure(state=tk.DISABLED)

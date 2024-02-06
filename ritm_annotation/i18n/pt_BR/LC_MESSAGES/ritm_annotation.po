@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-06 16:59-0300\n"
+"POT-Creation-Date: 2024-02-06 17:36-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,8 +26,8 @@ msgid "Eval results for model: {model_name}\n"
 msgstr "Resultados da avaliação para o modelo: {model_name}\n"
 
 #: ritm_annotation/cli/annotate/controller.py:46
-#: ritm_annotation/cli/annotate/__init__.py:459
-#: ritm_annotation/cli/annotate/__init__.py:569
+#: ritm_annotation/cli/annotate/__init__.py:484
+#: ritm_annotation/cli/annotate/__init__.py:594
 msgid "Warning"
 msgstr "Aviso"
 
@@ -55,55 +55,67 @@ msgstr "Não é possível usar pack com o widget de nome {name}"
 msgid "Cannot use place with the widget {name}"
 msgstr "Não é possível usar place com o widget {name}"
 
-#: ritm_annotation/cli/annotate/__init__.py:39
+#: ritm_annotation/cli/annotate/__init__.py:40
 msgid ""
 "Reviving Iterative Training with Mask Guidance for Interactive Segmentation"
 msgstr ""
 "Revivendo Treino Iterativo com Mascaramento Guiado para Segmentação "
 "Interativa"
 
-#: ritm_annotation/cli/annotate/__init__.py:109
+#: ritm_annotation/cli/annotate/__init__.py:111
 msgid "Class finished"
 msgstr "Classe finalizada"
 
-#: ritm_annotation/cli/annotate/__init__.py:110
+#: ritm_annotation/cli/annotate/__init__.py:112
 #, python-brace-format
 msgid "The class '{class_name}' was finalized"
 msgstr "A classe '{class_name}' foi finalizada"
 
-#: ritm_annotation/cli/annotate/__init__.py:119
+#: ritm_annotation/cli/annotate/__init__.py:137
 msgid "* no one *"
 msgstr "* nenhum *"
 
-#: ritm_annotation/cli/annotate/__init__.py:123
+#: ritm_annotation/cli/annotate/__init__.py:141
 msgid "Pulling next task from the iterator"
 msgstr "Puxando a próxima tarefa do iterador"
 
-#: ritm_annotation/cli/annotate/__init__.py:176
+#: ritm_annotation/cli/annotate/__init__.py:181
+msgid "Load image"
+msgstr "Carregar imagem"
+
+#: ritm_annotation/cli/annotate/__init__.py:187
+msgid "Save mask"
+msgstr "Carregar máscara"
+
+#: ritm_annotation/cli/annotate/__init__.py:194
+msgid "Previous image"
+msgstr "Imagem anterior"
+
+#: ritm_annotation/cli/annotate/__init__.py:200
 msgid "Load mask"
 msgstr "Carregar máscara"
 
-#: ritm_annotation/cli/annotate/__init__.py:182
+#: ritm_annotation/cli/annotate/__init__.py:206
 msgid "About"
 msgstr "Sobre"
 
-#: ritm_annotation/cli/annotate/__init__.py:186
+#: ritm_annotation/cli/annotate/__init__.py:210
 msgid "Exit"
 msgstr "Sair"
 
-#: ritm_annotation/cli/annotate/__init__.py:190
+#: ritm_annotation/cli/annotate/__init__.py:214
 msgid "* status *"
 msgstr "* estado *"
 
-#: ritm_annotation/cli/annotate/__init__.py:213
+#: ritm_annotation/cli/annotate/__init__.py:237
 msgid "Controls"
 msgstr "Controles"
 
-#: ritm_annotation/cli/annotate/__init__.py:235
+#: ritm_annotation/cli/annotate/__init__.py:259
 msgid "Clicks management"
 msgstr "Gerenciamento de cliques"
 
-#: ritm_annotation/cli/annotate/__init__.py:240
+#: ritm_annotation/cli/annotate/__init__.py:264
 msgid ""
 "Finish\n"
 "object"
@@ -111,39 +123,39 @@ msgstr ""
 "Finalizar\n"
 "objeto"
 
-#: ritm_annotation/cli/annotate/__init__.py:275
+#: ritm_annotation/cli/annotate/__init__.py:299
 msgid "ZoomIn options"
 msgstr "Opções de aproximação"
 
-#: ritm_annotation/cli/annotate/__init__.py:280
+#: ritm_annotation/cli/annotate/__init__.py:304
 msgid "Use ZoomIn"
 msgstr "Usar aproximação"
 
-#: ritm_annotation/cli/annotate/__init__.py:286
+#: ritm_annotation/cli/annotate/__init__.py:310
 msgid "Fixed crop"
 msgstr "Corte fixo"
 
-#: ritm_annotation/cli/annotate/__init__.py:290
+#: ritm_annotation/cli/annotate/__init__.py:314
 msgid "Skip clicks"
 msgstr "Pular cliques"
 
-#: ritm_annotation/cli/annotate/__init__.py:293
+#: ritm_annotation/cli/annotate/__init__.py:317
 msgid "Target size"
 msgstr "Tamanho alvo"
 
-#: ritm_annotation/cli/annotate/__init__.py:296
+#: ritm_annotation/cli/annotate/__init__.py:320
 msgid "Expand ratio"
 msgstr "Razão de expansão"
 
-#: ritm_annotation/cli/annotate/__init__.py:325
+#: ritm_annotation/cli/annotate/__init__.py:349
 msgid "BRS options"
 msgstr "Opções de BRS"
 
-#: ritm_annotation/cli/annotate/__init__.py:336
+#: ritm_annotation/cli/annotate/__init__.py:360
 msgid "Network clicks"
 msgstr "Cliques da rede"
 
-#: ritm_annotation/cli/annotate/__init__.py:352
+#: ritm_annotation/cli/annotate/__init__.py:376
 msgid ""
 "L-BFGS\n"
 "max iterations"
@@ -151,30 +163,30 @@ msgstr ""
 "L-BFGS\n"
 "iterações máximas"
 
-#: ritm_annotation/cli/annotate/__init__.py:369
+#: ritm_annotation/cli/annotate/__init__.py:393
 msgid "Predictions threshold"
 msgstr "Limiar de predições"
 
-#: ritm_annotation/cli/annotate/__init__.py:381
+#: ritm_annotation/cli/annotate/__init__.py:405
 msgid "Alpha blending coefficient"
 msgstr "Coeficiente de mistura de alfa"
 
-#: ritm_annotation/cli/annotate/__init__.py:393
+#: ritm_annotation/cli/annotate/__init__.py:417
 msgid "Visualisation click radius"
 msgstr "Raio do ponto de clique"
 
-#: ritm_annotation/cli/annotate/__init__.py:410
-#: ritm_annotation/cli/annotate/__init__.py:470
+#: ritm_annotation/cli/annotate/__init__.py:435
+#: ritm_annotation/cli/annotate/__init__.py:495
 #, python-brace-format
 msgid "Loading '{filename}'"
 msgstr "Carregando '{filename}'"
 
-#: ritm_annotation/cli/annotate/__init__.py:449
+#: ritm_annotation/cli/annotate/__init__.py:474
 #, python-brace-format
 msgid "Saving '{filename}'"
 msgstr "Salvando '{filename}'"
 
-#: ritm_annotation/cli/annotate/__init__.py:461
+#: ritm_annotation/cli/annotate/__init__.py:486
 msgid ""
 "The current model doesn't support loading external masks. Please use ITER-M "
 "models for that purpose."
@@ -182,43 +194,45 @@ msgstr ""
 "O modelo atual não suporta o carregamento de máscaras externas. Por favor "
 "use modelos ITER-M para isso."
 
-#: ritm_annotation/cli/annotate/__init__.py:479
+#: ritm_annotation/cli/annotate/__init__.py:504
 msgid "Developed by:"
 msgstr "Desenvolvido por:"
 
-#: ritm_annotation/cli/annotate/__init__.py:484
+#: ritm_annotation/cli/annotate/__init__.py:509
 msgid "About Demo"
 msgstr "Sobre a Demo"
 
-#: ritm_annotation/cli/annotate/__init__.py:569
+#: ritm_annotation/cli/annotate/__init__.py:594
 msgid "Please load an image first"
 msgstr "Por favor carregue uma imagem primeiro"
 
-#: ritm_annotation/cli/annotate/__init__.py:638
+#: ritm_annotation/cli/annotate/__init__.py:663
 msgid "Interactively annotate a dataset"
 msgstr "Anotador interativo de dataset"
 
-#: ritm_annotation/cli/annotate/__init__.py:643
+#: ritm_annotation/cli/annotate/__init__.py:668
 msgid "CUDA support not detected. Stuff will be way slower and sluggish!"
-msgstr "Suporte a CUDA não detectado. As coisas funcionarão muito mais lentas e travadas!"
+msgstr ""
+"Suporte a CUDA não detectado. As coisas funcionarão muito mais lentas e "
+"travadas!"
 
-#: ritm_annotation/cli/annotate/__init__.py:664
+#: ritm_annotation/cli/annotate/__init__.py:689
 msgid "Folder with pre-defined segmentations to be adjusted"
 msgstr "Pasta com segmentações pré-definidas para serem ajustadas"
 
-#: ritm_annotation/cli/annotate/__init__.py:669
+#: ritm_annotation/cli/annotate/__init__.py:694
 msgid "classes: "
 msgstr "classes: "
 
-#: ritm_annotation/cli/annotate/__init__.py:671
+#: ritm_annotation/cli/annotate/__init__.py:696
 msgid "Origin should be a folder"
 msgstr "Origem precisa ser uma pasta"
 
-#: ritm_annotation/cli/annotate/__init__.py:674
+#: ritm_annotation/cli/annotate/__init__.py:699
 msgid "Destination should be a folder, if it isn't exist it will be created"
 msgstr "Destino precisa ser uma pasta, se não existe ela será criada"
 
-#: ritm_annotation/cli/annotate/__init__.py:679
+#: ritm_annotation/cli/annotate/__init__.py:704
 msgid "Checkpoint not specified, using default..."
 msgstr "Checkpoint não especificado, usando o padrão..."
 
