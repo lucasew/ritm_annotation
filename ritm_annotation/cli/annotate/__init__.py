@@ -22,7 +22,7 @@ from ritm_annotation.cli.annotate.wrappers import (
     FocusLabelFrame,
 )
 from ritm_annotation.inference.utils import find_checkpoint, load_is_model
-from ritm_annotation.utils.misc import ignore_params_then_call
+from ritm_annotation.utils.misc import ignore_params_then_call, get_default_weight
 
 logger = logging.getLogger(__name__)
 
@@ -630,7 +630,7 @@ def command(subparser):
         "-c", "--classes", dest="classes", type=str, required=True, nargs="+"
     )
     subparser.add_argument(
-        "-w", "--checkpoint", dest="checkpoint", type=Path, required=True
+        "-w", "--checkpoint", dest="checkpoint", type=Path
     )
     subparser.add_argument(
         "-s",
@@ -650,6 +650,10 @@ def command(subparser):
             "Destination should be a folder, if it isn't exist it will be created"
         )
         # ), "Destino precisa ser uma pasta, se não existe vai ser criada"
+
+        if args.checkpoint is None:
+            logger.info(_("Checkpoint not specified, using default..."))
+            args.checkpoint = get_default_weight()
 
         torch.backends.cudnn.determistic = True
 

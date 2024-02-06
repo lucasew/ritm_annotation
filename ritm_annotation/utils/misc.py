@@ -4,6 +4,9 @@ import logging
 import numpy as np
 import torch
 
+from tqdm import tqdm
+from pathlib import Path
+
 logger = logging.getLogger(__name__)
 
 
@@ -119,3 +122,41 @@ def load_module(script_path, module_name="module"):
     spec.loader.exec_module(model_script)
 
     return model_script
+
+def get_default_weight():
+    from urllib.request import urlopen
+    from hashlib import sha256
+    OUTPUT_DIR = Path.home() / ".cache" / "ritm_annotation"
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    DEFAULT_MODEL_URL = "https://github.com/SamsungLabs/ritm_interactive_segmentation/releases/download/v1.0/coco_lvis_h18_itermask.pth"
+    DEFAULT_MODEL_FILE = OUTPUT_DIR / "coco_lvis_h18_itermask.pth"
+    DEFAULT_MODEL_SHA256 = "5f69cfce354d1507e3850bfc39ee7057c8dd27b6a4910d1d2dc724916b9ee32b"
+    if DEFAULT_MODEL_FILE.exists():
+        return DEFAULT_MODEL_FILE
+    try:
+        hasher = sha256()
+        with urlopen(DEFAULT_MODEL_URL) as req:
+            with DEFAULT_MODEL_FILE.open('wb') as f:
+                file_size = int(req.headers['Content-Length'])
+                print(file_size, type(file_size))
+                ops = tqdm(total=file_size, desc=_("Downloading") + f" {DEFAULT_MODEL_URL}")
+                while True:
+                    buf = req.read(16*1024)
+                    if not buf:
+                        break
+                    hasher.update(buf)
+                    f.write(buf)
+                    ops.update(len(buf))
+        if hasher.hexdigest() != DEFAULT_MODEL_SHA256:
+            logger.warning(_("SHA256 of default model is {actual_hash}, expected {expected_hash}").format(
+                actual_hash=hasher.hexdigest(),
+                expected_hash=DEFAULT_MODEL_SHA256
+            ))
+        return DEFAULT_MODEL_FILE
+    except Exception as e: # se erro deletar o arquivo
+        DEFAULT_MODEL_FILE.unlink()
+        import traceback
+        traceback.print_exc()
+        raise e
+
+
