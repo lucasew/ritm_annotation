@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-19 13:50-0300\n"
+"POT-Creation-Date: 2024-02-19 14:25-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,8 +26,8 @@ msgid "Eval results for model: {model_name}\n"
 msgstr "Resultados da avaliação para o modelo: {model_name}\n"
 
 #: ritm_annotation/cli/annotate/controller.py:46
-#: ritm_annotation/cli/annotate/__init__.py:484
-#: ritm_annotation/cli/annotate/__init__.py:594
+#: ritm_annotation/cli/annotate/annotator.py:484
+#: ritm_annotation/cli/annotate/annotator.py:594
 msgid "Warning"
 msgstr "Aviso"
 
@@ -55,67 +55,67 @@ msgstr "Não é possível usar pack com o widget de nome {name}"
 msgid "Cannot use place with the widget {name}"
 msgstr "Não é possível usar place com o widget {name}"
 
-#: ritm_annotation/cli/annotate/__init__.py:40
+#: ritm_annotation/cli/annotate/annotator.py:40
 msgid ""
 "Reviving Iterative Training with Mask Guidance for Interactive Segmentation"
 msgstr ""
 "Revivendo Treino Iterativo com Mascaramento Guiado para Segmentação "
 "Interativa"
 
-#: ritm_annotation/cli/annotate/__init__.py:111
+#: ritm_annotation/cli/annotate/annotator.py:111
 msgid "Class finished"
 msgstr "Classe finalizada"
 
-#: ritm_annotation/cli/annotate/__init__.py:112
+#: ritm_annotation/cli/annotate/annotator.py:112
 #, python-brace-format
 msgid "The class '{class_name}' was finalized"
 msgstr "A classe '{class_name}' foi finalizada"
 
-#: ritm_annotation/cli/annotate/__init__.py:137
+#: ritm_annotation/cli/annotate/annotator.py:137
 msgid "* no one *"
 msgstr "* nenhum *"
 
-#: ritm_annotation/cli/annotate/__init__.py:141
+#: ritm_annotation/cli/annotate/annotator.py:141
 msgid "Pulling next task from the iterator"
 msgstr "Puxando a próxima tarefa do iterador"
 
-#: ritm_annotation/cli/annotate/__init__.py:181
+#: ritm_annotation/cli/annotate/annotator.py:181
 msgid "Load image"
 msgstr "Carregar imagem"
 
-#: ritm_annotation/cli/annotate/__init__.py:187
+#: ritm_annotation/cli/annotate/annotator.py:187
 msgid "Save mask"
 msgstr "Salvar máscara"
 
-#: ritm_annotation/cli/annotate/__init__.py:194
+#: ritm_annotation/cli/annotate/annotator.py:194
 msgid "Previous image"
 msgstr "Imagem anterior"
 
-#: ritm_annotation/cli/annotate/__init__.py:200
+#: ritm_annotation/cli/annotate/annotator.py:200
 msgid "Load mask"
 msgstr "Carregar máscara"
 
-#: ritm_annotation/cli/annotate/__init__.py:206
+#: ritm_annotation/cli/annotate/annotator.py:206
 msgid "About"
 msgstr "Sobre"
 
-#: ritm_annotation/cli/annotate/__init__.py:210
+#: ritm_annotation/cli/annotate/annotator.py:210
 msgid "Exit"
 msgstr "Sair"
 
-#: ritm_annotation/cli/annotate/__init__.py:214
+#: ritm_annotation/cli/annotate/annotator.py:214
 msgid "* status *"
 msgstr "* estado *"
 
-#: ritm_annotation/cli/annotate/__init__.py:237
+#: ritm_annotation/cli/annotate/annotator.py:237
 msgid "Controls"
 msgstr "Controles"
 
-#: ritm_annotation/cli/annotate/__init__.py:259
+#: ritm_annotation/cli/annotate/annotator.py:259
 msgid "Clicks management"
 msgstr "Gerenciamento de cliques"
 
-#: ritm_annotation/cli/annotate/__init__.py:264
+#: ritm_annotation/cli/annotate/annotator.py:264
 msgid ""
 "Finish\n"
 "object"
@@ -123,39 +123,39 @@ msgstr ""
 "Finalizar\n"
 "objeto"
 
-#: ritm_annotation/cli/annotate/__init__.py:299
+#: ritm_annotation/cli/annotate/annotator.py:299
 msgid "ZoomIn options"
 msgstr "Opções de aproximação"
 
-#: ritm_annotation/cli/annotate/__init__.py:304
+#: ritm_annotation/cli/annotate/annotator.py:304
 msgid "Use ZoomIn"
 msgstr "Usar aproximação"
 
-#: ritm_annotation/cli/annotate/__init__.py:310
+#: ritm_annotation/cli/annotate/annotator.py:310
 msgid "Fixed crop"
 msgstr "Corte fixo"
 
-#: ritm_annotation/cli/annotate/__init__.py:314
+#: ritm_annotation/cli/annotate/annotator.py:314
 msgid "Skip clicks"
 msgstr "Pular cliques"
 
-#: ritm_annotation/cli/annotate/__init__.py:317
+#: ritm_annotation/cli/annotate/annotator.py:317
 msgid "Target size"
 msgstr "Tamanho alvo"
 
-#: ritm_annotation/cli/annotate/__init__.py:320
+#: ritm_annotation/cli/annotate/annotator.py:320
 msgid "Expand ratio"
 msgstr "Razão de expansão"
 
-#: ritm_annotation/cli/annotate/__init__.py:349
+#: ritm_annotation/cli/annotate/annotator.py:349
 msgid "BRS options"
 msgstr "Opções de BRS"
 
-#: ritm_annotation/cli/annotate/__init__.py:360
+#: ritm_annotation/cli/annotate/annotator.py:360
 msgid "Network clicks"
 msgstr "Cliques da rede"
 
-#: ritm_annotation/cli/annotate/__init__.py:376
+#: ritm_annotation/cli/annotate/annotator.py:376
 msgid ""
 "L-BFGS\n"
 "max iterations"
@@ -163,30 +163,30 @@ msgstr ""
 "L-BFGS\n"
 "iterações máximas"
 
-#: ritm_annotation/cli/annotate/__init__.py:393
+#: ritm_annotation/cli/annotate/annotator.py:393
 msgid "Predictions threshold"
 msgstr "Limiar de predições"
 
-#: ritm_annotation/cli/annotate/__init__.py:405
+#: ritm_annotation/cli/annotate/annotator.py:405
 msgid "Alpha blending coefficient"
 msgstr "Coeficiente de mistura de alfa"
 
-#: ritm_annotation/cli/annotate/__init__.py:417
+#: ritm_annotation/cli/annotate/annotator.py:417
 msgid "Visualisation click radius"
 msgstr "Raio do ponto de clique"
 
-#: ritm_annotation/cli/annotate/__init__.py:435
-#: ritm_annotation/cli/annotate/__init__.py:495
+#: ritm_annotation/cli/annotate/annotator.py:435
+#: ritm_annotation/cli/annotate/annotator.py:495
 #, python-brace-format
 msgid "Loading '{filename}'"
 msgstr "Carregando '{filename}'"
 
-#: ritm_annotation/cli/annotate/__init__.py:474
+#: ritm_annotation/cli/annotate/annotator.py:474
 #, python-brace-format
 msgid "Saving '{filename}'"
 msgstr "Salvando '{filename}'"
 
-#: ritm_annotation/cli/annotate/__init__.py:486
+#: ritm_annotation/cli/annotate/annotator.py:486
 msgid ""
 "The current model doesn't support loading external masks. Please use ITER-M "
 "models for that purpose."
@@ -194,47 +194,47 @@ msgstr ""
 "O modelo atual não suporta o carregamento de máscaras externas. Por favor "
 "use modelos ITER-M para isso."
 
-#: ritm_annotation/cli/annotate/__init__.py:504
+#: ritm_annotation/cli/annotate/annotator.py:504
 msgid "Developed by:"
 msgstr "Desenvolvido por:"
 
-#: ritm_annotation/cli/annotate/__init__.py:509
+#: ritm_annotation/cli/annotate/annotator.py:509
 msgid "About Demo"
 msgstr "Sobre a Demo"
 
-#: ritm_annotation/cli/annotate/__init__.py:594
+#: ritm_annotation/cli/annotate/annotator.py:594
 msgid "Please load an image first"
 msgstr "Por favor carregue uma imagem primeiro"
 
-#: ritm_annotation/cli/annotate/__init__.py:663
-msgid "Interactively annotate a dataset"
-msgstr "Anotador interativo de dataset"
-
-#: ritm_annotation/cli/annotate/__init__.py:668
+#: ritm_annotation/cli/annotate/annotator.py:665
 msgid "CUDA support not detected. Stuff will be way slower and sluggish!"
 msgstr ""
 "Suporte a CUDA não detectado. As coisas funcionarão muito mais lentas e "
 "travadas!"
 
-#: ritm_annotation/cli/annotate/__init__.py:689
-msgid "Folder with pre-defined segmentations to be adjusted"
-msgstr "Pasta com segmentações pré-definidas para serem ajustadas"
-
-#: ritm_annotation/cli/annotate/__init__.py:694
+#: ritm_annotation/cli/annotate/annotator.py:666
 msgid "classes: "
 msgstr "classes: "
 
-#: ritm_annotation/cli/annotate/__init__.py:696
+#: ritm_annotation/cli/annotate/annotator.py:671
 msgid "Origin should be a folder"
 msgstr "Origem precisa ser uma pasta"
 
-#: ritm_annotation/cli/annotate/__init__.py:699
+#: ritm_annotation/cli/annotate/annotator.py:674
 msgid "Destination should be a folder, if it isn't exist it will be created"
 msgstr "Destino precisa ser uma pasta, se não existe ela será criada"
 
-#: ritm_annotation/cli/annotate/__init__.py:704
+#: ritm_annotation/cli/annotate/annotator.py:679
 msgid "Checkpoint not specified, using default..."
 msgstr "Checkpoint não especificado, usando o padrão..."
+
+#: ritm_annotation/cli/annotate/__init__.py:9
+msgid "Interactively annotate a dataset"
+msgstr "Anotador interativo de dataset"
+
+#: ritm_annotation/cli/annotate/__init__.py:31
+msgid "Folder with pre-defined segmentations to be adjusted"
+msgstr "Pasta com segmentações pré-definidas para serem ajustadas"
 
 #: ritm_annotation/cli/dataset_lint/__init__.py:11
 msgid ""
@@ -338,27 +338,43 @@ msgstr "Enumerando todas as classes..."
 msgid "Ingesting images..."
 msgstr "Ingerindo imagens..."
 
-#: ritm_annotation/cli/train/__init__.py:13
+#: ritm_annotation/cli/train/train.py:19
+#: ritm_annotation/cli/finetune/finetune.py:26
+msgid "Falling back to temp_model_path because model_path wasn't specified"
+msgstr "Passando a usar temp_model_path porque model_path não foi especificado"
+
+#: ritm_annotation/cli/train/train.py:30
+#: ritm_annotation/cli/finetune/finetune.py:37
+#, python-brace-format
+msgid "Final model path: '{model_path}'"
+msgstr "Caminho final do modelo: '{model_path}'"
+
+#: ritm_annotation/cli/train/train.py:43
+#: ritm_annotation/cli/finetune/finetune.py:51
+msgid "Basic validations passed"
+msgstr "Validações básicas passaram"
+
+#: ritm_annotation/cli/train/__init__.py:5
 msgid "Run from-scratch trains using off the shelf datasets"
 msgstr "Executa treinos do zero usando datasets de prateleira"
 
-#: ritm_annotation/cli/train/__init__.py:18
-#: ritm_annotation/cli/finetune/__init__.py:28
+#: ritm_annotation/cli/train/__init__.py:10
+#: ritm_annotation/cli/finetune/__init__.py:9
 msgid "Path to the model script."
 msgstr "Caminho até o script de modelo."
 
-#: ritm_annotation/cli/train/__init__.py:27
-#: ritm_annotation/cli/finetune/__init__.py:42
+#: ritm_annotation/cli/train/__init__.py:19
+#: ritm_annotation/cli/finetune/__init__.py:23
 msgid "Where to store experiment data"
 msgstr "Onde guardar dados de experimento"
 
-#: ritm_annotation/cli/train/__init__.py:35
-#: ritm_annotation/cli/finetune/__init__.py:50
+#: ritm_annotation/cli/train/__init__.py:27
+#: ritm_annotation/cli/finetune/__init__.py:31
 msgid "Amount of epochs"
 msgstr "Número de épocas"
 
-#: ritm_annotation/cli/train/__init__.py:43
-#: ritm_annotation/cli/finetune/__init__.py:58
+#: ritm_annotation/cli/train/__init__.py:35
+#: ritm_annotation/cli/finetune/__init__.py:39
 msgid ""
 "Here you can specify the name of the experiment. It will be added as a "
 "suffix to the experiment folder."
@@ -366,20 +382,20 @@ msgstr ""
 "Aqui você pode especificar o nome do experimento. Ele será adicionado como "
 "um sufixo na pasta do experimento."
 
-#: ritm_annotation/cli/train/__init__.py:52
-#: ritm_annotation/cli/finetune/__init__.py:67
+#: ritm_annotation/cli/train/__init__.py:44
+#: ritm_annotation/cli/finetune/__init__.py:48
 msgid "Dataloader threads."
 msgstr "Threads do DataLoader"
 
-#: ritm_annotation/cli/train/__init__.py:62
-#: ritm_annotation/cli/finetune/__init__.py:77
+#: ritm_annotation/cli/train/__init__.py:54
+#: ritm_annotation/cli/finetune/__init__.py:58
 msgid "You can override model batch size by specify positive number."
 msgstr ""
 "Você pode alterar o valor padrão de batch size do modelo ao especificar um "
 "valor positivo."
 
-#: ritm_annotation/cli/train/__init__.py:71
-#: ritm_annotation/cli/finetune/__init__.py:86
+#: ritm_annotation/cli/train/__init__.py:63
+#: ritm_annotation/cli/finetune/__init__.py:67
 msgid ""
 "Number of GPUs. If you only specify \"--gpus\" argument, the ngpus value "
 "will be calculated automatically. You should use either this argument or \"--"
@@ -389,13 +405,13 @@ msgstr ""
 "de ngpus vai ser calculado automaticamente. Você deve ou usar este argumento "
 "ou \"--gpus\"."
 
-#: ritm_annotation/cli/train/__init__.py:81
-#: ritm_annotation/cli/finetune/__init__.py:96
+#: ritm_annotation/cli/train/__init__.py:73
+#: ritm_annotation/cli/finetune/__init__.py:77
 msgid "Ids of used GPUs. You should use either this argument or \"--ngpus\"."
 msgstr "Ids das GPUs usadas. Você deve ou usar este argumento ou \"--ngpus\"."
 
-#: ritm_annotation/cli/train/__init__.py:90
-#: ritm_annotation/cli/finetune/__init__.py:105
+#: ritm_annotation/cli/train/__init__.py:82
+#: ritm_annotation/cli/finetune/__init__.py:86
 msgid ""
 "The prefix of the name of the experiment to be continued. If you use this "
 "field, you must specify the \"--resume-prefix\" argument."
@@ -403,13 +419,13 @@ msgstr ""
 "O prefixo do nome do experimento a ser retomado. Se você definir este "
 "argumento você deve também definir o argumento \"--resume-prefix\""
 
-#: ritm_annotation/cli/train/__init__.py:98
-#: ritm_annotation/cli/finetune/__init__.py:113
+#: ritm_annotation/cli/train/__init__.py:90
+#: ritm_annotation/cli/finetune/__init__.py:94
 msgid "The prefix of the name of the checkpoint to be loaded."
 msgstr "O prefixo do nome do checkpoint a ser carregado."
 
-#: ritm_annotation/cli/train/__init__.py:106
-#: ritm_annotation/cli/finetune/__init__.py:121
+#: ritm_annotation/cli/train/__init__.py:98
+#: ritm_annotation/cli/finetune/__init__.py:102
 msgid ""
 "The number of the starting epoch from which training will continue. (it is "
 "important for correct logging and learning rate)"
@@ -417,51 +433,35 @@ msgstr ""
 "O número da época inicial que o treinamento vai iniciar (é importante para "
 "geração correta dos relatórios e cálculo do learning rate)"
 
-#: ritm_annotation/cli/train/__init__.py:115
-#: ritm_annotation/cli/finetune/__init__.py:130
+#: ritm_annotation/cli/train/__init__.py:107
+#: ritm_annotation/cli/finetune/__init__.py:111
 msgid ""
 "Model weights will be loaded from the specified path if you use this "
 "argument."
 msgstr ""
 "Pesos serão carregados do seguinte caminho se você usar este argumento."
 
-#: ritm_annotation/cli/train/__init__.py:123
-#: ritm_annotation/cli/finetune/__init__.py:138
+#: ritm_annotation/cli/train/__init__.py:115
+#: ritm_annotation/cli/finetune/__init__.py:119
 msgid "Do not use this argument (for internal purposes)."
 msgstr "Não use este argumento (uso interno)."
 
-#: ritm_annotation/cli/train/__init__.py:133
-#: ritm_annotation/cli/finetune/__init__.py:157
-msgid "Falling back to temp_model_path because model_path wasn't specified"
-msgstr "Passando a usar temp_model_path porque model_path não foi especificado"
-
-#: ritm_annotation/cli/train/__init__.py:144
-#: ritm_annotation/cli/finetune/__init__.py:168
-#, python-brace-format
-msgid "Final model path: '{model_path}'"
-msgstr "Não é possível importar o módulo em '{module_path}'"
-
-#: ritm_annotation/cli/train/__init__.py:157
-#: ritm_annotation/cli/finetune/__init__.py:182
-msgid "Basic validations passed"
-msgstr "Dataset de validação em falta"
-
-#: ritm_annotation/cli/finetune/__init__.py:22
+#: ritm_annotation/cli/finetune/__init__.py:4
 msgid ""
 "Run finetune trains using a dataset in the format the annotator generates"
 msgstr ""
 "Executa treinos de ajuste fino usando um dataset no formato que o anotador "
 "gera."
 
-#: ritm_annotation/cli/finetune/__init__.py:31
+#: ritm_annotation/cli/finetune/__init__.py:12
 msgid "Path to the dataset images."
 msgstr "Caminho para as imagens do dataset."
 
-#: ritm_annotation/cli/finetune/__init__.py:34
+#: ritm_annotation/cli/finetune/__init__.py:15
 msgid "Path to the dataset masks."
 msgstr "Caminho para as máscaras do dataset."
 
-#: ritm_annotation/cli/finetune/__init__.py:146
+#: ritm_annotation/cli/finetune/__init__.py:127
 msgid "Resize the input dataset so the bigger dimension is this value"
 msgstr ""
 "Redimensionar o dataset de entrada para que a maior dimensão tenha o "
@@ -494,17 +494,17 @@ msgstr "Dar mais detalhes sobre o que está acontecendo"
 msgid "Print version and exit"
 msgstr "Exibir versão e sair"
 
-#: ritm_annotation/cli/model_info/__init__.py:13
-msgid "Show information about a model pth file"
-msgstr "Mostrar informação sobre um arquivo de modelo pth"
-
-#: ritm_annotation/cli/model_info/__init__.py:20
+#: ritm_annotation/cli/model_info/model_info.py:19
 msgid "Loading model"
 msgstr "Inicializando modelo"
 
-#: ritm_annotation/cli/model_info/__init__.py:22
+#: ritm_annotation/cli/model_info/model_info.py:21
 msgid "Model must exist and be a file"
 msgstr "Modelo precisa existir e ser um arquivo"
+
+#: ritm_annotation/cli/model_info/__init__.py:3
+msgid "Show information about a model pth file"
+msgstr "Mostrar informação sobre um arquivo de modelo pth"
 
 #: ritm_annotation/utils/i18n.py:17
 #, python-brace-format
