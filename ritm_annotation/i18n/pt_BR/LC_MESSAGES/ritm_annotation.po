@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-06 17:36-0300\n"
+"POT-Creation-Date: 2024-02-19 13:50-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -85,7 +85,7 @@ msgstr "Carregar imagem"
 
 #: ritm_annotation/cli/annotate/__init__.py:187
 msgid "Save mask"
-msgstr "Carregar máscara"
+msgstr "Salvar máscara"
 
 #: ritm_annotation/cli/annotate/__init__.py:194
 msgid "Previous image"
@@ -283,20 +283,60 @@ msgstr "'{image_file}': Arquivo de imagem não existe"
 msgid "'{item_img}': Invalid image"
 msgstr "'{item_img}': Imagem inválida"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:73
+#: ritm_annotation/cli/dataset_lint/__init__.py:75
 #, python-brace-format
 msgid "'{mask}': Invalid mask"
 msgstr "'{mask}': Máscara inválida"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:81
+#: ritm_annotation/cli/dataset_lint/__init__.py:83
 #, python-brace-format
 msgid "'{mask}': First dimension doesn't match for image and mask"
 msgstr "'{mask}': Primeira dimensão não é igual para imagem e máscara"
 
-#: ritm_annotation/cli/dataset_lint/__init__.py:89
+#: ritm_annotation/cli/dataset_lint/__init__.py:91
 #, python-brace-format
 msgid "'{mask}': Second dimension doesn't match for image and mask"
 msgstr "'{mask}': Segunda dimensão não é igual para imagem e máscara"
+
+#: ritm_annotation/cli/convert_to_coco/__init__.py:7
+msgid "Convert dataset in mask form to COCO"
+msgstr "Converter dataset em forma de máscara para COCO"
+
+#: ritm_annotation/cli/convert_to_coco/__init__.py:27
+msgid "Dataset folder in mask form"
+msgstr "Diretório do dataset em forma de máscara"
+
+#: ritm_annotation/cli/convert_to_coco/__init__.py:28
+msgid "Where to save the COCO dataset JSON"
+msgstr "Onde salvar o JSON do dataset COCO"
+
+#: ritm_annotation/cli/convert_to_coco/__init__.py:29
+msgid "Overwrite JSON file if it exists"
+msgstr "Sobrescrever o arquivo JSON se existir"
+
+#: ritm_annotation/cli/convert_to_coco/__init__.py:30
+msgid "Description for the COCO dataset"
+msgstr "Descrição do dataset COCO"
+
+#: ritm_annotation/cli/convert_to_coco/__init__.py:30
+msgid "Created with ritm_annotation"
+msgstr "Criado com ritm_annotation"
+
+#: ritm_annotation/cli/convert_to_coco/__init__.py:59
+msgid "Dataset folder must exist and be a folder"
+msgstr "O diretório do dataset precisa existir e ser um diretório"
+
+#: ritm_annotation/cli/convert_to_coco/__init__.py:61
+msgid "COCO dataset exists, use --overwrite to ignore this"
+msgstr "O dataset COCO existe, use --overwrite para ignorar isso"
+
+#: ritm_annotation/cli/convert_to_coco/__init__.py:66
+msgid "Enumerating all classes..."
+msgstr "Enumerando todas as classes..."
+
+#: ritm_annotation/cli/convert_to_coco/__init__.py:82
+msgid "Ingesting images..."
+msgstr "Ingerindo imagens..."
 
 #: ritm_annotation/cli/train/__init__.py:13
 msgid "Run from-scratch trains using off the shelf datasets"
