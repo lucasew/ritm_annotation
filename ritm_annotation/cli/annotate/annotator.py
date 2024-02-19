@@ -688,7 +688,9 @@ def handle(args):
 
     def look_for_tasks():
         for class_name in args.classes:
-            for image in args.input.glob("*.jpg"):
+            for image in args.input.iterdir():
+                if not image.is_file():
+                    continue
                 image_name = image.name
                 output_dir = args.output / image_name
                 output_dir.mkdir(exist_ok=True, parents=True)
