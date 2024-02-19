@@ -47,6 +47,7 @@
           python3Packages.pytorch-bin
           python3Packages.torchvision-bin
           python3Packages.opencv4
+          python3Packages.pycocotools
         ];
       };
     });

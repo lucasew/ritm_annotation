@@ -68,6 +68,8 @@ def command(parser):
                     else:
                         item_img = cv2.cvtColor(item_img, cv2.COLOR_BGR2RGB)
             for mask in item.iterdir():
+                if mask.name.endswith('.json'):
+                    continue
                 mask_img = cv2.imread(str(mask), 0)
                 if mask_img is None:
                     logger.error(_("'{mask}': Invalid mask").format(mask=mask))
