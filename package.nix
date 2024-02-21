@@ -10,6 +10,8 @@
 , pytorch
 , torchvision
 , opencv4
+, tqdm
+, pycocotools
 , pythonRelaxDepsHook
 , pytestCheckHook
 }:
@@ -35,8 +37,10 @@ buildPythonPackage {
     tensorboard
     tkinter
     pytorch
+    pycocotools
     torchvision
     opencv4
+    tqdm
   ];
 
   checkInputs = [ pytestCheckHook ];
