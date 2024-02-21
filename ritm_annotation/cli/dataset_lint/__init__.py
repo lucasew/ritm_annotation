@@ -4,7 +4,7 @@ from multiprocessing import cpu_count
 from pathlib import Path
 
 import cv2
-from tqdm import tqdm
+from ritm_annotation.utils.misc import try_tqdm
 
 COMMAND_DESCRIPTION = _(
     # noqa: E501
@@ -96,7 +96,7 @@ def command(parser):
 
         items = list(args.input.iterdir())
         with ThreadPoolExecutor(max_workers=args.jobs) as executor:
-            ops = tqdm(
+            ops = try_tqdm(
                 executor.map(handle_one, items, chunksize=8), total=len(items)
             )
             for item in ops:

@@ -85,6 +85,8 @@ def main():  # pragma: no cover
 
     if args.verbose:
         logging.root.setLevel(logging.DEBUG)
+    else:
+        logging.root.setLevel(logging.INFO)
 
     version = open(str(Path(__file__).parent.parent / "VERSION"), "r").read()
     if args.is_show_version:

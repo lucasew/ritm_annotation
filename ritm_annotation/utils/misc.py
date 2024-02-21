@@ -160,3 +160,21 @@ def get_default_weight():
         raise e
 
 
+
+def try_tqdm(items, desc=""):
+    try:
+        if locals().get("get_ipython"):
+            from tqdm import tqdm_notebook as tqdm
+        else:
+            from tqdm import tqdm
+        return tqdm(list(items), desc=desc)
+    except ImportError:
+        logger.info(desc)
+        return items
+
+
+def incrf():
+    i = 1
+    while True:
+        yield i
+        i+=1

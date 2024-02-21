@@ -1,26 +1,12 @@
 import logging
 from pathlib import Path
 import time
+from ritm_annotation.utils.misc import try_tqdm, incrf
 
 logger = logging.getLogger(__name__)
 
 COMMAND_DESCRIPTION = _("Convert dataset in mask form to COCO")
 
-
-def try_tqdm(items, desc=""):
-    try:
-        from tqdm import tqdm
-        return tqdm(list(items), desc=desc)
-    except ImportError:
-        logger.info(desc)
-        return items
-
-
-def incrf():
-    i = 1
-    while True:
-        yield i
-        i+=1
 
 
 def command(subparser):

@@ -17,7 +17,7 @@ from ritm_annotation.utils.distributed import (
     reduce_loss_dict,
 )
 from ritm_annotation.utils.log import SummaryWriterAvg, TqdmToLogger
-from ritm_annotation.utils.misc import save_checkpoint
+from ritm_annotation.utils.misc import save_checkpoint, try_tqdm
 from ritm_annotation.utils.serialization import get_config_repr
 from ritm_annotation.utils.vis import draw_points, draw_probmap
 
@@ -156,8 +156,8 @@ class ISTrainer(object):
             )
 
         if self.is_master:
-            logger.info(self.model)
-            logger.info(get_config_repr(self.model._config))
+            logger.debug(self.model)
+            logger.debug(get_config_repr(self.model._config))
 
         self.net = self.model.to(self.device)
         self.lr = self.optimizer_params["lr"]
@@ -188,8 +188,8 @@ class ISTrainer(object):
             )
         )
 
-        logger.info(_("Run experiment with config:"))
-        logger.info(pprint.pformat(self.cfg, indent=4))
+        logger.debug(_("Run experiment with config:"))
+        logger.debug(pprint.pformat(self.cfg, indent=4))
 
     def run(self, num_epochs, start_epoch=None, validation=True):
         self._before_needed_hook()

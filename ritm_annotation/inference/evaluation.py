@@ -5,18 +5,14 @@ import torch
 
 from ritm_annotation.inference import utils
 from ritm_annotation.inference.clicker import Clicker
-
-if locals().get("get_ipython"):
-    from tqdm import tqdm_notebook as tqdm
-else:
-    from tqdm import tqdm
+from ritm_annotation.utils.misc import try_tqdm
 
 
 def evaluate_dataset(dataset, predictor, **kwargs):
     all_ious = []
 
     start_time = time()
-    for index in tqdm(range(len(dataset)), leave=False):
+    for index in try_tqdm(range(len(dataset)), leave=False):
         sample = dataset.get_sample(index)
 
         _, sample_ious, _ = evaluate_sample(

@@ -16,7 +16,7 @@ def get_optimizer(model, opt_name, opt_kwargs):
             continue
 
         if not math.isclose(getattr(param, "lr_mult", 1.0), 1.0):
-            logger.info(
+            logger.debug(
                 f'Applied lr_mult={param.lr_mult} to "{name}" parameter.'
             )
             param_group["lr"] = param_group.get("lr", base_lr) * param.lr_mult
