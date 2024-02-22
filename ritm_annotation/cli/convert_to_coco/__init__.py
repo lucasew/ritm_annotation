@@ -74,6 +74,7 @@ def command(subparser):
                 file_name=item.name,
                 id=image_id
             )
+            have_annotation = False
             for subitem in item.iterdir():
                 if subitem.name.endswith('.json'):
                     continue
@@ -110,7 +111,9 @@ def command(subparser):
                     category_id=classes[subitem.stem],
                     id=annotation_id
                 ))
-            data['images'].append(image_to_append)
+                have_annotation = True
+            if have_annotation:
+                data['images'].append(image_to_append)
         with args.output.open('w') as f:
             from json import dump
             dump(data, f)
