@@ -1,6 +1,7 @@
 import logging
 import time
 from pathlib import Path
+from gettext import gettext as _
 
 from ritm_annotation.utils.misc import incrf, try_tqdm
 

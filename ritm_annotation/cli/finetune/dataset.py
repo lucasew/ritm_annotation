@@ -1,6 +1,7 @@
 import logging
 import random
 from pathlib import Path
+from gettext import gettext as _
 
 import cv2
 from albumentations.augmentations.geometric import longest_max_size

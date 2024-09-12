@@ -2,6 +2,7 @@ import logging
 from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import cpu_count
 from pathlib import Path
+from gettext import gettext as _
 
 import cv2
 

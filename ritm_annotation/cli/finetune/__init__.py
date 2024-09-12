@@ -1,4 +1,5 @@
 from pathlib import Path
+from gettext import gettext as _
 
 COMMAND_DESCRIPTION = _(
     "Run finetune trains using a dataset in the format the annotator generates"

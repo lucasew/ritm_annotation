@@ -1,5 +1,6 @@
 import logging
 from typing import Dict
+from gettext import gettext as _
 
 from easydict import EasyDict as edict
 

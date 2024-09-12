@@ -1,4 +1,5 @@
 from pathlib import Path
+from gettext import gettext as _
 
 COMMAND_DESCRIPTION = _("Show information about a model pth file")
 

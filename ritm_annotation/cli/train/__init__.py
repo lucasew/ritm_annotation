@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from gettext import gettext as _
 
 COMMAND_DESCRIPTION = _("Run from-scratch trains using off the shelf datasets")
 
