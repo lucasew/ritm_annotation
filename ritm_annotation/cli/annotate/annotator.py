@@ -3,6 +3,7 @@
 import json
 import logging
 import tkinter as tk
+from gettext import gettext as _
 from sys import exit
 from tkinter import messagebox, ttk
 
