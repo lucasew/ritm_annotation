@@ -116,7 +116,7 @@ init:             ## Initialize the project based on an application template.
 	@./.github/init.sh
 
 .PHONY: update-locales
-update-locales:
+update-locales:   ## Update translation files
 	xgettext -d ritm_annotation -o ritm_annotation/i18n/ritm_annotation.pot --files-from=<(find ritm_annotation -name '*.py'; python -c 'import argparse; print(argparse.__file__)')
 	sed -i 's;CHARSET;UTF-8;g' ritm_annotation/i18n/ritm_annotation.pot
 	msgmerge --no-fuzzy-matching -U ritm_annotation/i18n/pt_BR/LC_MESSAGES/ritm_annotation.po ritm_annotation/i18n/ritm_annotation.pot
