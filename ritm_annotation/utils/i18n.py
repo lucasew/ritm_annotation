@@ -1,6 +1,6 @@
 import gettext
-from gettext import gettext as _
 import logging
+from gettext import gettext as _
 from pathlib import Path
 
 logger = logging.getLogger(__name__)

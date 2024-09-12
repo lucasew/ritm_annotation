@@ -1,3 +1,4 @@
+from gettext import gettext as _
 from tkinter import messagebox
 
 import numpy as np

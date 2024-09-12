@@ -1,3 +1,5 @@
+from gettext import gettext as _
+
 import torch
 
 from .resnetv1b import resnet34_v1b, resnet50_v1s, resnet101_v1s, resnet152_v1s

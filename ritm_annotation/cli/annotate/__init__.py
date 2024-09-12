@@ -2,9 +2,9 @@
 
 import json
 import logging
+from gettext import gettext as _
 from pathlib import Path
 from sys import exit
-from gettext import gettext as _
 
 COMMAND_DESCRIPTION = _("Interactively annotate a dataset")
 

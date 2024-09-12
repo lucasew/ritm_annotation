@@ -4,6 +4,7 @@ import pprint
 import random
 from collections import defaultdict
 from copy import deepcopy
+from gettext import gettext as _
 
 import cv2
 import numpy as np

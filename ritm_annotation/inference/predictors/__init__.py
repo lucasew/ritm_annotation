@@ -1,3 +1,5 @@
+from gettext import gettext as _
+
 from ritm_annotation.inference.transforms import ZoomIn
 from ritm_annotation.model.is_hrnet_model import HRNetModel
 

@@ -1,6 +1,7 @@
 import os
 import pickle as pkl
 import random
+from gettext import gettext as _
 from pathlib import Path
 
 import cv2

@@ -1,3 +1,5 @@
+from gettext import gettext as _
+
 import torch
 import torch.nn as nn
 

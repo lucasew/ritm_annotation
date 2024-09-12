@@ -1,4 +1,5 @@
 import logging
+from gettext import gettext as _
 from pathlib import Path
 
 import torch

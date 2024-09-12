@@ -1,3 +1,5 @@
+from gettext import gettext as _
+
 import ritm_annotation.utils.i18n  # F401
 
 """CLI interface for ritm_annotation project.

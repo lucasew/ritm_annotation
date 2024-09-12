@@ -5,6 +5,7 @@ import os
 import sys
 import time
 import tkinter as tk
+from gettext import gettext as _
 from tkinter import ttk
 
 from PIL import Image, ImageTk

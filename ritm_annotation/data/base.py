@@ -1,5 +1,6 @@
 import pickle
 import random
+from gettext import gettext as _
 
 import numpy as np
 import torch
