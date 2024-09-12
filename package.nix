@@ -1,5 +1,4 @@
 { buildPythonPackage
-, wrapPython
 , cython
 , easydict
 , albumentations
@@ -7,12 +6,11 @@
 , scipy
 , tensorboard
 , tkinter
-, pytorch
-, torchvision
+, pytorch-bin
+, torchvision-bin
 , opencv4
 , tqdm
 , pycocotools
-, pythonRelaxDepsHook
 , pytestCheckHook
 }:
 
@@ -36,9 +34,9 @@ buildPythonPackage {
     scipy
     tensorboard
     tkinter
-    pytorch
+    pytorch-bin
     pycocotools
-    torchvision
+    torchvision-bin
     opencv4
     tqdm
   ];

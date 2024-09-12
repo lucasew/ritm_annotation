@@ -32,9 +32,10 @@ logger = logging.getLogger(__name__)
 
 
 class InteractiveDemoApp(ttk.Frame):
-    def __init__(self, master, args, model, tasks_iterator):
+    def __init__(self, master, args, model, tasks_iterator, classes_first=True):
         logger.info("Initializing...")
         super().__init__(master)
+        self.classes_first = classes_first
         self.tasks = list(tasks_iterator)
         self._current_task_idx = 0
         self.master = master
@@ -721,29 +722,44 @@ def handle(args):
     )
     model = load_is_model(checkpoint_path, args.device, cpu_dist_maps=True)
 
+    def _file_iterator():
+        return args.input.iterdir()
+
+    def _class_iterator():
+        return iter(args.classes)
+
+    def _fileclass_iterator():
+        if args.classes_first:
+            for file in _file_iterator():
+                for cls in _class_iterator():
+                    yield file, cls
+        else:
+            for cls in _class_iterator():
+                for file in _file_iterator():
+                    yield file, cls
+
     def look_for_tasks():
-        for class_name in args.classes:
-            for image in args.input.iterdir():
-                if not image.is_file():
-                    continue
-                image_name = image.name
-                output_dir = args.output / image_name
-                output_dir.mkdir(exist_ok=True, parents=True)
-                mask_output = output_dir / f"{class_name}.png"
-                if mask_output.exists():
-                    continue
-                yield edict(
-                    dict(
-                        output_dir=output_dir,
-                        image=image,
-                        name=image_name,
-                        mask_output=mask_output,
-                        class_name=class_name,
-                        seed_mask=args.seed / image_name / f"{class_name}.png"
-                        if args.seed is not None
-                        else None,
-                    )
+        for (image, class_name) in _fileclass_iterator():
+            if not image.is_file():
+                continue
+            image_name = image.name
+            output_dir = args.output / image_name
+            output_dir.mkdir(exist_ok=True, parents=True)
+            mask_output = output_dir / f"{class_name}.png"
+            if mask_output.exists():
+                continue
+            yield edict(
+                dict(
+                    output_dir=output_dir,
+                    image=image,
+                    name=image_name,
+                    mask_output=mask_output,
+                    class_name=class_name,
+                    seed_mask=args.seed / image_name / f"{class_name}.png"
+                    if args.seed is not None
+                    else None,
                 )
+            )
 
     tasks = look_for_tasks()
 
@@ -752,6 +768,6 @@ def handle(args):
 
     app_args = edict(dict(limit_longest_size=400, device=args.device))
 
-    app = InteractiveDemoApp(root, app_args, model, tasks)
+    app = InteractiveDemoApp(root, app_args, model, tasks, classes_first=args.classes_first)
     root.deiconify()
     app.mainloop()

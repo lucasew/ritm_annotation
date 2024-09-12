@@ -12,7 +12,8 @@ COMMAND_DESCRIPTION = _("Interactively annotate a dataset")
 def command(subparser):
     subparser.add_argument("input", type=Path)
     subparser.add_argument("output", type=Path)
-    subparser.add_argument("-d", "--device", dest="device")
+    subparser.add_argument("-d", "--device", dest="device", default='cuda')
+    subparser.add_argument('--classes-first', action='store_true')
     subparser.add_argument(
         "-c", "--classes", dest="classes", type=str, required=True, nargs="+"
     )
