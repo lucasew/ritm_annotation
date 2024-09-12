@@ -35,7 +35,7 @@ lint:             ## Run pep8, black, mypy linters.
 	$(ENV_PREFIX)flake8 --ignore=E203,W503,F401,E501 ritm_annotation/
 	$(ENV_PREFIX)black -l 79 --check ritm_annotation/
 	$(ENV_PREFIX)black -l 79 --check tests/
-	$(ENV_PREFIX)mypy ritm_annotation/
+	$(ENV_PREFIX)mypy --ignore-missing-imports ritm_annotation/
 
 .PHONY: test
 test: lint        ## Run tests and generate coverage report.
