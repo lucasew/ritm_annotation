@@ -58,9 +58,10 @@ class CocoLvisDataset(ISDataset):
         packed_masks_path = self._masks_path / f"{image_id}.pickle"
         with open(packed_masks_path, "rb") as f:
             encoded_layers, objs_mapping = pickle.load(f)
-        layers = np.stack([
-            cv2.imdecode(x, cv2.IMREAD_UNCHANGED) for x in encoded_layers
-        ], axis=2)
+        layers = np.stack(
+            [cv2.imdecode(x, cv2.IMREAD_UNCHANGED) for x in encoded_layers],
+            axis=2,
+        )
 
         instances_info = deepcopy(sample["hierarchy"])
         for inst_id, inst_info in list(instances_info.items()):
