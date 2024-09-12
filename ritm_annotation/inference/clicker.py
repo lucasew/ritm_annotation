@@ -138,9 +138,7 @@ class Click:
 
     def to_json(self):
         return dict(
-            is_positive=self.is_positive,
-            coords=self.coords,
-            indx=self.indx
+            is_positive=self.is_positive, coords=self.coords, indx=self.indx
         )
 
     def copy(self, **kwargs):

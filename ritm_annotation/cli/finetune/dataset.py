@@ -92,7 +92,7 @@ class AnnotationDataset(ISDataset):
                     continue
                 has_mask = False
                 for mask_file in item.iterdir():
-                    if mask_file.name.endswith('.json'):
+                    if mask_file.name.endswith(".json"):
                         continue
                     has_mask = True
                 if has_mask:
@@ -121,7 +121,13 @@ class AnnotationDataset(ISDataset):
                 image, self.max_bigger_dimension, cv2.INTER_LINEAR
             )
         (h, w, *_rest) = image.shape
-        mask_path = random.choice([mask for mask in masks_path.iterdir() if not mask.name.endswith('.json')])
+        mask_path = random.choice(
+            [
+                mask
+                for mask in masks_path.iterdir()
+                if not mask.name.endswith(".json")
+            ]
+        )
         gt_mask = cv2.imread(str(mask_path), 0)
 
         if self.max_bigger_dimension is not None:

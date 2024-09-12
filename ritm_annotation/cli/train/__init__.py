@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 
-
 COMMAND_DESCRIPTION = _("Run from-scratch trains using off the shelf datasets")
 
 
@@ -117,9 +116,9 @@ def command(parser):
 
     parser.add_argument("--local_rank", type=int, default=0)
 
-
     def handle(args):
         from .train import handle as train_handle
+
         train_handle(args)
 
     return handle

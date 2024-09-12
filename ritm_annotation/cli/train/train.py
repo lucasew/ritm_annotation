@@ -1,5 +1,5 @@
-from pathlib import Path
 import logging
+from pathlib import Path
 
 import torch
 
@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 
 
 def handle(args):
-
     model_path = Path(args.model_path)
     if args.temp_model_path != "":
         logger.debug(

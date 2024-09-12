@@ -24,7 +24,7 @@ def add_subcommand(subparsers, name: str, submodule):
     subparser = subparsers.add_parser(
         name,
         help=submodule.COMMAND_DESCRIPTION,
-        formatter_class=ArgumentDefaultsHelpFormatter
+        formatter_class=ArgumentDefaultsHelpFormatter,
     )
     common_flags(subparser)
     handler = submodule.command(subparser)
@@ -66,8 +66,7 @@ def main():  # pragma: no cover
     """
     logging.basicConfig()
     parser = ArgumentParser(
-        prog="ritm_annotation",
-        formatter_class=ArgumentDefaultsHelpFormatter
+        prog="ritm_annotation", formatter_class=ArgumentDefaultsHelpFormatter
     )
     common_flags(parser)
     subparsers = parser.add_subparsers()

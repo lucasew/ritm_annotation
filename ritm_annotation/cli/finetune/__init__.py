@@ -4,6 +4,7 @@ COMMAND_DESCRIPTION = _(
     "Run finetune trains using a dataset in the format the annotator generates"
 )
 
+
 def command(parser):
     parser.add_argument(
         "model_path", type=Path, help=_("Path to the model script.")
@@ -132,6 +133,7 @@ def command(parser):
 
     def handle(args):
         from .finetune import handle as finetune_handle
+
         finetune_handle(args)
 
     return handle

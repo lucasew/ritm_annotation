@@ -1,10 +1,9 @@
-import ritm_annotation.utils.i18n  # noqa:F401
-
 from pathlib import Path
 
 import pytest
 from easydict import EasyDict as edict
 
+import ritm_annotation.utils.i18n  # noqa:F401
 from ritm_annotation.engine.trainer import ISTrainer
 from ritm_annotation.utils.misc import load_module
 

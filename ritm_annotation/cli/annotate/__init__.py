@@ -1,10 +1,9 @@
 # flake8: noqa E501
 
+import json
 import logging
 from pathlib import Path
 from sys import exit
-import json
-
 
 COMMAND_DESCRIPTION = _("Interactively annotate a dataset")
 
@@ -12,17 +11,11 @@ COMMAND_DESCRIPTION = _("Interactively annotate a dataset")
 def command(subparser):
     subparser.add_argument("input", type=Path)
     subparser.add_argument("output", type=Path)
-    subparser.add_argument(
-        "-d",
-        "--device",
-        dest="device"
-    )
+    subparser.add_argument("-d", "--device", dest="device")
     subparser.add_argument(
         "-c", "--classes", dest="classes", type=str, required=True, nargs="+"
     )
-    subparser.add_argument(
-        "-w", "--checkpoint", dest="checkpoint", type=Path
-    )
+    subparser.add_argument("-w", "--checkpoint", dest="checkpoint", type=Path)
     subparser.add_argument(
         "-s",
         "--seed",
@@ -33,6 +26,7 @@ def command(subparser):
 
     def handle(args):
         from .annotator import handle as annotator_handle
-        annotator_handle(args)
-    return handle
 
+        annotator_handle(args)
+
+    return handle

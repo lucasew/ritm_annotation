@@ -1,17 +1,16 @@
-
 # flake8: noqa E501
 
+import json
 import logging
 import tkinter as tk
 from sys import exit
 from tkinter import messagebox, ttk
-import json
 
 import cv2
 import numpy as np
+import torch
 from easydict import EasyDict as edict
 from PIL import Image
-import torch
 
 from ritm_annotation.cli.annotate.canvas import CanvasImage
 from ritm_annotation.cli.annotate.controller import InteractiveController
@@ -23,7 +22,10 @@ from ritm_annotation.cli.annotate.wrappers import (
     FocusLabelFrame,
 )
 from ritm_annotation.inference.utils import find_checkpoint, load_is_model
-from ritm_annotation.utils.misc import ignore_params_then_call, get_default_weight
+from ritm_annotation.utils.misc import (
+    get_default_weight,
+    ignore_params_then_call,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -119,7 +121,7 @@ class InteractiveDemoApp(ttk.Frame):
             idx = self._current_task_idx + 1
         if idx >= len(self.tasks):
             raise StopIteration()
-        print('goto_task', idx, self.tasks[idx])
+        print("goto_task", idx, self.tasks[idx])
         self._current_task = self.tasks[idx]
         self._current_task_idx = idx
         return self._current_task
@@ -128,7 +130,9 @@ class InteractiveDemoApp(ttk.Frame):
         if self._current_task_idx < 1:
             return
         self._current_task_idx -= 1
-        self._load_image_callback(current_task=self.goto_task(self._current_task_idx))
+        self._load_image_callback(
+            current_task=self.goto_task(self._current_task_idx)
+        )
 
     def _get_current_task(self, ask_next=False):
         current_class = (
@@ -178,20 +182,22 @@ class InteractiveDemoApp(ttk.Frame):
 
         button = FocusButton(
             self.menubar,
-            text=_("Load image") +  " (n)",
+            text=_("Load image") + " (n)",
             command=self._load_image_callback,
         )
         button.pack(side=tk.LEFT)
         self.save_mask_btn = FocusButton(
             self.menubar,
-            text=_("Save mask") +  " (l)",
+            text=_("Save mask") + " (l)",
             command=self._save_mask_callback,
         )
         self.save_mask_btn.pack(side=tk.LEFT)
         self.save_mask_btn.configure(state=tk.DISABLED)
 
         self.previous_image_btn = FocusButton(
-            self.menubar, text=_("Previous image") + " (b)", command=self._goto_previous_task
+            self.menubar,
+            text=_("Previous image") + " (b)",
+            command=self._goto_previous_task,
         )
         self.previous_image_btn.pack(side=tk.LEFT)
         # self.previous_image_btn.configure(state=tk.DISABLED)
@@ -442,14 +448,21 @@ class InteractiveDemoApp(ttk.Frame):
                 if not points_json.exists():
                     points_json = current_task.output_dir / points_json_name
             if points_json.exists():
-                with points_json.open('r') as f:
+                with points_json.open("r") as f:
                     data = json.load(f)
                     for item in data:
-                        self._click_callback(item['is_positive'], item['coords'][1], item['coords'][0])
+                        self._click_callback(
+                            item["is_positive"],
+                            item["coords"][1],
+                            item["coords"][0],
+                        )
                     # from ritm_annotation.inference.clicker import Click
                     # data = [Click(item['is_positive'], item['coords'][1], item['coords'][0]) for item in data]
             else:
-                if current_task.seed_mask is not None and current_task.seed_mask.exists():
+                if (
+                    current_task.seed_mask is not None
+                    and current_task.seed_mask.exists()
+                ):
                     logger.debug(f"seed mask: {current_task.seed_mask}")
                     mask = cv2.imread(str(current_task.seed_mask), 0)
                     mask = mask > 127
@@ -474,10 +487,18 @@ class InteractiveDemoApp(ttk.Frame):
             mask = (mask > 0) * 255
             logger.info(_("Saving '{filename}'").format(filename=filename))
             cv2.imwrite(filename, mask)
-            points_json = current_task.output_dir / (current_task.class_name + ".json")
-            with points_json.open('w') as f:
+            points_json = current_task.output_dir / (
+                current_task.class_name + ".json"
+            )
+            with points_json.open("w") as f:
                 # json.dump(self.controller.states, f)
-                json.dump([item.to_json() for item in self.controller.clicker.get_state()], f)
+                json.dump(
+                    [
+                        item.to_json()
+                        for item in self.controller.clicker.get_state()
+                    ],
+                    f,
+                )
 
     def _load_mask_callback(self):
         if not self.controller.net.with_prev_mask:
@@ -671,11 +692,15 @@ class InteractiveDemoApp(ttk.Frame):
 
 def handle(args):
     if not torch.cuda.is_available():
-        logger.warn(_("CUDA support not detected. Stuff will be way slower and sluggish!"))
+        logger.warn(
+            _(
+                "CUDA support not detected. Stuff will be way slower and sluggish!"
+            )
+        )
     logger.debug(_("classes: ") + ", ".join(args.classes))
 
     if args.device is None:
-        args.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        args.device = "cuda" if torch.cuda.is_available() else "cpu"
 
     assert args.input.is_dir(), _("Origin should be a folder")
     # assert args.input.is_dir(), _("Origem precisa ser uma pasta")
@@ -713,9 +738,7 @@ def handle(args):
                         name=image_name,
                         mask_output=mask_output,
                         class_name=class_name,
-                        seed_mask=args.seed
-                        / image_name
-                        / f"{class_name}.png"
+                        seed_mask=args.seed / image_name / f"{class_name}.png"
                         if args.seed is not None
                         else None,
                     )

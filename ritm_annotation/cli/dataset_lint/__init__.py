@@ -4,6 +4,7 @@ from multiprocessing import cpu_count
 from pathlib import Path
 
 import cv2
+
 from ritm_annotation.utils.misc import try_tqdm
 
 COMMAND_DESCRIPTION = _(
@@ -68,7 +69,7 @@ def command(parser):
                     else:
                         item_img = cv2.cvtColor(item_img, cv2.COLOR_BGR2RGB)
             for mask in item.iterdir():
-                if mask.name.endswith('.json'):
+                if mask.name.endswith(".json"):
                     continue
                 mask_img = cv2.imread(str(mask), 0)
                 if mask_img is None:

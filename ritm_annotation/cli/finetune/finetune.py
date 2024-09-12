@@ -1,4 +1,3 @@
-
 import logging
 import os
 from pathlib import Path
@@ -17,6 +16,7 @@ from .dataset import (
 )
 
 logger = logging.getLogger(__name__)
+
 
 def handle(args):
     model_path = Path(args.model_path)
@@ -54,9 +54,7 @@ def handle(args):
     train_augmentator = get_train_augmentator(model_cfg)
     val_augmentator = get_val_augmentator(model_cfg)
 
-    trainer = model_script.get_trainer(
-        model, cfg, model_cfg, no_dataset=True
-    )
+    trainer = model_script.get_trainer(model, cfg, model_cfg, no_dataset=True)
     points_sampler = get_points_sampler(model_cfg)
     dataset_common_args = dict(
         images_path=args.images_path,
@@ -66,9 +64,7 @@ def handle(args):
         points_sampler=points_sampler,
     )
     if args.max_bigger_dimension is not None:
-        dataset_common_args[
-            "max_bigger_dimension"
-        ] = args.max_bigger_dimension
+        dataset_common_args["max_bigger_dimension"] = args.max_bigger_dimension
     trainer.trainset = AnnotationDataset(
         split="train",
         augmentator=train_augmentator,
@@ -84,4 +80,3 @@ def handle(args):
     trainer._before_needed_hook()
     assert trainer.lr_scheduler is not None
     trainer.run(num_epochs=args.num_epochs)
-
