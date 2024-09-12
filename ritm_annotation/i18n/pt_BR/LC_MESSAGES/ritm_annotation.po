@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-19 14:25-0300\n"
+"POT-Creation-Date: 2024-09-12 13:44-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,8 +26,9 @@ msgid "Eval results for model: {model_name}\n"
 msgstr "Resultados da avaliação para o modelo: {model_name}\n"
 
 #: ritm_annotation/cli/annotate/controller.py:46
-#: ritm_annotation/cli/annotate/annotator.py:484
-#: ritm_annotation/cli/annotate/annotator.py:594
+#: ritm_annotation/cli/annotate/annotator.py:485
+#: ritm_annotation/cli/annotate/annotator.py:503
+#: ritm_annotation/cli/annotate/annotator.py:603
 msgid "Warning"
 msgstr "Aviso"
 
@@ -176,17 +177,17 @@ msgid "Visualisation click radius"
 msgstr "Raio do ponto de clique"
 
 #: ritm_annotation/cli/annotate/annotator.py:435
-#: ritm_annotation/cli/annotate/annotator.py:495
+#: ritm_annotation/cli/annotate/annotator.py:499
 #, python-brace-format
 msgid "Loading '{filename}'"
 msgstr "Carregando '{filename}'"
 
-#: ritm_annotation/cli/annotate/annotator.py:474
+#: ritm_annotation/cli/annotate/annotator.py:475
 #, python-brace-format
 msgid "Saving '{filename}'"
 msgstr "Salvando '{filename}'"
 
-#: ritm_annotation/cli/annotate/annotator.py:486
+#: ritm_annotation/cli/annotate/annotator.py:487
 msgid ""
 "The current model doesn't support loading external masks. Please use ITER-M "
 "models for that purpose."
@@ -194,37 +195,41 @@ msgstr ""
 "O modelo atual não suporta o carregamento de máscaras externas. Por favor "
 "use modelos ITER-M para isso."
 
-#: ritm_annotation/cli/annotate/annotator.py:504
+#: ritm_annotation/cli/annotate/annotator.py:503
+msgid "No mask found"
+msgstr "Nenhuma máscara encontrada"
+
+#: ritm_annotation/cli/annotate/annotator.py:513
 msgid "Developed by:"
 msgstr "Desenvolvido por:"
 
-#: ritm_annotation/cli/annotate/annotator.py:509
+#: ritm_annotation/cli/annotate/annotator.py:518
 msgid "About Demo"
 msgstr "Sobre a Demo"
 
-#: ritm_annotation/cli/annotate/annotator.py:594
+#: ritm_annotation/cli/annotate/annotator.py:603
 msgid "Please load an image first"
 msgstr "Por favor carregue uma imagem primeiro"
 
-#: ritm_annotation/cli/annotate/annotator.py:665
+#: ritm_annotation/cli/annotate/annotator.py:674
 msgid "CUDA support not detected. Stuff will be way slower and sluggish!"
 msgstr ""
 "Suporte a CUDA não detectado. As coisas funcionarão muito mais lentas e "
 "travadas!"
 
-#: ritm_annotation/cli/annotate/annotator.py:666
+#: ritm_annotation/cli/annotate/annotator.py:675
 msgid "classes: "
 msgstr "classes: "
 
-#: ritm_annotation/cli/annotate/annotator.py:671
+#: ritm_annotation/cli/annotate/annotator.py:680
 msgid "Origin should be a folder"
 msgstr "Origem precisa ser uma pasta"
 
-#: ritm_annotation/cli/annotate/annotator.py:674
+#: ritm_annotation/cli/annotate/annotator.py:683
 msgid "Destination should be a folder, if it isn't exist it will be created"
 msgstr "Destino precisa ser uma pasta, se não existe ela será criada"
 
-#: ritm_annotation/cli/annotate/annotator.py:679
+#: ritm_annotation/cli/annotate/annotator.py:688
 msgid "Checkpoint not specified, using default..."
 msgstr "Checkpoint não especificado, usando o padrão..."
 
@@ -298,43 +303,43 @@ msgstr "'{mask}': Primeira dimensão não é igual para imagem e máscara"
 msgid "'{mask}': Second dimension doesn't match for image and mask"
 msgstr "'{mask}': Segunda dimensão não é igual para imagem e máscara"
 
-#: ritm_annotation/cli/convert_to_coco/__init__.py:7
+#: ritm_annotation/cli/convert_to_coco/__init__.py:8
 msgid "Convert dataset in mask form to COCO"
 msgstr "Converter dataset em forma de máscara para COCO"
 
-#: ritm_annotation/cli/convert_to_coco/__init__.py:27
+#: ritm_annotation/cli/convert_to_coco/__init__.py:13
 msgid "Dataset folder in mask form"
 msgstr "Diretório do dataset em forma de máscara"
 
-#: ritm_annotation/cli/convert_to_coco/__init__.py:28
+#: ritm_annotation/cli/convert_to_coco/__init__.py:14
 msgid "Where to save the COCO dataset JSON"
 msgstr "Onde salvar o JSON do dataset COCO"
 
-#: ritm_annotation/cli/convert_to_coco/__init__.py:29
+#: ritm_annotation/cli/convert_to_coco/__init__.py:15
 msgid "Overwrite JSON file if it exists"
 msgstr "Sobrescrever o arquivo JSON se existir"
 
-#: ritm_annotation/cli/convert_to_coco/__init__.py:30
+#: ritm_annotation/cli/convert_to_coco/__init__.py:16
 msgid "Description for the COCO dataset"
 msgstr "Descrição do dataset COCO"
 
-#: ritm_annotation/cli/convert_to_coco/__init__.py:30
+#: ritm_annotation/cli/convert_to_coco/__init__.py:16
 msgid "Created with ritm_annotation"
 msgstr "Criado com ritm_annotation"
 
-#: ritm_annotation/cli/convert_to_coco/__init__.py:59
+#: ritm_annotation/cli/convert_to_coco/__init__.py:45
 msgid "Dataset folder must exist and be a folder"
 msgstr "O diretório do dataset precisa existir e ser um diretório"
 
-#: ritm_annotation/cli/convert_to_coco/__init__.py:61
+#: ritm_annotation/cli/convert_to_coco/__init__.py:47
 msgid "COCO dataset exists, use --overwrite to ignore this"
 msgstr "O dataset COCO existe, use --overwrite para ignorar isso"
 
-#: ritm_annotation/cli/convert_to_coco/__init__.py:66
+#: ritm_annotation/cli/convert_to_coco/__init__.py:52
 msgid "Enumerating all classes..."
 msgstr "Enumerando todas as classes..."
 
-#: ritm_annotation/cli/convert_to_coco/__init__.py:82
+#: ritm_annotation/cli/convert_to_coco/__init__.py:68
 msgid "Ingesting images..."
 msgstr "Ingerindo imagens..."
 
@@ -477,20 +482,20 @@ msgstr "AnnotationDataset: impurezas encontradas: {item}"
 msgid "Found mask for {item_name} but not image"
 msgstr "Encontrada máscara para {item_name} sem a imagem"
 
-#: ritm_annotation/cli/finetune/dataset.py:108
+#: ritm_annotation/cli/finetune/dataset.py:110
 msgid "split must be either train or val"
 msgstr "split precisa ser ou train ou val"
 
-#: ritm_annotation/cli/finetune/dataset.py:133
+#: ritm_annotation/cli/finetune/dataset.py:134
 #, python-brace-format
 msgid "Processed item {index}: '{item}' (shape: ({w}, {h})"
 msgstr "Processado item {index}: '{item}' (shape: ({w}, {h})"
 
-#: ritm_annotation/cli/__init__.py:36
+#: ritm_annotation/cli/__init__.py:40
 msgid "Give more details about what is happening"
 msgstr "Dar mais detalhes sobre o que está acontecendo"
 
-#: ritm_annotation/cli/__init__.py:43
+#: ritm_annotation/cli/__init__.py:47
 msgid "Print version and exit"
 msgstr "Exibir versão e sair"
 
