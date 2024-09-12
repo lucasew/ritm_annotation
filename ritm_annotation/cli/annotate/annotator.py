@@ -449,10 +449,11 @@ class InteractiveDemoApp(ttk.Frame):
                     # from ritm_annotation.inference.clicker import Click
                     # data = [Click(item['is_positive'], item['coords'][1], item['coords'][0]) for item in data]
             else:
-                if current_task.seed_mask is not None:
-                    if current_task.seed_mask.exists():
-                        mask = cv2.imread(str(current_task.seed_mask), 0)
-                        self.controller.set_mask(mask)
+                if current_task.seed_mask is not None and current_task.seed_mask.exists():
+                    logger.debug(f"seed mask: {current_task.seed_mask}")
+                    mask = cv2.imread(str(current_task.seed_mask), 0)
+                    mask = mask > 127
+                    self.controller.set_mask(mask)
             self.save_mask_btn.configure(state=tk.NORMAL)
             self.load_mask_btn.configure(state=tk.NORMAL)
             self._update_image()
@@ -491,11 +492,19 @@ class InteractiveDemoApp(ttk.Frame):
         self.menubar.focus_set()
         if self._check_entry(self):
             current_task = self._get_current_task()
-            filename = str(current_task.mask_output.resolve())
+            filename = current_task.mask_output.resolve()
+            if not filename.exist() and current_task.seed_mask is not None:
+                filename = current_task.seed_mask
+            filename = str(filename)
             logger.debug(_("Loading '{filename}'").format(filename=filename))
-            mask = cv2.imread(filename)[:, :, 0] > 127
-            self.controller.set_mask(mask)
-            self._update_image()
+            mask = cv2.imread(filename, 0)
+            logger.debug(f"mask: {mask}")
+            if mask is None:
+                messagebox.showwarning(_("Warning"), _("No mask found"))
+            else:
+                mask = mask > 127
+                self.controller.set_mask(mask)
+                self._update_image()
 
     def _about_callback(self):
         self.menubar.focus_set()
