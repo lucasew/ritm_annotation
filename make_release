@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -eu -o pipefail
+
 if [ $# == 1 ]; then
 	VERSION="$1"; shift
 else
