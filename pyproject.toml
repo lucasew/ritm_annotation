@@ -1,6 +1,7 @@
 [project]
 name = "ritm_annotation"
 dynamic = ["version"]
+readme = "README.md"
 
 dependencies = [
   "easydict",
