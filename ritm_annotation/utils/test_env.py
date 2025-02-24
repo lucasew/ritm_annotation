@@ -1,7 +1,5 @@
 from easydict import EasyDict as edict
 
-import ritm_annotation.utils.i18n  # noqa:F401
-
 from .env import load_cfg_from_env
 
 

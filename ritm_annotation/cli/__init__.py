@@ -10,6 +10,7 @@ from gettext import gettext as _
 import gettext
 
 import faulthandler
+
 faulthandler.enable()
 
 logger = logging.getLogger(__name__)
@@ -24,8 +25,6 @@ gettext.bindtextdomain(
 logger.debug(
     _('Loading locale data from "{locale_folder}"').format(locale_folder=locale_dir)
 )
-
-
 
 
 def add_subcommand(subparsers, name: str, submodule):
