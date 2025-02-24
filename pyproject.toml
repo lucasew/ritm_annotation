@@ -26,7 +26,8 @@ dev = [
   "pytest-cov",
   "mypy",
   "gitchangelog",
-  "mkdocs"
+  "mkdocs",
+  "mkdocstrings"
 ]
 
 [build-system]

@@ -1,2 +1,5 @@
 site_name: ritm_annotation
 theme: readthedocs
+
+plugins:
+- mkdocstrings
