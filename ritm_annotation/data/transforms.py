@@ -6,7 +6,6 @@ from albumentations import DualTransform, ImageOnlyTransform
 from albumentations.augmentations import functional as F
 from albumentations.augmentations.geometric import functional as FG
 from albumentations.core.serialization import SERIALIZABLE_REGISTRY
-from albumentations.core.transforms_interface import to_tuple
 
 from ritm_annotation.utils.misc import (
     clamp_bbox,
@@ -14,6 +13,17 @@ from ritm_annotation.utils.misc import (
     get_bbox_from_mask,
     get_labels_with_sizes,
 )
+
+# https://vfdev-5-albumentations.readthedocs.io/en/docs_pytorch_fix/_modules/albumentations/core/transforms_interface.html
+def to_tuple(param, low=None):
+    if isinstance(param, (list, tuple)):
+        return tuple(param)
+    elif param is not None:
+        if low is None:
+            return -param, param
+        return (low, param) if low < param else (param, low)
+    else:
+        return param
 
 
 class UniformRandomResize(DualTransform):

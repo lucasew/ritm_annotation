@@ -46,7 +46,8 @@ def get_trainer(model, cfg, model_cfg, dry_run=False, no_dataset=False):
     train_augmentator = Compose(
         [
             UniformRandomResize(scale_range=(0.75, 1.25)),
-            Flip(),
+            HorizontalFlip(),
+            VerticalFlip(),
             RandomRotate90(),
             ShiftScaleRotate(
                 shift_limit=0.03,
