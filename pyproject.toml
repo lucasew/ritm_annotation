@@ -1,0 +1,45 @@
+[project]
+name = "ritm_annotation"
+dynamic = ["version"]
+
+dependencies = [
+  "easydict",
+  "albumentations",
+  "pillow",
+  "scipy",
+  "tensorboard",
+  "torchvision",
+  "opencv-python-headless",
+  "Cython",
+  "numpy",
+  "tqdm",
+  "pycocotools"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "coverage",
+  "flake8",
+  "black",
+  "isort",
+  "pytest-cov",
+  "mypy",
+  "gitchangelog",
+  "mkdocs"
+]
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["ritm_annotation"]
+
+[tool.hatch.version]
+path = "ritm_annotation/VERSION"
+pattern = "^(?P<version>[^$]*)"
+
+[project.scripts]
+ritm_annotation = "ritm_annotation.__main__:main"

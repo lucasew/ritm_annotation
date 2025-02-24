@@ -17,6 +17,8 @@
 buildPythonPackage {
   pname = "ritm_annotation";
   version = builtins.readFile ./ritm_annotation/VERSION;
+  pyproject = true;
+
   src = ./.;
 
   nativeBuildInputs = [ cython ];
