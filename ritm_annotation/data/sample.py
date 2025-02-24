@@ -42,9 +42,7 @@ class DSample:
                 if isinstance(ignore_ids[0], tuple):
                     self._ignored_regions = ignore_ids
                 else:
-                    self._ignored_regions = [
-                        (0, region_id) for region_id in ignore_ids
-                    ]
+                    self._ignored_regions = [(0, region_id) for region_id in ignore_ids]
         else:
             self._objects = deepcopy(objects)
 
@@ -66,9 +64,7 @@ class DSample:
         if aug_replay:
             assert len(self._ignored_regions) == 0
             mask_replay = remove_image_only_transforms(aug_replay)
-            self._soft_mask_aug = ReplayCompose._restore_for_replay(
-                mask_replay
-            )
+            self._soft_mask_aug = ReplayCompose._restore_for_replay(mask_replay)
 
         self._compute_objects_areas()
         self.remove_small_objects(min_area=1)
@@ -95,9 +91,7 @@ class DSample:
 
     def get_object_mask(self, obj_id):
         layer_indx, mask_id = self._objects[obj_id]["mapping"]
-        obj_mask = (self._encoded_masks[:, :, layer_indx] == mask_id).astype(
-            np.int32
-        )
+        obj_mask = (self._encoded_masks[:, :, layer_indx] == mask_id).astype(np.int32)
         if self._ignored_regions:
             for layer_indx, mask_id in self._ignored_regions:
                 ignore_mask = self._encoded_masks[:, :, layer_indx] == mask_id
@@ -109,12 +103,12 @@ class DSample:
         assert self._soft_mask_aug is not None
         original_encoded_masks = self._original_data[1]
         layer_indx, mask_id = self._objects[obj_id]["mapping"]
-        obj_mask = (
-            original_encoded_masks[:, :, layer_indx] == mask_id
-        ).astype(np.float32)
-        obj_mask = self._soft_mask_aug(
-            image=obj_mask, mask=original_encoded_masks
-        )["image"]
+        obj_mask = (original_encoded_masks[:, :, layer_indx] == mask_id).astype(
+            np.float32
+        )
+        obj_mask = self._soft_mask_aug(image=obj_mask, mask=original_encoded_masks)[
+            "image"
+        ]
         return np.clip(obj_mask, 0, 1)
 
     def get_background_mask(self):

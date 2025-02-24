@@ -23,8 +23,7 @@ class OpenImagesDataset(ISDataset):
         self.dataset_split = split
 
         clean_anno_path = (
-            self._split_path
-            / f"{split}-annotations-object-segmentation_clean.pkl"
+            self._split_path / f"{split}-annotations-object-segmentation_clean.pkl"
         )
         if os.path.exists(clean_anno_path):
             with clean_anno_path.open("rb") as f:
@@ -74,6 +73,4 @@ class OpenImagesDataset(ISDataset):
 
         object_ids = [1] if instances_mask.sum() > 0 else []
 
-        return DSample(
-            image, instances_mask, objects_ids=object_ids, sample_id=index
-        )
+        return DSample(image, instances_mask, objects_ids=object_ids, sample_id=index)

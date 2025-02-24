@@ -29,9 +29,7 @@ class LvisDataset(ISDataset):
         self.max_overlap_ratio = max_overlap_ratio
 
         if not dry_run:
-            with open(
-                dataset_path / split / f"lvis_{self.split}.json", "r"
-            ) as f:
+            with open(dataset_path / split / f"lvis_{self.split}.json", "r") as f:
                 json_annotation = json.loads(f.read())
         else:
             json_annotation = dict(annotations=[], images=[])
@@ -45,9 +43,7 @@ class LvisDataset(ISDataset):
                 dataset_path, train_categories_path, dry_run=dry_run
             )
         self.dataset_samples = [
-            x
-            for x in json_annotation["images"]
-            if len(self.annotations[x["id"]]) > 0
+            x for x in json_annotation["images"] if len(self.annotations[x["id"]]) > 0
         ]
 
     def get_sample(self, index) -> DSample:
@@ -83,8 +79,7 @@ class LvisDataset(ISDataset):
                 if overlap_area > 0 and inst_id > 0
             ]
             overlap_ratio = (
-                np.logical_and(object_mask, instances_mask > 0).sum()
-                / object_area
+                np.logical_and(object_mask, instances_mask > 0).sum() / object_area
             )
             if overlap_areas:
                 overlap_ratio = max(overlap_ratio, max(overlap_areas))
@@ -103,17 +98,13 @@ class LvisDataset(ISDataset):
         mask = np.zeros(image.shape[:2], dtype=np.int32)
         for contour_points in annotation["segmentation"]:
             contour_points = np.array(contour_points).reshape((-1, 2))
-            contour_points = np.round(contour_points).astype(np.int32)[
-                np.newaxis, :
-            ]
+            contour_points = np.round(contour_points).astype(np.int32)[np.newaxis, :]
             cv2.fillPoly(mask, contour_points, 1)
 
         return mask
 
     @staticmethod
-    def generate_train_categories(
-        dataset_path, train_categories_path, dry_run=False
-    ):
+    def generate_train_categories(dataset_path, train_categories_path, dry_run=False):
         if not dry_run:
             with open(dataset_path / "train/lvis_train.json", "r") as f:
                 annotation = json.load(f)

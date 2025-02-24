@@ -54,10 +54,7 @@ class OracleMaskLoss(torch.nn.Module):
         loss = self.loss(result, gt_mask)
         self.history.append(loss.detach().cpu().numpy()[0])
 
-        if (
-            len(self.history) > 5
-            and abs(self.history[-5] - self.history[-1]) < 1e-5
-        ):
+        if len(self.history) > 5 and abs(self.history[-5] - self.history[-1]) < 1e-5:
             return 0, 0, 0
 
         return loss, 1.0, 1.0

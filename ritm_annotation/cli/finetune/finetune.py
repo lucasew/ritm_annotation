@@ -23,20 +23,14 @@ def handle(args):
     model_path = Path(args.model_path)
     if args.temp_model_path != "":
         logger.debug(
-            _(
-                "Falling back to temp_model_path because model_path wasn't specified"
-            )  # noqa:E501
+            _("Falling back to temp_model_path because model_path wasn't specified")  # noqa:E501
         )
         model_path = Path(args.temp_model_path)
     if not model_path.is_absolute():
-        model_path = (
-            Path(__file__).parent.parent.parent / "models" / model_path
-        )
+        model_path = Path(__file__).parent.parent.parent / "models" / model_path
     model_path = model_path.resolve()
     args.model_path = model_path
-    logger.debug(
-        _("Final model path: '{model_path}'").format(model_path=model_path)
-    )
+    logger.debug(_("Final model path: '{model_path}'").format(model_path=model_path))
 
     model_script = load_module(model_path)
 

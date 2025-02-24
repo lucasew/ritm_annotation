@@ -101,16 +101,12 @@ class ISTrainer(object):
         assert self.valset is not None, _("Missing validation dataset")
 
         logger.info(
-            _(
-                "Dataset of {num_samples} samples was loaded for training."
-            ).format(
+            _("Dataset of {num_samples} samples was loaded for training.").format(
                 num_samples=self.trainset.get_samples_number()
             )  # noqa: E501
         )
         logger.info(
-            _(
-                "Dataset of {num_samples} samples was loaded for validation."
-            ).format(
+            _("Dataset of {num_samples} samples was loaded for validation.").format(
                 num_samples=self.valset.get_samples_number()
             )  # noqa: E501
         )
@@ -145,9 +141,7 @@ class ISTrainer(object):
         )
         logger.debug(_("Initializing model"))
         self.model = self._load_weights(self.model)
-        self.optim = get_optimizer(
-            self.model, self.optimizer, self.optimizer_params
-        )
+        self.optim = get_optimizer(self.model, self.optimizer, self.optimizer_params)
 
         if self.cfg.multi_gpu:
             self.model = get_dp_wrapper(self.cfg.distributed)(
@@ -197,12 +191,8 @@ class ISTrainer(object):
         if start_epoch is None:
             start_epoch = self.cfg.start_epoch
 
-        logger.info(
-            _("Starting Epoch: {start_epoch}").format(start_epoch=start_epoch)
-        )
-        logger.info(
-            _("Total Epochs: {num_epochs}").format(num_epochs=num_epochs)
-        )
+        logger.info(_("Starting Epoch: {start_epoch}").format(start_epoch=start_epoch))
+        logger.info(_("Total Epochs: {num_epochs}").format(num_epochs=num_epochs))
         for epoch in range(start_epoch, num_epochs):
             self.training(epoch)
             if validation:
@@ -265,9 +255,7 @@ class ISTrainer(object):
                         and hasattr(v, "log_states")
                         and self.loss_cfg.get(k + "_weight", 0.0) > 0
                     ):
-                        v.log_states(
-                            self.sw, f"{log_prefix}Losses/{k}", global_step
-                        )
+                        v.log_states(self.sw, f"{log_prefix}Losses/{k}", global_step)
 
                 if (
                     self.image_dump_interval > 0
@@ -426,9 +414,7 @@ class ISTrainer(object):
                 points.clone(),
             )
 
-            prev_output = torch.zeros_like(image, dtype=torch.float32)[
-                :, :1, :, :
-            ]
+            prev_output = torch.zeros_like(image, dtype=torch.float32)[:, :1, :, :]
 
             last_click_indx = None
 
@@ -473,9 +459,7 @@ class ISTrainer(object):
                         np.random.random(size=prev_output.size(0))
                         < self.prev_mask_drop_prob
                     )
-                    prev_output[zero_mask] = torch.zeros_like(
-                        prev_output[zero_mask]
-                    )
+                    prev_output[zero_mask] = torch.zeros_like(prev_output[zero_mask])
 
             batch_data["points"] = points
 
@@ -531,9 +515,7 @@ class ISTrainer(object):
 
         return total_loss
 
-    def save_visualization(
-        self, splitted_batch_data, outputs, global_step, prefix
-    ):
+    def save_visualization(self, splitted_batch_data, outputs, global_step, prefix):
         output_images_path = self.cfg.VIS_PATH / prefix
         if self.task_prefix:
             output_images_path /= self.task_prefix
@@ -578,9 +560,9 @@ class ISTrainer(object):
         gt_mask[gt_mask < 0] = 0.25
         gt_mask = draw_probmap(gt_mask)
         predicted_mask = draw_probmap(predicted_mask)
-        viz_image = np.hstack(
-            (image_with_points, gt_mask, predicted_mask)
-        ).astype(np.uint8)
+        viz_image = np.hstack((image_with_points, gt_mask, predicted_mask)).astype(
+            np.uint8
+        )
 
         _save_image("instance_segmentation", viz_image[:, :, ::-1])
 
@@ -590,9 +572,7 @@ class ISTrainer(object):
             checkpoints = list(self.cfg.CHECKPOINTS_PATH.glob(checkpoint_glob))
             assert len(checkpoints) == 1, _(
                 "'{checkpoint_glob}' didn't match anything"
-            ).format(
-                checkpoint_glob=f"{self.cfg.CHECKPOINTS_PATH}/{checkpoint_glob}"
-            )
+            ).format(checkpoint_glob=f"{self.cfg.CHECKPOINTS_PATH}/{checkpoint_glob}")
 
             checkpoint_path = checkpoints[0]
             load_weights(net, str(checkpoint_path))
@@ -622,22 +602,14 @@ def get_next_points(pred, gt, points, click_indx, pred_thresh=0.49):
     fn_mask = np.logical_and(gt, pred < pred_thresh)
     fp_mask = np.logical_and(np.logical_not(gt), pred > pred_thresh)
 
-    fn_mask = np.pad(fn_mask, ((0, 0), (1, 1), (1, 1)), "constant").astype(
-        np.uint8
-    )
-    fp_mask = np.pad(fp_mask, ((0, 0), (1, 1), (1, 1)), "constant").astype(
-        np.uint8
-    )
+    fn_mask = np.pad(fn_mask, ((0, 0), (1, 1), (1, 1)), "constant").astype(np.uint8)
+    fp_mask = np.pad(fp_mask, ((0, 0), (1, 1), (1, 1)), "constant").astype(np.uint8)
     num_points = points.size(1) // 2
     points = points.clone()
 
     for bindx in range(fn_mask.shape[0]):
-        fn_mask_dt = cv2.distanceTransform(fn_mask[bindx], cv2.DIST_L2, 5)[
-            1:-1, 1:-1
-        ]
-        fp_mask_dt = cv2.distanceTransform(fp_mask[bindx], cv2.DIST_L2, 5)[
-            1:-1, 1:-1
-        ]
+        fn_mask_dt = cv2.distanceTransform(fn_mask[bindx], cv2.DIST_L2, 5)[1:-1, 1:-1]
+        fp_mask_dt = cv2.distanceTransform(fp_mask[bindx], cv2.DIST_L2, 5)[1:-1, 1:-1]
 
         fn_max_dist = np.max(fn_mask_dt)
         fp_max_dist = np.max(fp_mask_dt)
@@ -653,15 +625,9 @@ def get_next_points(pred, gt, points, click_indx, pred_thresh=0.49):
                 points[bindx, num_points - click_indx, 1] = float(coords[1])
                 points[bindx, num_points - click_indx, 2] = float(click_indx)
             else:
-                points[bindx, 2 * num_points - click_indx, 0] = float(
-                    coords[0]
-                )
-                points[bindx, 2 * num_points - click_indx, 1] = float(
-                    coords[1]
-                )
-                points[bindx, 2 * num_points - click_indx, 2] = float(
-                    click_indx
-                )
+                points[bindx, 2 * num_points - click_indx, 0] = float(coords[0])
+                points[bindx, 2 * num_points - click_indx, 1] = float(coords[1])
+                points[bindx, 2 * num_points - click_indx, 2] = float(click_indx)
 
     return points
 
@@ -673,8 +639,6 @@ def load_weights(model, path_to_weights):
         )
     )
     current_state_dict = model.state_dict()
-    new_state_dict = torch.load(path_to_weights, map_location="cpu")[
-        "state_dict"
-    ]
+    new_state_dict = torch.load(path_to_weights, map_location="cpu")["state_dict"]
     current_state_dict.update(new_state_dict)
     model.load_state_dict(current_state_dict)

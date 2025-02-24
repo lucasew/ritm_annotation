@@ -19,7 +19,7 @@ class DeepLabV3Plus(nn.Module):
         ch=256,
         project_dropout=0.5,
         inference_mode=False,
-        **kwargs
+        **kwargs,
     ):
         super(DeepLabV3Plus, self).__init__()
         if backbone_norm_layer is None:
@@ -42,7 +42,7 @@ class DeepLabV3Plus(nn.Module):
             backbone=self.backbone_name,
             pretrained_base=False,
             norm_layer=self.backbone_norm_layer,
-            **kwargs
+            **kwargs,
         )
 
         self.head = _DeepLabHead(
@@ -70,7 +70,7 @@ class DeepLabV3Plus(nn.Module):
             backbone=self.backbone_name,
             pretrained_base=True,
             norm_layer=self.backbone_norm_layer,
-            **self._kwargs
+            **self._kwargs,
         )
         backbone_state_dict = self.backbone.state_dict()
         pretrained_state_dict = pretrained.state_dict()
@@ -95,9 +95,7 @@ class DeepLabV3Plus(nn.Module):
             c1 = self.skip_project(c1)
 
             x = self.aspp(c4)
-            x = F.interpolate(
-                x, c1.size()[2:], mode="bilinear", align_corners=True
-            )
+            x = F.interpolate(x, c1.size()[2:], mode="bilinear", align_corners=True)
             x = torch.cat((x, c1), dim=1)
             x = self.head(x)
 
@@ -225,9 +223,7 @@ class _AsppPooling(nn.Module):
 
     def forward(self, x):
         pool = self.gap(x)
-        return F.interpolate(
-            pool, x.size()[2:], mode="bilinear", align_corners=True
-        )
+        return F.interpolate(pool, x.size()[2:], mode="bilinear", align_corners=True)
 
 
 def _ASPPConv(in_channels, out_channels, atrous_rate, norm_layer):

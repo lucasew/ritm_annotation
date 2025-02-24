@@ -15,17 +15,13 @@ def select_activation_function(activation):
             return nn.Softplus
         else:
             raise ValueError(
-                _("Unknown activation type {activation}").format(
-                    activation=activation
-                )
+                _("Unknown activation type {activation}").format(activation=activation)
             )
     elif isinstance(activation, nn.Module):
         return activation
     else:
         raise ValueError(
-            _("Unknown activation type {activation}").format(
-                activation=activation
-            )
+            _("Unknown activation type {activation}").format(activation=activation)
         )
 
 
@@ -45,16 +41,12 @@ class BilinearConvTranspose2d(nn.ConvTranspose2d):
         )
 
         self.apply(
-            initializer.Bilinear(
-                scale=scale, in_channels=in_channels, groups=groups
-            )
+            initializer.Bilinear(scale=scale, in_channels=in_channels, groups=groups)
         )
 
 
 class DistMaps(nn.Module):
-    def __init__(
-        self, norm_radius, spatial_scale=1.0, cpu_mode=False, use_disks=False
-    ):
+    def __init__(self, norm_radius, spatial_scale=1.0, cpu_mode=False, use_disks=False):
         super(DistMaps, self).__init__()
         self.spatial_scale = spatial_scale
         self.norm_radius = norm_radius
@@ -70,9 +62,7 @@ class DistMaps(nn.Module):
             coords = []
             for i in range(batchsize):
                 norm_delimeter = (
-                    1.0
-                    if self.use_disks
-                    else self.spatial_scale * self.norm_radius
+                    1.0 if self.use_disks else self.spatial_scale * self.norm_radius
                 )
                 coords.append(
                     self._get_dist_maps(
@@ -83,9 +73,7 @@ class DistMaps(nn.Module):
                     )
                 )
             coords = (
-                torch.from_numpy(np.stack(coords, axis=0))
-                .to(points.device)
-                .float()
+                torch.from_numpy(np.stack(coords, axis=0)).to(points.device).float()
             )
         else:
             num_points = points.shape[1] // 2
@@ -129,24 +117,18 @@ class DistMaps(nn.Module):
             coords[invalid_points, :, :, :] = 1e6
 
             coords = coords.view(-1, num_points, 1, rows, cols)
-            coords = coords.min(dim=1)[
-                0
-            ]  # -> (bs * num_masks * 2) x 1 x h x w
+            coords = coords.min(dim=1)[0]  # -> (bs * num_masks * 2) x 1 x h x w
             coords = coords.view(-1, 2, rows, cols)
 
         if self.use_disks:
-            coords = (
-                coords <= (self.norm_radius * self.spatial_scale) ** 2
-            ).float()
+            coords = (coords <= (self.norm_radius * self.spatial_scale) ** 2).float()
         else:
             coords.sqrt_().mul_(2).tanh_()
 
         return coords
 
     def forward(self, x, coords):
-        return self.get_coord_features(
-            coords, x.shape[0], x.shape[2], x.shape[3]
-        )
+        return self.get_coord_features(coords, x.shape[0], x.shape[2], x.shape[3])
 
 
 class ScaleLayer(nn.Module):
@@ -170,7 +152,5 @@ class BatchImageNormalize:
     def __call__(self, tensor):
         tensor = tensor.clone()
 
-        tensor.sub_(self.mean.to(tensor.device)).div_(
-            self.std.to(tensor.device)
-        )
+        tensor.sub_(self.mean.to(tensor.device)).div_(self.std.to(tensor.device))
         return tensor

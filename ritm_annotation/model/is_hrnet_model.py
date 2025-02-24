@@ -16,7 +16,7 @@ class HRNetModel(ISModel):
         small=False,
         backbone_lr_mult=0.1,
         norm_layer=nn.BatchNorm2d,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(norm_layer=norm_layer, **kwargs)
 

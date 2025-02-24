@@ -31,9 +31,7 @@ class PascalVocDataset(ISDataset):
                     self.dataset_path / f"ImageSets/Segmentation/{split}.txt",
                     "r",
                 ) as f:
-                    self.dataset_samples = [
-                        name.strip() for name in f.readlines()
-                    ]
+                    self.dataset_samples = [name.strip() for name in f.readlines()]
 
     def get_sample(self, index) -> DSample:
         sample_id = self.dataset_samples[index]
@@ -43,9 +41,9 @@ class PascalVocDataset(ISDataset):
         image = cv2.imread(image_path)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         instances_mask = cv2.imread(mask_path)
-        instances_mask = cv2.cvtColor(
-            instances_mask, cv2.COLOR_BGR2GRAY
-        ).astype(np.int32)
+        instances_mask = cv2.cvtColor(instances_mask, cv2.COLOR_BGR2GRAY).astype(
+            np.int32
+        )
         if self.dataset_split == "test":
             instance_id = self.instance_ids[index]
             mask = np.zeros_like(instances_mask)

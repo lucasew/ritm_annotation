@@ -82,9 +82,7 @@ class ZoomIn(BaseTransform):
         if update_object_roi:
             self._object_roi = current_object_roi
             self.image_changed = True
-        self._roi_image = get_roi_image_nd(
-            image_nd, self._object_roi, self.target_size
-        )
+        self._roi_image = get_roi_image_nd(image_nd, self._object_roi, self.target_size)
 
         tclicks_lists = [self._transform_clicks(clicks_list)]
         return self._roi_image.to(image_nd.device), tclicks_lists
@@ -105,9 +103,7 @@ class ZoomIn(BaseTransform):
 
         if self._prev_probs is not None:
             new_prob_map = torch.zeros(
-                *self._prev_probs.shape,
-                device=prob_map.device,
-                dtype=prob_map.dtype
+                *self._prev_probs.shape, device=prob_map.device, dtype=prob_map.dtype
             )
             new_prob_map[:, :, rmin : rmax + 1, cmin : cmax + 1] = prob_map
         else:
@@ -141,9 +137,7 @@ class ZoomIn(BaseTransform):
         return False
 
     def get_state(self):
-        roi_image = (
-            self._roi_image.cpu() if self._roi_image is not None else None
-        )
+        roi_image = self._roi_image.cpu() if self._roi_image is not None else None
         return (
             self._input_image_shape,
             self._object_roi,
@@ -226,15 +220,9 @@ def get_roi_image_nd(image_nd, object_roi, target_size):
 def check_object_roi(object_roi, clicks_list):
     for click in clicks_list:
         if click.is_positive:
-            if (
-                click.coords[0] < object_roi[0]
-                or click.coords[0] >= object_roi[1]
-            ):
+            if click.coords[0] < object_roi[0] or click.coords[0] >= object_roi[1]:
                 return False
-            if (
-                click.coords[1] < object_roi[2]
-                or click.coords[1] >= object_roi[3]
-            ):
+            if click.coords[1] < object_roi[2] or click.coords[1] >= object_roi[3]:
                 return False
 
     return True

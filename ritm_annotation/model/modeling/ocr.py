@@ -113,9 +113,7 @@ class ObjectAttentionBlock2D(nn.Module):
                 padding=0,
                 bias=False,
             ),
-            nn.Sequential(
-                norm_layer(self.key_channels), nn.ReLU(inplace=True)
-            ),
+            nn.Sequential(norm_layer(self.key_channels), nn.ReLU(inplace=True)),
             nn.Conv2d(
                 in_channels=self.key_channels,
                 out_channels=self.key_channels,
@@ -124,9 +122,7 @@ class ObjectAttentionBlock2D(nn.Module):
                 padding=0,
                 bias=False,
             ),
-            nn.Sequential(
-                norm_layer(self.key_channels), nn.ReLU(inplace=True)
-            ),
+            nn.Sequential(norm_layer(self.key_channels), nn.ReLU(inplace=True)),
         )
         self.f_object = nn.Sequential(
             nn.Conv2d(
@@ -137,9 +133,7 @@ class ObjectAttentionBlock2D(nn.Module):
                 padding=0,
                 bias=False,
             ),
-            nn.Sequential(
-                norm_layer(self.key_channels), nn.ReLU(inplace=True)
-            ),
+            nn.Sequential(norm_layer(self.key_channels), nn.ReLU(inplace=True)),
             nn.Conv2d(
                 in_channels=self.key_channels,
                 out_channels=self.key_channels,
@@ -148,9 +142,7 @@ class ObjectAttentionBlock2D(nn.Module):
                 padding=0,
                 bias=False,
             ),
-            nn.Sequential(
-                norm_layer(self.key_channels), nn.ReLU(inplace=True)
-            ),
+            nn.Sequential(norm_layer(self.key_channels), nn.ReLU(inplace=True)),
         )
         self.f_down = nn.Sequential(
             nn.Conv2d(
@@ -161,9 +153,7 @@ class ObjectAttentionBlock2D(nn.Module):
                 padding=0,
                 bias=False,
             ),
-            nn.Sequential(
-                norm_layer(self.key_channels), nn.ReLU(inplace=True)
-            ),
+            nn.Sequential(norm_layer(self.key_channels), nn.ReLU(inplace=True)),
         )
         self.f_up = nn.Sequential(
             nn.Conv2d(

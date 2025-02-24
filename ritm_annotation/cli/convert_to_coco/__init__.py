@@ -11,9 +11,7 @@ COMMAND_DESCRIPTION = _("Convert dataset in mask form to COCO")
 
 
 def command(subparser):
-    subparser.add_argument(
-        "input", type=Path, help=_("Dataset folder in mask form")
-    )
+    subparser.add_argument("input", type=Path, help=_("Dataset folder in mask form"))
     subparser.add_argument(
         "output", type=Path, help=_("Where to save the COCO dataset JSON")
     )
@@ -67,17 +65,13 @@ def command(subparser):
         args.output.parent.mkdir(exist_ok=True, parents=True)
 
         classes = set()
-        for item in try_tqdm(
-            input_items, desc=_("Enumerating all classes...")
-        ):
+        for item in try_tqdm(input_items, desc=_("Enumerating all classes...")):
             if not item.is_dir():
                 continue
             for subitem in item.iterdir():
                 if subitem.name.endswith(".json"):
                     continue
-                classes.add(
-                    subitem.stem
-                )  # only the part without the extension
+                classes.add(subitem.stem)  # only the part without the extension
         classes = list(classes)
         classes.sort()
         classes = {cls: i + 1 for i, cls in enumerate(classes)}

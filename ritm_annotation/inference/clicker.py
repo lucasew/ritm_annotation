@@ -47,12 +47,8 @@ class Clicker(object):
             fn_mask = np.pad(fn_mask, ((1, 1), (1, 1)), "constant")
             fp_mask = np.pad(fp_mask, ((1, 1), (1, 1)), "constant")
 
-        fn_mask_dt = cv2.distanceTransform(
-            fn_mask.astype(np.uint8), cv2.DIST_L2, 0
-        )
-        fp_mask_dt = cv2.distanceTransform(
-            fp_mask.astype(np.uint8), cv2.DIST_L2, 0
-        )
+        fn_mask_dt = cv2.distanceTransform(fn_mask.astype(np.uint8), cv2.DIST_L2, 0)
+        fp_mask_dt = cv2.distanceTransform(fp_mask.astype(np.uint8), cv2.DIST_L2, 0)
 
         if padding:
             fn_mask_dt = fn_mask_dt[1:-1, 1:-1]
@@ -66,24 +62,16 @@ class Clicker(object):
 
         is_positive = fn_max_dist > fp_max_dist
         if is_positive:
-            coords_y, coords_x = np.where(
-                fn_mask_dt == fn_max_dist
-            )  # coords is [y, x]
+            coords_y, coords_x = np.where(fn_mask_dt == fn_max_dist)  # coords is [y, x]
         else:
-            coords_y, coords_x = np.where(
-                fp_mask_dt == fp_max_dist
-            )  # coords is [y, x]
+            coords_y, coords_x = np.where(fp_mask_dt == fp_max_dist)  # coords is [y, x]
 
-        return Click(
-            is_positive=is_positive, coords=(coords_y[0], coords_x[0])
-        )
+        return Click(is_positive=is_positive, coords=(coords_y[0], coords_x[0]))
 
     def add_click(self, click):
         coords = click.coords
 
-        click.indx = (
-            self.click_indx_offset + self.num_pos_clicks + self.num_neg_clicks
-        )
+        click.indx = self.click_indx_offset + self.num_pos_clicks + self.num_neg_clicks
         if click.is_positive:
             self.num_pos_clicks += 1
         else:
@@ -137,9 +125,7 @@ class Click:
         return (*self.coords, self.indx)
 
     def to_json(self):
-        return dict(
-            is_positive=self.is_positive, coords=self.coords, indx=self.indx
-        )
+        return dict(is_positive=self.is_positive, coords=self.coords, indx=self.indx)
 
     def copy(self, **kwargs):
         self_copy = deepcopy(self)

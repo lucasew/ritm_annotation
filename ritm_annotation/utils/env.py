@@ -14,9 +14,7 @@ def load_cfg_from_env(cfg: edict, env: Dict[str, str]):
             logger.warning(
                 _(
                     "Changing configuration entry from environment variable: {k}={v}"
-                ).format(
-                    k=cfgkey, v=v
-                )  # noqa:E501
+                ).format(k=cfgkey, v=v)  # noqa:E501
             )  # noqa: E501
             *parts, last = cfgkey.split(".")
             this_cfg = cfg

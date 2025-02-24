@@ -40,9 +40,7 @@ def command(parser):
 
     def handle(args):
         assert args.input.is_dir(), _("Dataset must be a directory")
-        assert args.images is None or args.images.is_dir(), _(
-            "Invalid image directory"
-        )
+        assert args.images is None or args.images.is_dir(), _("Invalid image directory")
         if args.images is not None:
             logger.info(_("Using images with masks!"))
 
@@ -63,9 +61,7 @@ def command(parser):
                     item_img = cv2.imread(str(image_file))
                     if item_img is None:
                         logger.error(
-                            _("'{item_img}': Invalid image").format(
-                                item_img=item_img
-                            )
+                            _("'{item_img}': Invalid image").format(item_img=item_img)
                         )
                     else:
                         item_img = cv2.cvtColor(item_img, cv2.COLOR_BGR2RGB)
@@ -83,17 +79,13 @@ def command(parser):
                         logger.error(
                             _(
                                 "'{mask}': First dimension doesn't match for image and mask"
-                            ).format(
-                                mask=mask
-                            )  # noqa:E501
+                            ).format(mask=mask)  # noqa:E501
                         )
                     if hi != hm:
                         logger.error(
                             _(
                                 "'{mask}': Second dimension doesn't match for image and mask"
-                            ).format(
-                                mask=mask
-                            )  # noqa:E501
+                            ).format(mask=mask)  # noqa:E501
                         )
 
         items = list(args.input.iterdir())

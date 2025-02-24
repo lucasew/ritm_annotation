@@ -59,9 +59,7 @@ class AdaptiveIoU(TrainMetric):
             return
 
         ignore_mask = gt == self._ignore_label
-        max_iou = _compute_iou(
-            pred > self._iou_thresh, gt_mask, ignore_mask
-        ).mean()
+        max_iou = _compute_iou(pred > self._iou_thresh, gt_mask, ignore_mask).mean()
         best_thresh = self._iou_thresh
         for t in [
             best_thresh - self._thresh_step,
@@ -73,12 +71,9 @@ class AdaptiveIoU(TrainMetric):
                 best_thresh = t
 
         self._iou_thresh = (
-            self._thresh_beta * self._iou_thresh
-            + (1 - self._thresh_beta) * best_thresh
+            self._thresh_beta * self._iou_thresh + (1 - self._thresh_beta) * best_thresh
         )
-        self._ema_iou = (
-            self._iou_beta * self._ema_iou + (1 - self._iou_beta) * max_iou
-        )
+        self._ema_iou = self._iou_beta * self._ema_iou + (1 - self._iou_beta) * max_iou
         self._epoch_iou_sum += max_iou
         self._epoch_batch_count += 1
 
@@ -111,9 +106,7 @@ class AdaptiveIoU(TrainMetric):
 
 def _compute_iou(pred_mask, gt_mask, ignore_mask=None, keep_ignore=False):
     if ignore_mask is not None:
-        pred_mask = torch.where(
-            ignore_mask, torch.zeros_like(pred_mask), pred_mask
-        )
+        pred_mask = torch.where(ignore_mask, torch.zeros_like(pred_mask), pred_mask)
 
     reduction_dims = misc.get_dims_with_exclusion(gt_mask.dim(), 0)
     union = (

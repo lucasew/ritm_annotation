@@ -7,9 +7,7 @@ from .base import BasePredictor
 
 
 class BRSBasePredictor(BasePredictor):
-    def __init__(
-        self, model, device, opt_functor, optimize_after_n_clicks=1, **kwargs
-    ):
+    def __init__(self, model, device, opt_functor, optimize_after_n_clicks=1, **kwargs):
         super().__init__(model, device, **kwargs)
         self.optimize_after_n_clicks = optimize_after_n_clicks
         self.opt_functor = opt_functor
@@ -61,12 +59,7 @@ class BRSBasePredictor(BasePredictor):
 
 class FeatureBRSPredictor(BRSBasePredictor):
     def __init__(
-        self,
-        model,
-        device,
-        opt_functor,
-        insertion_mode="after_deeplab",
-        **kwargs
+        self, model, device, opt_functor, insertion_mode="after_deeplab", **kwargs
     ):
         super().__init__(model, device, opt_functor=opt_functor, **kwargs)
         self.insertion_mode = insertion_mode
@@ -83,9 +76,7 @@ class FeatureBRSPredictor(BRSBasePredictor):
 
     def _get_prediction(self, image_nd, clicks_lists, is_image_changed):
         points_nd = self.get_points_nd(clicks_lists)
-        pos_mask, neg_mask = self._get_clicks_maps_nd(
-            clicks_lists, image_nd.shape[2:]
-        )
+        pos_mask, neg_mask = self._get_clicks_maps_nd(clicks_lists, image_nd.shape[2:])
 
         num_clicks = len(clicks_lists[0])
         bs = image_nd.shape[0] // 2 if self.with_flip else image_nd.shape[0]
@@ -94,9 +85,7 @@ class FeatureBRSPredictor(BRSBasePredictor):
             self.opt_data is None
             or self.opt_data.shape[0] // (2 * self.num_channels) != bs
         ):
-            self.opt_data = np.zeros(
-                (bs * 2 * self.num_channels), dtype=np.float32
-            )
+            self.opt_data = np.zeros((bs * 2 * self.num_channels), dtype=np.float32)
 
         if (
             num_clicks <= self.net_clicks_limit
@@ -145,7 +134,7 @@ class FeatureBRSPredictor(BRSBasePredictor):
             opt_result = fmin_l_bfgs_b(
                 func=self.opt_functor,
                 x0=self.opt_data,
-                **self.opt_functor.optimizer_params
+                **self.opt_functor.optimizer_params,
             )
             self.opt_data = opt_result[0]
 
@@ -162,23 +151,16 @@ class FeatureBRSPredictor(BRSBasePredictor):
     def _get_head_input(self, image_nd, points):
         with torch.no_grad():
             image_nd, prev_mask = self.net.prepare_input(image_nd)
-            coord_features = self.net.get_coord_features(
-                image_nd, prev_mask, points
-            )
+            coord_features = self.net.get_coord_features(image_nd, prev_mask, points)
 
             if self.net.rgb_conv is not None:
-                x = self.net.rgb_conv(
-                    torch.cat((image_nd, coord_features), dim=1)
-                )
+                x = self.net.rgb_conv(torch.cat((image_nd, coord_features), dim=1))
                 additional_features = None
             elif hasattr(self.net, "maps_transform"):
                 x = image_nd
                 additional_features = self.net.maps_transform(coord_features)
 
-            if (
-                self.insertion_mode == "after_c4"
-                or self.insertion_mode == "after_aspp"
-            ):
+            if self.insertion_mode == "after_c4" or self.insertion_mode == "after_aspp":
                 c1, _, c3, c4 = self.net.feature_extractor.backbone(
                     x, additional_features
                 )
@@ -198,17 +180,15 @@ class FeatureBRSPredictor(BRSBasePredictor):
                     backbone_features = c4
                     self._c1_features = c1
             else:
-                backbone_features = self.net.feature_extractor(
-                    x, additional_features
-                )[0]
+                backbone_features = self.net.feature_extractor(x, additional_features)[
+                    0
+                ]
 
         return backbone_features
 
 
 class HRNetFeatureBRSPredictor(BRSBasePredictor):
-    def __init__(
-        self, model, device, opt_functor, insertion_mode="A", **kwargs
-    ):
+    def __init__(self, model, device, opt_functor, insertion_mode="A", **kwargs):
         super().__init__(model, device, opt_functor=opt_functor, **kwargs)
         self.insertion_mode = insertion_mode
         self._c1_features = None
@@ -224,9 +204,7 @@ class HRNetFeatureBRSPredictor(BRSBasePredictor):
 
     def _get_prediction(self, image_nd, clicks_lists, is_image_changed):
         points_nd = self.get_points_nd(clicks_lists)
-        pos_mask, neg_mask = self._get_clicks_maps_nd(
-            clicks_lists, image_nd.shape[2:]
-        )
+        pos_mask, neg_mask = self._get_clicks_maps_nd(clicks_lists, image_nd.shape[2:])
         num_clicks = len(clicks_lists[0])
         bs = image_nd.shape[0] // 2 if self.with_flip else image_nd.shape[0]
 
@@ -234,9 +212,7 @@ class HRNetFeatureBRSPredictor(BRSBasePredictor):
             self.opt_data is None
             or self.opt_data.shape[0] // (2 * self.num_channels) != bs
         ):
-            self.opt_data = np.zeros(
-                (bs * 2 * self.num_channels), dtype=np.float32
-            )
+            self.opt_data = np.zeros((bs * 2 * self.num_channels), dtype=np.float32)
 
         if (
             num_clicks <= self.net_clicks_limit
@@ -263,12 +239,8 @@ class HRNetFeatureBRSPredictor(BRSBasePredictor):
                         scaled_backbone_features
                     )
 
-                    context = self.net.feature_extractor.ocr_gather_head(
-                        feats, out_aux
-                    )
-                    feats = self.net.feature_extractor.ocr_distri_head(
-                        feats, context
-                    )
+                    context = self.net.feature_extractor.ocr_gather_head(feats, out_aux)
+                    feats = self.net.feature_extractor.ocr_distri_head(feats, context)
                 else:
                     feats = scaled_backbone_features
                 pred_logits = self.net.feature_extractor.cls_head(feats)
@@ -294,7 +266,7 @@ class HRNetFeatureBRSPredictor(BRSBasePredictor):
             opt_result = fmin_l_bfgs_b(
                 func=self.opt_functor,
                 x0=self.opt_data,
-                **self.opt_functor.optimizer_params
+                **self.opt_functor.optimizer_params,
             )
             self.opt_data = opt_result[0]
 
@@ -311,14 +283,10 @@ class HRNetFeatureBRSPredictor(BRSBasePredictor):
     def _get_head_input(self, image_nd, points):
         with torch.no_grad():
             image_nd, prev_mask = self.net.prepare_input(image_nd)
-            coord_features = self.net.get_coord_features(
-                image_nd, prev_mask, points
-            )
+            coord_features = self.net.get_coord_features(image_nd, prev_mask, points)
 
             if self.net.rgb_conv is not None:
-                x = self.net.rgb_conv(
-                    torch.cat((image_nd, coord_features), dim=1)
-                )
+                x = self.net.rgb_conv(torch.cat((image_nd, coord_features), dim=1))
                 additional_features = None
             elif hasattr(self.net, "maps_transform"):
                 x = image_nd
@@ -334,9 +302,7 @@ class HRNetFeatureBRSPredictor(BRSBasePredictor):
                 out_aux = self.net.feature_extractor.aux_head(feats)
                 feats = self.net.feature_extractor.conv3x3_ocr(feats)
 
-                context = self.net.feature_extractor.ocr_gather_head(
-                    feats, out_aux
-                )
+                context = self.net.feature_extractor.ocr_gather_head(feats, out_aux)
                 backbone_features = self.net.feature_extractor.ocr_distri_head(
                     feats, context
                 )
@@ -347,17 +313,13 @@ class HRNetFeatureBRSPredictor(BRSBasePredictor):
 
 
 class InputBRSPredictor(BRSBasePredictor):
-    def __init__(
-        self, model, device, opt_functor, optimize_target="rgb", **kwargs
-    ):
+    def __init__(self, model, device, opt_functor, optimize_target="rgb", **kwargs):
         super().__init__(model, device, opt_functor=opt_functor, **kwargs)
         self.optimize_target = optimize_target
 
     def _get_prediction(self, image_nd, clicks_lists, is_image_changed):
         points_nd = self.get_points_nd(clicks_lists)
-        pos_mask, neg_mask = self._get_clicks_maps_nd(
-            clicks_lists, image_nd.shape[2:]
-        )
+        pos_mask, neg_mask = self._get_clicks_maps_nd(clicks_lists, image_nd.shape[2:])
         num_clicks = len(clicks_lists[0])
 
         if self.opt_data is None or is_image_changed:
@@ -369,9 +331,7 @@ class InputBRSPredictor(BRSBasePredictor):
                 )
             else:
                 opt_channels = 3
-            bs = (
-                image_nd.shape[0] // 2 if self.with_flip else image_nd.shape[0]
-            )
+            bs = image_nd.shape[0] // 2 if self.with_flip else image_nd.shape[0]
             self.opt_data = torch.zeros(
                 (bs, opt_channels, image_nd.shape[2], image_nd.shape[3]),
                 device=self.device,
@@ -380,9 +340,7 @@ class InputBRSPredictor(BRSBasePredictor):
 
         def get_prediction_logits(opt_bias):
             input_image, prev_mask = self.net.prepare_input(image_nd)
-            dmaps = self.net.get_coord_features(
-                input_image, prev_mask, points_nd
-            )
+            dmaps = self.net.get_coord_features(input_image, prev_mask, points_nd)
 
             if self.optimize_target == "rgb":
                 input_image = input_image + opt_bias
@@ -401,9 +359,9 @@ class InputBRSPredictor(BRSBasePredictor):
                 x = input_image
                 coord_features = self.net.maps_transform(dmaps)
 
-            pred_logits = self.net.backbone_forward(
-                x, coord_features=coord_features
-            )["instances"]
+            pred_logits = self.net.backbone_forward(x, coord_features=coord_features)[
+                "instances"
+            ]
             pred_logits = F.interpolate(
                 pred_logits,
                 size=image_nd.size()[2:],
@@ -424,7 +382,7 @@ class InputBRSPredictor(BRSBasePredictor):
             opt_result = fmin_l_bfgs_b(
                 func=self.opt_functor,
                 x0=self.opt_data.cpu().numpy().ravel(),
-                **self.opt_functor.optimizer_params
+                **self.opt_functor.optimizer_params,
             )
 
             self.opt_data = (

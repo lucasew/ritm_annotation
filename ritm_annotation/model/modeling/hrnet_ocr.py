@@ -27,9 +27,7 @@ class HighResolutionModule(nn.Module):
         align_corners=True,
     ):
         super(HighResolutionModule, self).__init__()
-        self._check_branches(
-            num_branches, num_blocks, num_inchannels, num_channels
-        )
+        self._check_branches(num_branches, num_blocks, num_inchannels, num_channels)
 
         self.num_inchannels = num_inchannels
         self.fuse_method = fuse_method
@@ -45,9 +43,7 @@ class HighResolutionModule(nn.Module):
         self.fuse_layers = self._make_fuse_layers()
         self.relu = nn.ReLU(inplace=relu_inplace)
 
-    def _check_branches(
-        self, num_branches, num_blocks, num_inchannels, num_channels
-    ):
+    def _check_branches(self, num_branches, num_blocks, num_inchannels, num_channels):
         if num_branches != len(num_blocks):
             error_msg = "NUM_BRANCHES({}) <> NUM_BLOCKS({})".format(
                 num_branches, len(num_blocks)
@@ -66,9 +62,7 @@ class HighResolutionModule(nn.Module):
             )
             raise ValueError(error_msg)
 
-    def _make_one_branch(
-        self, branch_index, block, num_blocks, num_channels, stride=1
-    ):
+    def _make_one_branch(self, branch_index, block, num_blocks, num_channels, stride=1):
         downsample = None
         if (
             stride != 1
@@ -96,9 +90,7 @@ class HighResolutionModule(nn.Module):
                 norm_layer=self.norm_layer,
             )
         )
-        self.num_inchannels[branch_index] = (
-            num_channels[branch_index] * block.expansion
-        )
+        self.num_inchannels[branch_index] = num_channels[branch_index] * block.expansion
         for i in range(1, num_blocks[branch_index]):
             layers.append(
                 block(
@@ -114,9 +106,7 @@ class HighResolutionModule(nn.Module):
         branches = []
 
         for i in range(num_branches):
-            branches.append(
-                self._make_one_branch(i, block, num_blocks, num_channels)
-            )
+            branches.append(self._make_one_branch(i, block, num_blocks, num_channels))
 
         return nn.ModuleList(branches)
 
@@ -231,13 +221,9 @@ class HighResolutionNet(nn.Module):
         self.ocr_width = ocr_width
         self.align_corners = align_corners
 
-        self.conv1 = nn.Conv2d(
-            3, 64, kernel_size=3, stride=2, padding=1, bias=False
-        )
+        self.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=2, padding=1, bias=False)
         self.bn1 = norm_layer(64)
-        self.conv2 = nn.Conv2d(
-            64, 64, kernel_size=3, stride=2, padding=1, bias=False
-        )
+        self.conv2 = nn.Conv2d(64, 64, kernel_size=3, stride=2, padding=1, bias=False)
         self.bn2 = norm_layer(64)
         self.relu = nn.ReLU(inplace=relu_inplace)
 
@@ -252,8 +238,7 @@ class HighResolutionNet(nn.Module):
         self.stage2_num_branches = 2
         num_channels = [width, 2 * width]
         num_inchannels = [
-            num_channels[i] * BasicBlockV1b.expansion
-            for i in range(len(num_channels))
+            num_channels[i] * BasicBlockV1b.expansion for i in range(len(num_channels))
         ]
         self.transition1 = self._make_transition_layer(
             [stage1_out_channel], num_inchannels
@@ -270,8 +255,7 @@ class HighResolutionNet(nn.Module):
         self.stage3_num_branches = 3
         num_channels = [width, 2 * width, 4 * width]
         num_inchannels = [
-            num_channels[i] * BasicBlockV1b.expansion
-            for i in range(len(num_channels))
+            num_channels[i] * BasicBlockV1b.expansion for i in range(len(num_channels))
         ]
         self.transition2 = self._make_transition_layer(
             pre_stage_channels, num_inchannels
@@ -288,8 +272,7 @@ class HighResolutionNet(nn.Module):
         self.stage4_num_branches = 4
         num_channels = [width, 2 * width, 4 * width, 8 * width]
         num_inchannels = [
-            num_channels[i] * BasicBlockV1b.expansion
-            for i in range(len(num_channels))
+            num_channels[i] * BasicBlockV1b.expansion for i in range(len(num_channels))
         ]
         self.transition3 = self._make_transition_layer(
             pre_stage_channels, num_inchannels
@@ -379,9 +362,7 @@ class HighResolutionNet(nn.Module):
                 ),
             )
 
-    def _make_transition_layer(
-        self, num_channels_pre_layer, num_channels_cur_layer
-    ):
+    def _make_transition_layer(self, num_channels_pre_layer, num_channels_cur_layer):
         num_branches_cur = len(num_channels_cur_layer)
         num_branches_pre = len(num_channels_pre_layer)
 
@@ -585,9 +566,7 @@ class HighResolutionNet(nn.Module):
 
         if not os.path.exists(pretrained_path):
             print()
-            print(
-                _('File "{file}" does not exist.').format(file=pretrained_path)
-            )
+            print(_('File "{file}" does not exist.').format(file=pretrained_path))
             print(
                 _(
                     "You need to specify the correct path to the pre-trained weights.\n"  # noqa: E501
@@ -596,9 +575,7 @@ class HighResolutionNet(nn.Module):
                 )
             )
             exit(1)
-        pretrained_dict = torch.load(
-            pretrained_path, map_location={"cuda:0": "cpu"}
-        )
+        pretrained_dict = torch.load(pretrained_path, map_location={"cuda:0": "cpu"})
         pretrained_dict = {
             k.replace("last_layer", "aux_head").replace("model.", ""): v
             for k, v in pretrained_dict.items()

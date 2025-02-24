@@ -33,9 +33,7 @@ def load_is_model(checkpoint, device, **kwargs):
 
     if isinstance(state_dict, list):
         model = load_single_is_model(state_dict[0], device, **kwargs)
-        models = [
-            load_single_is_model(x, device, **kwargs) for x in state_dict
-        ]
+        models = [load_single_is_model(x, device, **kwargs) for x in state_dict]
 
         return model, models
     else:
@@ -146,17 +144,15 @@ def get_results_table(
     model_name=None,
 ):
     table_header = (
-        f'|{"BRS Type":^13}|{"Dataset":^11}|'
-        f'{"NoC@80%":^9}|{"NoC@85%":^9}|{"NoC@90%":^9}|'
-        f'{">="+str(n_clicks)+"@85%":^9}|{">="+str(n_clicks)+"@90%":^9}|'
-        f'{"SPC,s":^7}|{"Time":^9}|'
+        f"|{'BRS Type':^13}|{'Dataset':^11}|"
+        f"{'NoC@80%':^9}|{'NoC@85%':^9}|{'NoC@90%':^9}|"
+        f"{'>=' + str(n_clicks) + '@85%':^9}|{'>=' + str(n_clicks) + '@90%':^9}|"
+        f"{'SPC,s':^7}|{'Time':^9}|"
     )
     row_width = len(table_header)
 
     header = (
-        _("Eval results for model: {model_name}\n").format(
-            model_name=model_name
-        )
+        _("Eval results for model: {model_name}\n").format(model_name=model_name)
         if model_name is not None
         else ""
     )
@@ -166,14 +162,10 @@ def get_results_table(
     eval_time = str(timedelta(seconds=int(elapsed_time)))
     table_row = f"|{brs_type:^13}|{dataset_name:^11}|"
     table_row += f"{noc_list[0]:^9.2f}|"
-    table_row += f"{noc_list[1]:^9.2f}|" if len(noc_list) > 1 else f'{"?":^9}|'
-    table_row += f"{noc_list[2]:^9.2f}|" if len(noc_list) > 2 else f'{"?":^9}|'
-    table_row += (
-        f"{over_max_list[1]:^9}|" if len(noc_list) > 1 else f'{"?":^9}|'
-    )
-    table_row += (
-        f"{over_max_list[2]:^9}|" if len(noc_list) > 2 else f'{"?":^9}|'
-    )
+    table_row += f"{noc_list[1]:^9.2f}|" if len(noc_list) > 1 else f"{'?':^9}|"
+    table_row += f"{noc_list[2]:^9.2f}|" if len(noc_list) > 2 else f"{'?':^9}|"
+    table_row += f"{over_max_list[1]:^9}|" if len(noc_list) > 1 else f"{'?':^9}|"
+    table_row += f"{over_max_list[2]:^9}|" if len(noc_list) > 2 else f"{'?':^9}|"
     table_row += f"{mean_spc:^7.3f}|{eval_time:^9}|"
 
     return header, table_row

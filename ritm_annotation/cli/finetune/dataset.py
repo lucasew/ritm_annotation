@@ -28,18 +28,14 @@ def get_train_augmentator(model_cfg):
         [
             UniformRandomResize(scale_range=(0.75, 1.40)),
             HorizontalFlip(),
-            PadIfNeeded(
-                min_height=crop_size[0], min_width=crop_size[1], border_mode=0
-            ),
+            PadIfNeeded(min_height=crop_size[0], min_width=crop_size[1], border_mode=0),
             RandomCrop(*crop_size),
             RandomBrightnessContrast(
                 brightness_limit=(-0.25, 0.25),
                 contrast_limit=(-0.15, 0.4),
                 p=0.75,
             ),
-            RGBShift(
-                r_shift_limit=10, g_shift_limit=10, b_shift_limit=10, p=0.75
-            ),
+            RGBShift(r_shift_limit=10, g_shift_limit=10, b_shift_limit=10, p=0.75),
         ],
         p=1.0,
     )
@@ -49,9 +45,7 @@ def get_val_augmentator(model_cfg):
     crop_size = model_cfg.crop_size
     return Compose(
         [
-            PadIfNeeded(
-                min_height=crop_size[0], min_width=crop_size[1], border_mode=0
-            ),
+            PadIfNeeded(min_height=crop_size[0], min_width=crop_size[1], border_mode=0),
             RandomCrop(*crop_size),
         ],
         p=1.0,
@@ -88,9 +82,9 @@ class AnnotationDataset(ISDataset):
                 image_file = images_path / item.name
                 if not item.is_dir():
                     logger.warn(
-                        _(
-                            "AnnotationDataset: found impurities: {item}"
-                        ).format(item=item)
+                        _("AnnotationDataset: found impurities: {item}").format(
+                            item=item
+                        )
                     )
                     continue
                 if not (image_file.exists() and image_file.is_file()):
@@ -127,16 +121,10 @@ class AnnotationDataset(ISDataset):
         image = cv2.imread(str(image_path))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         if self.max_bigger_dimension is not None:
-            image = longest_max_size(
-                image, self.max_bigger_dimension, cv2.INTER_LINEAR
-            )
+            image = longest_max_size(image, self.max_bigger_dimension, cv2.INTER_LINEAR)
         (h, w, *_rest) = image.shape
         mask_path = random.choice(
-            [
-                mask
-                for mask in masks_path.iterdir()
-                if not mask.name.endswith(".json")
-            ]
+            [mask for mask in masks_path.iterdir() if not mask.name.endswith(".json")]
         )
         gt_mask = cv2.imread(str(mask_path), 0)
 

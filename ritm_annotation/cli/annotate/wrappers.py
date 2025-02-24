@@ -55,9 +55,9 @@ class BoundedNumericalEntry(tk.Entry):
             except ValueError:
                 pass
             else:
-                if (
-                    self.min_value is None or new_value >= self.min_value
-                ) and (self.max_value is None or new_value <= self.max_value):
+                if (self.min_value is None or new_value >= self.min_value) and (
+                    self.max_value is None or new_value <= self.max_value
+                ):
                     if new_value != self.old_value:
                         self.old_value = self.vartype(self.fake_var.get())
                         self.delete(0, tk.END)
@@ -73,9 +73,7 @@ class BoundedNumericalEntry(tk.Entry):
             _(
                 # noqa: E501
                 "Value for {name} should be in [{mn}; {mx}] and of type {vartype}"
-            ).format(
-                name=self._name, mn=mn, mx=mx, vartype=self.vartype.__name__
-            ),
+            ).format(name=self._name, mn=mn, mx=mx, vartype=self.vartype.__name__),
         )
 
         return False
@@ -116,9 +114,7 @@ class FocusCheckButton(tk.Checkbutton):
 
 class FocusButton(tk.Button):
     def __init__(self, *args, highlightthickness=0, **kwargs):
-        tk.Button.__init__(
-            self, *args, highlightthickness=highlightthickness, **kwargs
-        )
+        tk.Button.__init__(self, *args, highlightthickness=highlightthickness, **kwargs)
         self.bind("<1>", lambda event: self.focus_set())
 
 

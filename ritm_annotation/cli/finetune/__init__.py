@@ -7,15 +7,9 @@ COMMAND_DESCRIPTION = _(
 
 
 def command(parser):
-    parser.add_argument(
-        "model_path", type=Path, help=_("Path to the model script.")
-    )
-    parser.add_argument(
-        "images_path", type=Path, help=_("Path to the dataset images.")
-    )
-    parser.add_argument(
-        "masks_path", type=Path, help=_("Path to the dataset masks.")
-    )
+    parser.add_argument("model_path", type=Path, help=_("Path to the model script."))
+    parser.add_argument("images_path", type=Path, help=_("Path to the dataset images."))
+    parser.add_argument("masks_path", type=Path, help=_("Path to the dataset masks."))
     parser.add_argument(
         "-o",
         "--output",
@@ -56,9 +50,7 @@ def command(parser):
         dest="batch_size",
         type=int,
         default=-1,
-        help=_(
-            "You can override model batch size by specify positive number."
-        ),
+        help=_("You can override model batch size by specify positive number."),
     )  # noqa:E501
 
     parser.add_argument(
@@ -75,9 +67,7 @@ def command(parser):
         type=str,
         default="",
         required=False,
-        help=_(
-            'Ids of used GPUs. You should use either this argument or "--ngpus".'
-        ),  # noqa: E501
+        help=_('Ids of used GPUs. You should use either this argument or "--ngpus".'),  # noqa: E501
     )  # noqa:E501
 
     parser.add_argument(
@@ -125,9 +115,7 @@ def command(parser):
         "--max-bigger-dimension",
         dest="max_bigger_dimension",
         type=int,
-        help=_(
-            "Resize the input dataset so the bigger dimension is this value"
-        ),
+        help=_("Resize the input dataset so the bigger dimension is this value"),
     )
 
     parser.add_argument("--local_rank", type=int, default=0)

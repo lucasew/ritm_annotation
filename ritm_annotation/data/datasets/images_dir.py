@@ -9,11 +9,7 @@ from ritm_annotation.data.sample import DSample
 
 class ImagesDirDataset(ISDataset):
     def __init__(
-        self,
-        dataset_path,
-        images_dir_name="images",
-        masks_dir_name="masks",
-        **kwargs
+        self, dataset_path, images_dir_name="images", masks_dir_name="masks", **kwargs
     ):
         super(ImagesDirDataset, self).__init__(**kwargs)
 

@@ -78,8 +78,7 @@ class NormalizedFocalLossSigmoid(nn.Module):
             )
             if np.any(ignore_area == 0):
                 self._k_sum = (
-                    0.9 * self._k_sum
-                    + 0.1 * sample_mult[ignore_area == 0].mean()
+                    0.9 * self._k_sum + 0.1 * sample_mult[ignore_area == 0].mean()
                 )
 
                 beta_pmax, _ = torch.flatten(beta, start_dim=1).max(dim=1)
@@ -101,9 +100,7 @@ class NormalizedFocalLossSigmoid(nn.Module):
         if self._size_average:
             bsum = torch.sum(
                 sample_weight,
-                dim=misc.get_dims_with_exclusion(
-                    sample_weight.dim(), self._batch_axis
-                ),
+                dim=misc.get_dims_with_exclusion(sample_weight.dim(), self._batch_axis),
             )
             loss = torch.sum(
                 loss,
@@ -118,12 +115,8 @@ class NormalizedFocalLossSigmoid(nn.Module):
         return loss
 
     def log_states(self, sw, name, global_step):
-        sw.add_scalar(
-            tag=name + "_k", value=self._k_sum, global_step=global_step
-        )
-        sw.add_scalar(
-            tag=name + "_m", value=self._m_max, global_step=global_step
-        )
+        sw.add_scalar(tag=name + "_k", value=self._k_sum, global_step=global_step)
+        sw.add_scalar(tag=name + "_m", value=self._m_max, global_step=global_step)
 
 
 class FocalLoss(nn.Module):
@@ -188,9 +181,7 @@ class FocalLoss(nn.Module):
         if self._size_average:
             tsum = torch.sum(
                 sample_weight,
-                dim=misc.get_dims_with_exclusion(
-                    label.dim(), self._batch_axis
-                ),
+                dim=misc.get_dims_with_exclusion(label.dim(), self._batch_axis),
             )
             loss = torch.sum(
                 loss,
@@ -219,17 +210,14 @@ class SoftIoU(nn.Module):
             pred = torch.sigmoid(pred)
 
         loss = 1.0 - torch.sum(pred * label * sample_weight, dim=(1, 2, 3)) / (
-            torch.sum(torch.max(pred, label) * sample_weight, dim=(1, 2, 3))
-            + 1e-8
+            torch.sum(torch.max(pred, label) * sample_weight, dim=(1, 2, 3)) + 1e-8
         )
 
         return loss
 
 
 class SigmoidBinaryCrossEntropyLoss(nn.Module):
-    def __init__(
-        self, from_sigmoid=False, weight=None, batch_axis=0, ignore_label=-1
-    ):
+    def __init__(self, from_sigmoid=False, weight=None, batch_axis=0, ignore_label=-1):
         super(SigmoidBinaryCrossEntropyLoss, self).__init__()
         self._from_sigmoid = from_sigmoid
         self._ignore_label = ignore_label
@@ -242,9 +230,7 @@ class SigmoidBinaryCrossEntropyLoss(nn.Module):
         label = torch.where(sample_weight, label, torch.zeros_like(label))
 
         if not self._from_sigmoid:
-            loss = (
-                torch.relu(pred) - pred * label + F.softplus(-torch.abs(pred))
-            )
+            loss = torch.relu(pred) - pred * label + F.softplus(-torch.abs(pred))
         else:
             eps = 1e-12
             loss = -(

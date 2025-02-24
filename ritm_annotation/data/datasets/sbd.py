@@ -45,9 +45,9 @@ class SBDDataset(ISDataset):
 
         image = cv2.imread(image_path)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        instances_mask = loadmat(str(inst_info_path))["GTinst"][0][0][
-            0
-        ].astype(np.int32)
+        instances_mask = loadmat(str(inst_info_path))["GTinst"][0][0][0].astype(
+            np.int32
+        )
         instances_mask = self.remove_buggy_masks(index, instances_mask)
         instances_ids, _ = get_labels_with_sizes(instances_mask)
 
@@ -65,9 +65,7 @@ class SBDDataset(ISDataset):
                     obj_mask = instances_mask == obj_id
                     mask_area = obj_mask.sum()
                     bbox = get_bbox_from_mask(obj_mask)
-                    bbox_area = (bbox[1] - bbox[0] + 1) * (
-                        bbox[3] - bbox[2] + 1
-                    )
+                    bbox_area = (bbox[1] - bbox[0] + 1) * (bbox[3] - bbox[2] + 1)
                     obj_area_ratio = mask_area / bbox_area
                     if obj_area_ratio < self._buggy_mask_thresh:
                         buggy_image_objects.append(obj_id)
@@ -102,18 +100,16 @@ class SBDEvaluationDataset(ISDataset):
 
         image = cv2.imread(image_path)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        instances_mask = loadmat(str(inst_info_path))["GTinst"][0][0][
-            0
-        ].astype(np.int32)
+        instances_mask = loadmat(str(inst_info_path))["GTinst"][0][0][0].astype(
+            np.int32
+        )
         instances_mask[instances_mask != instance_id] = 0
         instances_mask[instances_mask > 0] = 1
 
         return DSample(image, instances_mask, objects_ids=[1], sample_id=index)
 
     def get_sbd_images_and_ids_list(self):
-        pkl_path = (
-            self.dataset_path / f"{self.dataset_split}_images_and_ids_list.pkl"
-        )
+        pkl_path = self.dataset_path / f"{self.dataset_split}_images_and_ids_list.pkl"
 
         if pkl_path.exists():
             with open(str(pkl_path), "rb") as fp:
@@ -123,9 +119,9 @@ class SBDEvaluationDataset(ISDataset):
 
             for sample in self.dataset_samples:
                 inst_info_path = str(self._insts_path / f"{sample}.mat")
-                instances_mask = loadmat(str(inst_info_path))["GTinst"][0][0][
-                    0
-                ].astype(np.int32)
+                instances_mask = loadmat(str(inst_info_path))["GTinst"][0][0][0].astype(
+                    np.int32
+                )
                 instances_ids, _ = get_labels_with_sizes(instances_mask)
 
                 for instances_id in instances_ids:

@@ -19,9 +19,7 @@ class ConvHead(nn.Module):
         for i in range(num_layers):
             convhead.extend(
                 [
-                    nn.Conv2d(
-                        in_channels, in_channels, kernel_size, padding=padding
-                    ),
+                    nn.Conv2d(in_channels, in_channels, kernel_size, padding=padding),
                     nn.ReLU(),
                     norm_layer(in_channels)
                     if norm_layer is not None
@@ -115,9 +113,7 @@ class SeparableConv2d(nn.Module):
                 stride=1,
                 bias=use_bias,
             ),
-            norm_layer(out_channels)
-            if norm_layer is not None
-            else nn.Identity(),
+            norm_layer(out_channels) if norm_layer is not None else nn.Identity(),
             _activation(),
         )
 

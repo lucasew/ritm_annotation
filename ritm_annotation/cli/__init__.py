@@ -1,4 +1,5 @@
 import faulthandler
+
 faulthandler.enable()
 
 from gettext import gettext as _

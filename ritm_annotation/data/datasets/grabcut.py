@@ -13,7 +13,7 @@ class GrabCutDataset(ISDataset):
         dataset_path,
         images_dir_name="data_GT",
         masks_dir_name="boundary_GT",
-        **kwargs
+        **kwargs,
     ):
         super(GrabCutDataset, self).__init__(**kwargs)
 
@@ -21,9 +21,7 @@ class GrabCutDataset(ISDataset):
         self._images_path = self.dataset_path / images_dir_name
         self._insts_path = self.dataset_path / masks_dir_name
 
-        self.dataset_samples = [
-            x.name for x in sorted(self._images_path.glob("*.*"))
-        ]
+        self.dataset_samples = [x.name for x in sorted(self._images_path.glob("*.*"))]
         self._masks_paths = {x.stem: x for x in self._insts_path.glob("*.*")}
 
     def get_sample(self, index) -> DSample:

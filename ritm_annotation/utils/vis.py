@@ -18,9 +18,7 @@ def visualize_instances(
 
     result = palette[imask].astype(np.uint8)
     if boundaries_color is not None:
-        boundaries_mask = get_boundaries(
-            imask, boundaries_width=boundaries_width
-        )
+        boundaries_mask = get_boundaries(imask, boundaries_width=boundaries_width)
         tresult = result.astype(np.float32)
         tresult[boundaries_mask] = boundaries_color
         tresult = tresult * boundaries_alpha + (1 - boundaries_alpha) * result
@@ -54,16 +52,12 @@ def visualize_mask(mask, num_cls):
     return palette[mask].astype(np.uint8)
 
 
-def visualize_proposals(
-    proposals_info, point_color=(255, 0, 0), point_radius=1
-):
+def visualize_proposals(proposals_info, point_color=(255, 0, 0), point_radius=1):
     proposal_map, colors, candidates = proposals_info
 
     proposal_map = draw_probmap(proposal_map)
     for x, y in candidates:
-        proposal_map = cv2.circle(
-            proposal_map, (y, x), point_radius, point_color, -1
-        )
+        proposal_map = cv2.circle(proposal_map, (y, x), point_radius, point_color, -1)
 
     return proposal_map
 
@@ -118,9 +112,7 @@ def get_boundaries(instances_masks, boundaries_width=1):
             obj_mask.astype(np.uint8), kernel, iterations=boundaries_width
         ).astype(np.bool)
 
-        obj_boundary = np.logical_xor(
-            obj_mask, np.logical_and(inner_mask, obj_mask)
-        )
+        obj_boundary = np.logical_xor(obj_mask, np.logical_and(inner_mask, obj_mask))
         boundaries = np.logical_or(boundaries, obj_boundary)
     return boundaries
 
@@ -151,12 +143,8 @@ def draw_with_blend_and_clicks(
         # result = (result * (1 - alpha) + alpha * rgb_mask).astype(np.uint8)
 
     if clicks_list is not None and len(clicks_list) > 0:
-        pos_points = [
-            click.coords for click in clicks_list if click.is_positive
-        ]
-        neg_points = [
-            click.coords for click in clicks_list if not click.is_positive
-        ]
+        pos_points = [click.coords for click in clicks_list if click.is_positive]
+        neg_points = [click.coords for click in clicks_list if not click.is_positive]
 
         result = draw_points(result, pos_points, pos_color, radius=radius)
         result = draw_points(result, neg_points, neg_color, radius=radius)

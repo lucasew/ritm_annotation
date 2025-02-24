@@ -14,7 +14,5 @@ gettext.bindtextdomain(
 )
 
 logger.debug(
-    _('Loading locale data from "{locale_folder}"').format(
-        locale_folder=locale_dir
-    )
+    _('Loading locale data from "{locale_folder}"').format(locale_folder=locale_dir)
 )

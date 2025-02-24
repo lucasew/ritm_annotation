@@ -14,6 +14,7 @@ from ritm_annotation.utils.misc import (
     get_labels_with_sizes,
 )
 
+
 # https://vfdev-5-albumentations.readthedocs.io/en/docs_pytorch_fix/_modules/albumentations/core/transforms_interface.html
 def to_tuple(param, low=None):
     if isinstance(param, (list, tuple)):
@@ -45,12 +46,7 @@ class UniformRandomResize(DualTransform):
         return {"new_height": height, "new_width": width}
 
     def apply(
-        self,
-        img,
-        new_height=0,
-        new_width=0,
-        interpolation=cv2.INTER_LINEAR,
-        **params
+        self, img, new_height=0, new_width=0, interpolation=cv2.INTER_LINEAR, **params
     ):
         return FG.resize(
             img,
@@ -144,9 +140,7 @@ class ZoomIn(DualTransform):
         candidates = []
         if is_mask_layer:
             for layer_indx in range(instances.shape[2]):
-                labels, areas = get_labels_with_sizes(
-                    instances[:, :, layer_indx]
-                )
+                labels, areas = get_labels_with_sizes(instances[:, :, layer_indx])
                 candidates.extend(
                     [
                         (layer_indx, obj_id)
@@ -157,9 +151,7 @@ class ZoomIn(DualTransform):
         else:
             labels, areas = get_labels_with_sizes(instances)
             candidates = [
-                obj_id
-                for obj_id, area in zip(labels, areas)
-                if area > self.min_area
+                obj_id for obj_id, area in zip(labels, areas) if area > self.min_area
             ]
 
         selected_object = None
@@ -181,9 +173,7 @@ class ZoomIn(DualTransform):
 
             bbox = expand_bbox(bbox, expansion_ratio, self.min_crop_size)
             bbox = self._jitter_bbox(bbox)
-            bbox = clamp_bbox(
-                bbox, 0, obj_mask.shape[0] - 1, 0, obj_mask.shape[1] - 1
-            )
+            bbox = clamp_bbox(bbox, 0, obj_mask.shape[0] - 1, 0, obj_mask.shape[1] - 1)
 
         return {"selected_object": selected_object, "bbox": bbox}
 

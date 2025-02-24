@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-""" Adopted from https://github.com/foobar167/junkyard/blob/master/manual_image_annotation1/polygon/gui_canvas.py """  # noqa: E501
+"""Adopted from https://github.com/foobar167/junkyard/blob/master/manual_image_annotation1/polygon/gui_canvas.py"""  # noqa: E501
+
 import math
 import os
 import sys
@@ -77,9 +78,7 @@ class CanvasImage:
         self.canvas.configure(
             xscrollcommand=self.hbar.set, yscrollcommand=self.vbar.set
         )
-        self.hbar.configure(
-            command=self.__scroll_x
-        )  # bind scrollbars to the canvas
+        self.hbar.configure(command=self.__scroll_x)  # bind scrollbars to the canvas
         self.vbar.configure(command=self.__scroll_y)
         # Bind events to the Canvas
         self.canvas.bind(
@@ -112,9 +111,7 @@ class CanvasImage:
         self.canvas.bind(
             "<Button-5>", self.__wheel
         )  # zoom for Linux, wheel scroll down
-        self.canvas.bind(
-            "<Button-4>", self.__wheel
-        )  # zoom for Linux, wheel scroll up
+        self.canvas.bind("<Button-4>", self.__wheel)  # zoom for Linux, wheel scroll up
 
         # Handle keystrokes in idle mode, because program slows down on a weak computers,  # noqa: E501
         # when too many key stroke events in the same time
@@ -205,12 +202,14 @@ class CanvasImage:
             border_width = 2
             sx1, sx2 = x1 / self.current_scale, x2 / self.current_scale
             sy1, sy2 = y1 / self.current_scale, y2 / self.current_scale
-            crop_x, crop_y = max(0, math.floor(sx1 - border_width)), max(
-                0, math.floor(sy1 - border_width)
+            crop_x, crop_y = (
+                max(0, math.floor(sx1 - border_width)),
+                max(0, math.floor(sy1 - border_width)),
             )
-            crop_w, crop_h = math.ceil(
-                sx2 - sx1 + 2 * border_width
-            ), math.ceil(sy2 - sy1 + 2 * border_width)
+            crop_w, crop_h = (
+                math.ceil(sx2 - sx1 + 2 * border_width),
+                math.ceil(sy2 - sy1 + 2 * border_width),
+            )
             crop_w = min(crop_w, self.__original_image.width - crop_x)
             crop_h = min(crop_h, self.__original_image.height - crop_y)
 
@@ -223,12 +222,8 @@ class CanvasImage:
             crop_zx, crop_zy = crop_x * zoom_sx, crop_y * zoom_sy
             self.real_scale = (zoom_sx, zoom_sy)
 
-            interpolation = (
-                Image.NEAREST if self.current_scale > 2.0 else Image.LANCZOS
-            )
-            __current_image = __current_image.resize(
-                (crop_zw, crop_zh), interpolation
-            )
+            interpolation = Image.NEAREST if self.current_scale > 2.0 else Image.LANCZOS
+            __current_image = __current_image.resize((crop_zw, crop_zh), interpolation)
             zx1, zy1 = x1 - crop_zx, y1 - crop_zy
             zx2 = min(zx1 + self.canvas.winfo_width(), __current_image.width)
             zy2 = min(zy1 + self.canvas.winfo_height(), __current_image.height)
@@ -246,9 +241,7 @@ class CanvasImage:
             self.canvas.imagetk = imagetk  # keep an extra reference to prevent garbage-collection # noqa: E501
 
     def _get_click_coordinates(self, event):
-        x = self.canvas.canvasx(
-            event.x
-        )  # get coordinates of the event on the canvas
+        x = self.canvas.canvasx(event.x)  # get coordinates of the event on the canvas
         y = self.canvas.canvasy(event.y)
 
         if self.outside(x, y):
@@ -279,8 +272,7 @@ class CanvasImage:
 
         if (
             new_scale * self.__original_image.width < self.canvas.winfo_width()
-            and new_scale * self.__original_image.height
-            < self.canvas.winfo_height()
+            and new_scale * self.__original_image.height < self.canvas.winfo_height()
         ):
             return
 
@@ -316,9 +308,7 @@ class CanvasImage:
     # ================================================ Mouse callbacks =================================================  # noqa: E501
     def __wheel(self, event):
         """Zoom with mouse wheel"""
-        x = self.canvas.canvasx(
-            event.x
-        )  # get coordinates of the event on the canvas
+        x = self.canvas.canvasx(event.x)  # get coordinates of the event on the canvas
         y = self.canvas.canvasy(event.y)
         if self.outside(x, y):
             return  # zoom only inside image area
@@ -397,9 +387,7 @@ class CanvasImage:
         ):  # means that the Control key is pressed
             pass  # do nothing if Control key is pressed
         else:
-            self.__previous_state = (
-                event.state
-            )  # remember the last keystroke state
+            self.__previous_state = event.state  # remember the last keystroke state
             # Up, Down, Left, Right keystrokes
             self.keycodes = {}  # init key codes
             if os.name == "nt":  # Windows OS
@@ -416,19 +404,11 @@ class CanvasImage:
                     "w": [25, 111, 80],
                     "s": [39, 116, 88],
                 }
-            if (
-                event.keycode in self.keycodes["d"]
-            ):  # scroll right, keys 'd' or 'Right'
+            if event.keycode in self.keycodes["d"]:  # scroll right, keys 'd' or 'Right'
                 self.__scroll_x("scroll", 1, "unit", event=event)
-            elif (
-                event.keycode in self.keycodes["a"]
-            ):  # scroll left, keys 'a' or 'Left'
+            elif event.keycode in self.keycodes["a"]:  # scroll left, keys 'a' or 'Left'
                 self.__scroll_x("scroll", -1, "unit", event=event)
-            elif (
-                event.keycode in self.keycodes["w"]
-            ):  # scroll up, keys 'w' or 'Up'
+            elif event.keycode in self.keycodes["w"]:  # scroll up, keys 'w' or 'Up'
                 self.__scroll_y("scroll", -1, "unit", event=event)
-            elif (
-                event.keycode in self.keycodes["s"]
-            ):  # scroll down, keys 's' or 'Down'
+            elif event.keycode in self.keycodes["s"]:  # scroll down, keys 's' or 'Down'
                 self.__scroll_y("scroll", 1, "unit", event=event)

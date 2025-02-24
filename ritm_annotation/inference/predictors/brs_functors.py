@@ -16,7 +16,7 @@ class BaseOptimizer:
         brs_loss=BRSMaskLoss(),
         with_flip=False,
         flip_average=False,
-        **kwargs
+        **kwargs,
     ):
         self.brs_loss = brs_loss
         self.optimizer_params = optimizer_params
@@ -34,9 +34,7 @@ class BaseOptimizer:
         self._last_mask = None
         self.device = None
 
-    def init_click(
-        self, get_prediction_logits, pos_mask, neg_mask, device, shape=None
-    ):
+    def init_click(self, get_prediction_logits, pos_mask, neg_mask, device, shape=None):
         self.best_prediction = None
         self._get_prediction_logits = get_prediction_logits
         self._click_masks = (pos_mask, neg_mask)
@@ -62,9 +60,7 @@ class BaseOptimizer:
                     neg_mask[: result.shape[0]],
                 )
 
-            loss, f_max_pos, f_max_neg = self.brs_loss(
-                result, pos_mask, neg_mask
-            )
+            loss, f_max_pos, f_max_neg = self.brs_loss(result, pos_mask, neg_mask)
             loss = loss + reg_loss
 
         f_val = loss.detach().cpu().numpy()

@@ -104,18 +104,14 @@ class InteractiveDemoApp(ttk.Frame):
         self.state["predictor_params"]["net_clicks_limit"].trace(
             mode="w", callback=self._change_brs_mode
         )
-        self.state["lbfgs_max_iters"].trace(
-            mode="w", callback=self._change_brs_mode
-        )
+        self.state["lbfgs_max_iters"].trace(mode="w", callback=self._change_brs_mode)
         self._change_brs_mode()
         self._current_task = None
 
     def _handle_classe_finalizada(self, classe):
         messagebox.showwarning(
             _("Class finished"),
-            _("The class '{class_name}' was finalized").format(
-                class_name=classe
-            ),
+            _("The class '{class_name}' was finalized").format(class_name=classe),
         )
 
     def goto_task(self, idx=None):
@@ -132,9 +128,7 @@ class InteractiveDemoApp(ttk.Frame):
         if self._current_task_idx < 1:
             return
         self._current_task_idx -= 1
-        self._load_image_callback(
-            current_task=self.goto_task(self._current_task_idx)
-        )
+        self._load_image_callback(current_task=self.goto_task(self._current_task_idx))
 
     def _get_current_task(self, ask_next=False):
         current_class = (
@@ -163,9 +157,7 @@ class InteractiveDemoApp(ttk.Frame):
                 "use_zoom_in": tk.BooleanVar(value=True),
                 "fixed_crop": tk.BooleanVar(value=True),
                 "skip_clicks": tk.IntVar(value=-1),
-                "target_size": tk.IntVar(
-                    value=min(400, self.limit_longest_size)
-                ),
+                "target_size": tk.IntVar(value=min(400, self.limit_longest_size)),
                 "expansion_ratio": tk.DoubleVar(value=1.4),
             },
             "predictor_params": {"net_clicks_limit": tk.IntVar(value=8)},
@@ -214,9 +206,7 @@ class InteractiveDemoApp(ttk.Frame):
             self.menubar, text=_("About"), command=self._about_callback
         )
         button.pack(side=tk.LEFT)
-        button = FocusButton(
-            self.menubar, text=_("Exit"), command=self.master.quit
-        )
+        button = FocusButton(self.menubar, text=_("Exit"), command=self.master.quit)
         button.pack(side=tk.LEFT)
 
         self.task_label = tk.Label(self.menubar, text=_("* status *"))
@@ -237,9 +227,7 @@ class InteractiveDemoApp(ttk.Frame):
         self.canvas.grid(row=0, column=0, sticky="nswe", padx=5, pady=5)
 
         self.image_on_canvas = None
-        self.canvas_frame.pack(
-            side=tk.LEFT, fill="both", expand=True, padx=5, pady=5
-        )
+        self.canvas_frame.pack(side=tk.LEFT, fill="both", expand=True, padx=5, pady=5)
 
     def _add_buttons(self):
         self.control_frame = FocusLabelFrame(self, text=_("Controls"))
@@ -263,9 +251,7 @@ class InteractiveDemoApp(ttk.Frame):
             mode="w", callback=ignore_params_then_call(self._update_image)
         )
 
-        self.clicks_options_frame = FocusLabelFrame(
-            master, text=_("Clicks management")
-        )
+        self.clicks_options_frame = FocusLabelFrame(master, text=_("Clicks management"))
         self.clicks_options_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=3)
         self.finish_object_button = FocusButton(
             self.clicks_options_frame,
@@ -277,9 +263,7 @@ class InteractiveDemoApp(ttk.Frame):
             state=tk.DISABLED,
             command=self.controller.finish_object,
         )
-        self.finish_object_button.pack(
-            side=tk.LEFT, fill=tk.X, padx=10, pady=3
-        )
+        self.finish_object_button.pack(side=tk.LEFT, fill=tk.X, padx=10, pady=3)
         self.undo_click_button = FocusButton(
             self.clicks_options_frame,
             text=f"{_('Undo click')} (h)",
@@ -303,9 +287,7 @@ class InteractiveDemoApp(ttk.Frame):
         )
         self.reset_clicks_button.pack(side=tk.LEFT, fill=tk.X, padx=10, pady=3)
 
-        self.zoomin_options_frame = FocusLabelFrame(
-            master, text=_("ZoomIn options")
-        )
+        self.zoomin_options_frame = FocusLabelFrame(master, text=_("ZoomIn options"))
         self.zoomin_options_frame.pack(side=tk.TOP, fill=tk.X, padx=10, pady=3)
         FocusCheckButton(
             self.zoomin_options_frame,
@@ -377,9 +359,7 @@ class InteractiveDemoApp(ttk.Frame):
             allow_inf=True,
             name="net_clicks_limit",
         )
-        self.net_clicks_entry.grid(
-            row=0, column=2, padx=10, pady=2, sticky="w"
-        )
+        self.net_clicks_entry.grid(row=0, column=2, padx=10, pady=2, sticky="w")
         self.lbfgs_iters_label = tk.Label(
             self.brs_options_frame, text=_("L-BFGS\nmax iterations")
         )
@@ -392,9 +372,7 @@ class InteractiveDemoApp(ttk.Frame):
             vartype=int,
             name="lbfgs_max_iters",
         )
-        self.lbfgs_iters_entry.grid(
-            row=1, column=2, padx=10, pady=2, sticky="w"
-        )
+        self.lbfgs_iters_entry.grid(row=1, column=2, padx=10, pady=2, sticky="w")
         self.brs_options_frame.columnconfigure((0, 1), weight=1)
 
         self.prob_thresh_frame = FocusLabelFrame(
@@ -489,16 +467,11 @@ class InteractiveDemoApp(ttk.Frame):
             mask = (mask > 0) * 255
             logger.info(_("Saving '{filename}'").format(filename=filename))
             cv2.imwrite(filename, mask)
-            points_json = current_task.output_dir / (
-                current_task.class_name + ".json"
-            )
+            points_json = current_task.output_dir / (current_task.class_name + ".json")
             with points_json.open("w") as f:
                 # json.dump(self.controller.states, f)
                 json.dump(
-                    [
-                        item.to_json()
-                        for item in self.controller.clicker.get_state()
-                    ],
+                    [item.to_json() for item in self.controller.clicker.get_state()],
                     f,
                 )
 
@@ -587,15 +560,9 @@ class InteractiveDemoApp(ttk.Frame):
 
         if self.state["zoomin_params"]["use_zoom_in"].get():
             zoomin_params = {
-                "skip_clicks": self.state["zoomin_params"][
-                    "skip_clicks"
-                ].get(),
-                "target_size": self.state["zoomin_params"][
-                    "target_size"
-                ].get(),
-                "expansion_ratio": self.state["zoomin_params"][
-                    "expansion_ratio"
-                ].get(),
+                "skip_clicks": self.state["zoomin_params"]["skip_clicks"].get(),
+                "target_size": self.state["zoomin_params"]["target_size"].get(),
+                "expansion_ratio": self.state["zoomin_params"]["expansion_ratio"].get(),
             }
             if self.state["zoomin_params"]["fixed_crop"].get():
                 zoomin_params["target_size"] = (
@@ -622,9 +589,7 @@ class InteractiveDemoApp(ttk.Frame):
         self.canvas.focus_set()
 
         if self.image_on_canvas is None:
-            messagebox.showwarning(
-                _("Warning"), _("Please load an image first")
-            )
+            messagebox.showwarning(_("Warning"), _("Please load an image first"))
             return
 
         if self._check_entry(self):
@@ -654,9 +619,7 @@ class InteractiveDemoApp(ttk.Frame):
 
         self._set_click_dependent_widgets_state()
         if image is not None:
-            self.image_on_canvas.reload_image(
-                Image.fromarray(image), reset_canvas
-            )
+            self.image_on_canvas.reload_image(Image.fromarray(image), reset_canvas)
 
     def _set_click_dependent_widgets_state(self):
         after_1st_click_state = (
@@ -685,9 +648,7 @@ class InteractiveDemoApp(ttk.Frame):
                 all_checked = all_checked and self._check_entry(w)
 
         if getattr(widget, "_check_bounds", None) is not None:
-            all_checked = all_checked and widget._check_bounds(
-                widget.get(), "-1"
-            )
+            all_checked = all_checked and widget._check_bounds(widget.get(), "-1")
 
         return all_checked
 
@@ -695,9 +656,7 @@ class InteractiveDemoApp(ttk.Frame):
 def handle(args):
     if not torch.cuda.is_available():
         logger.warn(
-            _(
-                "CUDA support not detected. Stuff will be way slower and sluggish!"
-            )
+            _("CUDA support not detected. Stuff will be way slower and sluggish!")
         )
     logger.debug(_("classes: ") + ", ".join(args.classes))
 
@@ -717,9 +676,7 @@ def handle(args):
 
     torch.backends.cudnn.determistic = True
 
-    checkpoint_path = find_checkpoint(
-        args.checkpoint.parent, args.checkpoint.name
-    )
+    checkpoint_path = find_checkpoint(args.checkpoint.parent, args.checkpoint.name)
     model = load_is_model(checkpoint_path, args.device, cpu_dist_maps=True)
 
     def _file_iterator():
@@ -739,7 +696,7 @@ def handle(args):
                     yield file, cls
 
     def look_for_tasks():
-        for (image, class_name) in _fileclass_iterator():
+        for image, class_name in _fileclass_iterator():
             if not image.is_file():
                 continue
             image_name = image.name
@@ -768,6 +725,8 @@ def handle(args):
 
     app_args = edict(dict(limit_longest_size=400, device=args.device))
 
-    app = InteractiveDemoApp(root, app_args, model, tasks, classes_first=args.classes_first)
+    app = InteractiveDemoApp(
+        root, app_args, model, tasks, classes_first=args.classes_first
+    )
     root.deiconify()
     app.mainloop()

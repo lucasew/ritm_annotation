@@ -27,9 +27,7 @@ class ISModel(nn.Module):
         self.clicks_groups = clicks_groups
         self.with_prev_mask = with_prev_mask
         self.binary_prev_mask = binary_prev_mask
-        self.normalization = BatchImageNormalize(
-            norm_mean_std[0], norm_mean_std[1]
-        )
+        self.normalization = BatchImageNormalize(norm_mean_std[0], norm_mean_std[1])
 
         self.coord_feature_ch = 2
         if clicks_groups is not None:
@@ -175,9 +173,7 @@ def split_points_by_order(tpoints: torch.Tensor, groups):
     num_points = points.shape[1] // 2
 
     groups = [x if x > 0 else num_points for x in groups]
-    group_points = [
-        np.full((bs, 2 * x, 3), -1, dtype=np.float32) for x in groups
-    ]
+    group_points = [np.full((bs, 2 * x, 3), -1, dtype=np.float32) for x in groups]
 
     last_point_indx_group = np.zeros((bs, num_groups, 2), dtype=np.int)  # type: ignore  # noqa: E501
     for group_indx, group_size in enumerate(groups):
@@ -196,9 +192,7 @@ def split_points_by_order(tpoints: torch.Tensor, groups):
             ):  # disable negative first click
                 group_id = num_groups - 1
 
-            new_point_indx = last_point_indx_group[
-                bindx, group_id, is_negative
-            ]
+            new_point_indx = last_point_indx_group[bindx, group_id, is_negative]
             last_point_indx_group[bindx, group_id, is_negative] += 1
 
             group_points[group_id][bindx, new_point_indx, :] = point

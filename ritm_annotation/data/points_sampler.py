@@ -83,9 +83,7 @@ class MultiPointSampler(BasePointSampler):
             bg_mask = sample.get_background_mask()
             self.selected_mask = np.zeros_like(bg_mask, dtype=np.float32)
             self._selected_masks = [[]]
-            self._neg_masks = {
-                strategy: bg_mask for strategy in self.neg_strategies
-            }
+            self._neg_masks = {strategy: bg_mask for strategy in self.neg_strategies}
             self._neg_masks["required"] = []
             return
 
@@ -116,12 +114,8 @@ class MultiPointSampler(BasePointSampler):
         root_obj_ids = sample.root_objects
 
         if len(root_obj_ids) > 1 and random.random() < self.merge_objects_prob:
-            max_selected_objects = min(
-                len(root_obj_ids), self.max_num_merged_objects
-            )
-            num_selected_objects = np.random.randint(
-                2, max_selected_objects + 1
-            )
+            max_selected_objects = min(len(root_obj_ids), self.max_num_merged_objects)
+            num_selected_objects = np.random.randint(2, max_selected_objects + 1)
             random_ids = random.sample(root_obj_ids, num_selected_objects)
         else:
             random_ids = [random.choice(root_obj_ids)]
@@ -154,9 +148,7 @@ class MultiPointSampler(BasePointSampler):
         if not self.use_hierarchy:
             node_mask = sample.get_object_mask(obj_id)
             gt_mask = (
-                sample.get_soft_object_mask(obj_id)
-                if self.soft_targets
-                else node_mask
+                sample.get_soft_object_mask(obj_id) if self.soft_targets else node_mask
             )
             return gt_mask, [node_mask], []
 
@@ -177,10 +169,7 @@ class MultiPointSampler(BasePointSampler):
         pos_mask = node_mask.copy()
 
         negative_segments = []
-        if (
-            node_info["parent"] is not None
-            and node_info["parent"] in objs_tree
-        ):
+        if node_info["parent"] is not None and node_info["parent"] in objs_tree:
             parent_mask = sample.get_object_mask(node_info["parent"])
             negative_segments.append(
                 np.logical_and(parent_mask, np.logical_not(node_mask))
@@ -193,9 +182,7 @@ class MultiPointSampler(BasePointSampler):
 
         if node_info["children"]:
             max_disabled_children = min(len(node_info["children"]), 3)
-            num_disabled_children = np.random.randint(
-                0, max_disabled_children + 1
-            )
+            num_disabled_children = np.random.randint(0, max_disabled_children + 1)
             disabled_children = random.sample(
                 node_info["children"], num_disabled_children
             )
@@ -207,9 +194,7 @@ class MultiPointSampler(BasePointSampler):
                     soft_child_mask = sample.get_soft_object_mask(child_id)
                     gt_mask = np.minimum(gt_mask, 1.0 - soft_child_mask)
                 else:
-                    gt_mask = np.logical_and(
-                        gt_mask, np.logical_not(child_mask)
-                    )
+                    gt_mask = np.logical_and(gt_mask, np.logical_not(child_mask))
                 negative_segments.append(child_mask)
 
         return gt_mask, [pos_mask], negative_segments
@@ -270,9 +255,7 @@ class MultiPointSampler(BasePointSampler):
                             (t, prob / len(selected_masks))
                         )
                 else:
-                    aggregated_masks_with_prob.append(
-                        (x, 1.0 / len(selected_masks))
-                    )
+                    aggregated_masks_with_prob.append((x, 1.0 / len(selected_masks)))
 
             other_points_union = self._sample_points(
                 aggregated_masks_with_prob, is_negative=True
@@ -281,9 +264,7 @@ class MultiPointSampler(BasePointSampler):
                 points.extend(other_points_union)
             else:
                 points.extend(
-                    random.sample(
-                        other_points_union, self.max_num_points - len(points)
-                    )
+                    random.sample(other_points_union, self.max_num_points - len(points))
                 )
 
         if len(points) < self.max_num_points:
@@ -331,9 +312,9 @@ class MultiPointSampler(BasePointSampler):
             num_indices = len(point_indices)
             if num_indices > 0:
                 point_indx = 0 if first_click else 100
-                click = point_indices[
-                    np.random.randint(0, num_indices)
-                ].tolist() + [point_indx]
+                click = point_indices[np.random.randint(0, num_indices)].tolist() + [
+                    point_indx
+                ]
                 points.append(click)
 
         return points
@@ -355,9 +336,7 @@ class MultiPointSampler(BasePointSampler):
     def _get_border_mask(self, mask):
         expand_r = int(np.ceil(self.expand_ratio * np.sqrt(mask.sum())))
         kernel = np.ones((3, 3), np.uint8)
-        expanded_mask = cv2.dilate(
-            mask.astype(np.uint8), kernel, iterations=expand_r
-        )
+        expanded_mask = cv2.dilate(mask.astype(np.uint8), kernel, iterations=expand_r)
         expanded_mask[mask.astype(bool)] = 0
         return expanded_mask
 
@@ -382,9 +361,7 @@ def get_point_candidates(obj_mask, k=1.7, full_prob=0.0):
 
     padded_mask = np.pad(obj_mask, ((1, 1), (1, 1)), "constant")
 
-    dt = cv2.distanceTransform(padded_mask.astype(np.uint8), cv2.DIST_L2, 0)[
-        1:-1, 1:-1
-    ]
+    dt = cv2.distanceTransform(padded_mask.astype(np.uint8), cv2.DIST_L2, 0)[1:-1, 1:-1]
     if k > 0:
         inner_mask = dt > dt.max() / k
         return np.argwhere(inner_mask)

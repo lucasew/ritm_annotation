@@ -9,11 +9,7 @@ from ritm_annotation.data.sample import DSample
 
 class DavisDataset(ISDataset):
     def __init__(
-        self,
-        dataset_path,
-        images_dir_name="img",
-        masks_dir_name="gt",
-        **kwargs
+        self, dataset_path, images_dir_name="img", masks_dir_name="gt", **kwargs
     ):
         super(DavisDataset, self).__init__(**kwargs)
 
@@ -21,9 +17,7 @@ class DavisDataset(ISDataset):
         self._images_path = self.dataset_path / images_dir_name
         self._insts_path = self.dataset_path / masks_dir_name
 
-        self.dataset_samples = [
-            x.name for x in sorted(self._images_path.glob("*.*"))
-        ]
+        self.dataset_samples = [x.name for x in sorted(self._images_path.glob("*.*"))]
         self._masks_paths = {x.stem: x for x in self._insts_path.glob("*.*")}
 
     def get_sample(self, index) -> DSample:

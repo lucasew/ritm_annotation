@@ -94,9 +94,7 @@ class Bilinear(Initializer):
 
 
 class XavierGluon(Initializer):
-    def __init__(
-        self, rnd_type="uniform", factor_type="avg", magnitude=3, **kwargs
-    ):
+    def __init__(self, rnd_type="uniform", factor_type="avg", magnitude=3, **kwargs):
         super().__init__(**kwargs)
 
         self.rnd_type = rnd_type

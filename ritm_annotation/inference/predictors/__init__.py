@@ -45,19 +45,13 @@ def get_predictor(
         brs_opt_func_params = dict()
 
     if isinstance(net, (list, tuple)):
-        assert brs_mode == "NoBRS", _(
-            "Multi-stage models support only NoBRS mode."
-        )
+        assert brs_mode == "NoBRS", _("Multi-stage models support only NoBRS mode.")
 
     if brs_mode == "NoBRS":
         if predictor_params is not None:
             predictor_params_.update(predictor_params)
         predictor = BasePredictor(
-            net,
-            device,
-            zoom_in=zoom_in,
-            with_flip=with_flip,
-            **predictor_params_
+            net, device, zoom_in=zoom_in, with_flip=with_flip, **predictor_params_
         )
     elif brs_mode.startswith("f-BRS"):
         predictor_params_.update(
@@ -78,7 +72,7 @@ def get_predictor(
             prob_thresh=prob_thresh,
             with_flip=with_flip,
             optimizer_params=lbfgs_params_,
-            **brs_opt_func_params
+            **brs_opt_func_params,
         )
 
         if isinstance(net, HRNetModel):
@@ -98,7 +92,7 @@ def get_predictor(
             with_flip=with_flip,
             insertion_mode=insertion_mode,
             zoom_in=zoom_in,
-            **predictor_params_
+            **predictor_params_,
         )
     elif brs_mode == "RGB-BRS" or brs_mode == "DistMap-BRS":
         use_dmaps = brs_mode == "DistMap-BRS"
@@ -115,7 +109,7 @@ def get_predictor(
             prob_thresh=prob_thresh,
             with_flip=with_flip,
             optimizer_params=lbfgs_params_,
-            **brs_opt_func_params
+            **brs_opt_func_params,
         )
 
         predictor = InputBRSPredictor(
@@ -125,7 +119,7 @@ def get_predictor(
             opt_functor=opt_functor,
             with_flip=with_flip,
             zoom_in=zoom_in,
-            **predictor_params_
+            **predictor_params_,
         )
     else:
         raise NotImplementedError

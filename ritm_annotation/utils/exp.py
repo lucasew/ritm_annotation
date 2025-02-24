@@ -35,9 +35,7 @@ def init_experiment(args, model_name):
     cfg.distributed = args.distributed
     cfg.local_rank = args.local_rank
     if cfg.distributed:
-        torch.distributed.init_process_group(
-            backend="nccl", init_method="env://"
-        )
+        torch.distributed.init_process_group(backend="nccl", init_method="env://")
         if args.workers > 0:
             torch.multiprocessing.set_start_method("forkserver", force=True)
 
@@ -109,9 +107,7 @@ def init_experiment(args, model_name):
     return cfg
 
 
-def get_model_family_tree(
-    model_path, terminate_name="models", model_name=None
-):
+def get_model_family_tree(model_path, terminate_name="models", model_name=None):
     if model_name is None:
         model_name = model_path.stem
     family_tree = [model_name]
@@ -148,9 +144,7 @@ def find_resume_exp(exp_parent_path, exp_pattern):
         )
         logger.info(
             _("Candidates: {candidates}").format(
-                candidates=" ".join(
-                    [e.name for e in exp_parent_path.iterdir()]
-                )
+                candidates=" ".join([e.name for e in exp_parent_path.iterdir()])
             )
         )
         sys.exit(1)
@@ -161,11 +155,7 @@ def find_resume_exp(exp_parent_path, exp_pattern):
         sys.exit(1)
     else:
         exp_path = candidates[0]
-        print(
-            _('Continue with experiment "{exp_path}"').format(
-                exp_path=exp_path
-            )
-        )
+        print(_('Continue with experiment "{exp_path}"').format(exp_path=exp_path))
 
     return exp_path
 

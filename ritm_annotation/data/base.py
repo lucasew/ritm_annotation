@@ -95,17 +95,13 @@ class ISDataset(torch.utils.data.dataset.Dataset):
         return len(self.dataset_samples)
 
     @staticmethod
-    def _load_samples_scores(
-        samples_scores_path, samples_scores_gamma, dry_run=False
-    ):
+    def _load_samples_scores(samples_scores_path, samples_scores_gamma, dry_run=False):
         if samples_scores_path is None or (not dry_run):
             return None
         with open(samples_scores_path, "rb") as f:
             images_scores = pickle.load(f)
 
-        probs = np.array(
-            [(1.0 - x[2]) ** samples_scores_gamma for x in images_scores]
-        )
+        probs = np.array([(1.0 - x[2]) ** samples_scores_gamma for x in images_scores])
         probs /= probs.sum()
         samples_scores = {
             "indices": [x[0] for x in images_scores],

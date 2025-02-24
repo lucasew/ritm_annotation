@@ -27,20 +27,14 @@ class Crops(BaseTransform):
         if image_height < self.crop_height or image_width < self.crop_width:
             return image_nd, clicks_lists
 
-        self.x_offsets = get_offsets(
-            image_width, self.crop_width, self.min_overlap
-        )
-        self.y_offsets = get_offsets(
-            image_height, self.crop_height, self.min_overlap
-        )
+        self.x_offsets = get_offsets(image_width, self.crop_width, self.min_overlap)
+        self.y_offsets = get_offsets(image_height, self.crop_height, self.min_overlap)
         self._counts = np.zeros((image_height, image_width))
 
         image_crops = []
         for dy in self.y_offsets:
             for dx in self.x_offsets:
-                self._counts[
-                    dy : dy + self.crop_height, dx : dx + self.crop_width
-                ] += 1
+                self._counts[dy : dy + self.crop_height, dx : dx + self.crop_width] += 1
                 image_crop = image_nd[
                     :, :, dy : dy + self.crop_height, dx : dx + self.crop_width
                 ]

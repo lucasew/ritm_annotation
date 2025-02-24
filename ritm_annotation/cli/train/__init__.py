@@ -6,9 +6,7 @@ COMMAND_DESCRIPTION = _("Run from-scratch trains using off the shelf datasets")
 
 
 def command(parser):
-    parser.add_argument(
-        "model_path", type=str, help=_("Path to the model script.")
-    )
+    parser.add_argument("model_path", type=str, help=_("Path to the model script."))
 
     parser.add_argument(
         "-o",
@@ -50,9 +48,7 @@ def command(parser):
         dest="batch_size",
         type=int,
         default=-1,
-        help=_(
-            "You can override model batch size by specify positive number."
-        ),
+        help=_("You can override model batch size by specify positive number."),
     )  # noqa:E501
 
     parser.add_argument(
@@ -69,9 +65,7 @@ def command(parser):
         type=str,
         default="",
         required=False,
-        help=_(
-            'Ids of used GPUs. You should use either this argument or "--ngpus".'
-        ),  # noqa: E501
+        help=_('Ids of used GPUs. You should use either this argument or "--ngpus".'),  # noqa: E501
     )  # noqa:E501
 
     parser.add_argument(
