@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+uv sync --extra dev
+ruff format
+ruff check
+pytest
+
