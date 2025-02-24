@@ -19,11 +19,9 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
   "pytest",
-  "coverage",
-  "flake8",
-  "black",
-  "isort",
   "pytest-cov",
+  "coverage",
+  "ruff",
   "mypy",
   "gitchangelog",
   "mkdocs",
