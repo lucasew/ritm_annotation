@@ -18,7 +18,7 @@ from ritm_annotation.utils.distributed import (
     reduce_loss_dict,
 )
 from ritm_annotation.utils.log import SummaryWriterAvg, TqdmToLogger
-from ritm_annotation.utils.misc import save_checkpoint, try_tqdm
+from ritm_annotation.utils.misc import save_checkpoint
 from ritm_annotation.utils.serialization import get_config_repr
 from ritm_annotation.utils.vis import draw_points, draw_probmap
 
