@@ -1,20 +1,4 @@
-import faulthandler
-
-faulthandler.enable()
-
-from gettext import gettext as _
-
-import ritm_annotation.utils.i18n  # F401
-
-"""CLI interface for ritm_annotation project.
-
-Be creative! do whatever you want!
-
-- Install click or typer and create a CLI app
-- Use builtin argparse
-- Start a web application
-- Import things from your .base module
-"""
+"""CLI interface for ritm_annotation project."""
 
 import logging
 import sys
@@ -22,8 +6,26 @@ from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser
 from pathlib import Path
 
 from ritm_annotation.utils.misc import load_module
+from gettext import gettext as _
+import gettext
+
+import faulthandler
+faulthandler.enable()
 
 logger = logging.getLogger(__name__)
+
+locale_dir = Path(__file__).parent.parent / "i18n"
+
+gettext.bindtextdomain(
+    "ritm_annotation",
+    localedir=str(locale_dir),
+)
+
+logger.debug(
+    _('Loading locale data from "{locale_folder}"').format(locale_folder=locale_dir)
+)
+
+
 
 
 def add_subcommand(subparsers, name: str, submodule):

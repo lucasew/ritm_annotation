@@ -16,9 +16,9 @@ class BoundedNumericalEntry(tk.Entry):
         **kwargs,
     ):
         if variable is None:
-            if vartype == float:
+            if issubclass(vartype, float):
                 self.var = tk.DoubleVar()
-            elif vartype == int:
+            elif issubclass(vartype, int):
                 self.var = tk.IntVar()
             else:
                 self.var = tk.StringVar()

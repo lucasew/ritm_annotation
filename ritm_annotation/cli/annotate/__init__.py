@@ -1,10 +1,7 @@
 # flake8: noqa E501
 
-import json
-import logging
 from gettext import gettext as _
 from pathlib import Path
-from sys import exit
 
 COMMAND_DESCRIPTION = _("Interactively annotate a dataset")
 
