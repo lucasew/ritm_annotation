@@ -24,7 +24,7 @@ let
       owner = "albumentations-team";
       repo = "albumentations";
       tag = version;
-      # hash = "sha256-8vUipdkIelRtKwMw63oUBDN/GUI0gegMGQaqDyXAOTQ=";
+      hash = "sha256-2bZSuVECfJiAJRwVd0G93bjDdWlyVOpqf3AazQXTiJw=";
     };
   });
 in
