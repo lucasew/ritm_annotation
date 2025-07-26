@@ -17,7 +17,7 @@
 }:
 
 let
-  albumentations_1 = albumentations.overrideDerivation rec {
+  albumentations_1 = albumentations.overrideDerivation (old: rec {
     version = "1.4.24";
  
     src = fetchFromGitHub {
@@ -26,7 +26,7 @@ let
       tag = version;
       # hash = "sha256-8vUipdkIelRtKwMw63oUBDN/GUI0gegMGQaqDyXAOTQ=";
     };
-  };
+  });
 in
 
 buildPythonPackage {
