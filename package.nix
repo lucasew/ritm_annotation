@@ -13,7 +13,21 @@
 , tqdm
 , pycocotools
 , pytestCheckHook
+, fetchFromGitHub
 }:
+
+let
+  albumentations_1 = albumentations.overrideDerivation rec {
+    version = "1.4.24";
+ 
+    src = fetchFromGitHub {
+      owner = "albumentations-team";
+      repo = "albumentations";
+      tag = version;
+      # hash = "sha256-8vUipdkIelRtKwMw63oUBDN/GUI0gegMGQaqDyXAOTQ=";
+    };
+  };
+in
 
 buildPythonPackage {
   pname = "ritm_annotation";
@@ -27,7 +41,7 @@ buildPythonPackage {
 
   propagatedBuildInputs = [
     easydict
-    albumentations
+    albumentations_1
     pillow
     scipy
     tensorboard
