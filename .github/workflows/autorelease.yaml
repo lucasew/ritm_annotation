@@ -106,6 +106,7 @@ jobs:
         docker push "$TAG:$VERSION"
         docker push "$TAG:latest"
     - name: Build and publish to PyPI
+      if: env.RELEASE_VERSION != ''
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
