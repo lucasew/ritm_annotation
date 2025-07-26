@@ -5,7 +5,7 @@ readme = "README.md"
 
 dependencies = [
   "easydict",
-  "albumentations",
+  "albumentations<2.0.0",
   "pillow",
   "scipy",
   "tensorboard",
