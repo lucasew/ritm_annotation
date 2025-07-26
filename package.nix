@@ -23,12 +23,6 @@ buildPythonPackage {
 
   nativeBuildInputs = [ cython ];
 
-  postPatch = ''
-    substituteInPlace requirements.txt \
-      --replace 'opencv-python-headless' "" \
-      --replace 'torchvision >= 0.15.2' ""
-  '';
-
   propagatedBuildInputs = [
     easydict
     albumentations
