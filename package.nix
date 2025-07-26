@@ -5,6 +5,7 @@
 , pillow
 , scipy
 , tensorboard
+, hatchling
 , tkinter
 , pytorch-bin
 , torchvision-bin
@@ -18,6 +19,7 @@ buildPythonPackage {
   pname = "ritm_annotation";
   version = builtins.readFile ./ritm_annotation/VERSION;
   pyproject = true;
+  build-system = [ hatchling ];
 
   src = ./.;
 
