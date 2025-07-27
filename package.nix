@@ -29,8 +29,11 @@ let
 
     patches = [];
 
+    pythonRelaxDeps = [ "albucore" ];
+
     postPatch = (old.postPatch or "") + ''
       printf 'def check_for_updates() -> None:\n\tpass' >> albumentations/check_version.py
+      rm tests/test_check_version.py
     '';
   });
 in
@@ -42,6 +45,8 @@ buildPythonPackage {
   build-system = [ hatchling ];
 
   src = ./.;
+
+  pythonRemoveDeps = [ "opencv-python-headless" ];
 
   nativeBuildInputs = [ cython ];
 
