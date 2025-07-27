@@ -26,6 +26,12 @@ let
       tag = version;
       hash = "sha256-2bZSuVECfJiAJRwVd0G93bjDdWlyVOpqf3AazQXTiJw=";
     };
+
+    patches = [];
+
+    postPatch = (old.postPatch or "") + ''
+      printf 'def check_for_updates() -> None:\n\tpass' >> albumentations/check_version.py
+    '';
   });
 in
 
