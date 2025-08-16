@@ -11,7 +11,7 @@ xgettext -d ritm_annotation -o ritm_annotation/i18n/ritm_annotation.pot --files-
 sed -i 's;CHARSET;UTF-8;g' ritm_annotation/i18n/ritm_annotation.pot
 
 for LOCALE in "${LOCALES[@]}"; do
-  mkdir -p ritm_annotation/i18n/"$LOCALE"
+  mkdir -p ritm_annotation/i18n/"$LOCALE/LC_MESSAGES"
   if [[ ! -f ritm_annotation/i18n/$LOCALE/LC_MESSAGES/ritm_annotation.po ]]; then
     msginit -i ritm_annotation/i18n/ritm_annotation.pot -o  ritm_annotation/i18n/"$LOCALE"/LC_MESSAGES/ritm_annotation.po 
   fi
