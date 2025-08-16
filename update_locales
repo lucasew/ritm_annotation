@@ -12,7 +12,9 @@ sed -i 's;CHARSET;UTF-8;g' ritm_annotation/i18n/ritm_annotation.pot
 
 for LOCALE in "${LOCALES[@]}"; do
   mkdir -p ritm_annotation/i18n/"$LOCALE"
-  touch ritm_annotation/i18n/$LOCALE/LC_MESSAGES/ritm_annotation.po
-  msgmerge --no-fuzzy-matching -U itm_annotation/i18n/$LOCALE/LC_MESSAGES/ritm_annotation.po ritm_annotation/i18n/ritm_annotation.pot
-  msgfmt -o ritm_annotation/i18n/$LOCALE/LC_MESSAGES/ritm_annotation.mo ritm_annotation/i18n/$LOCALE/LC_MESSAGES/ritm_annotation.po
+  if [[ ! -f ritm_annotation/i18n/$LOCALE/LC_MESSAGES/ritm_annotation.po ]]; then
+    msginit -i ritm_annotation/i18n/ritm_annotation.pot -o  ritm_annotation/i18n/"$LOCALE"/LC_MESSAGES/ritm_annotation.po 
+  fi
+  msgmerge --no-fuzzy-matching -U itm_annotation/i18n/"$LOCALE"/LC_MESSAGES/ritm_annotation.po ritm_annotation/i18n/ritm_annotation.pot
+  msgfmt -o ritm_annotation/i18n/"$LOCALE"/LC_MESSAGES/ritm_annotation.mo ritm_annotation/i18n/"$LOCALE"/LC_MESSAGES/ritm_annotation.po
 done
