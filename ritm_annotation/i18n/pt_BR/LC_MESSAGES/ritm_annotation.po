@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-08-09 03:14+0000\n"
-"PO-Revision-Date: 2024-09-14 21:38+0000\n"
+"PO-Revision-Date: 2025-08-23 14:45+0000\n"
 "Last-Translator: Lucas Eduardo <lucas59356@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "ritm_annotation/text/pt_BR/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.8-dev\n"
+"X-Generator: Weblate 5.13\n"
 
 #: ritm_annotation/engine/trainer.py:99
 msgid "Looking for basic assumptions"
@@ -745,9 +745,9 @@ msgid "SHA256 of default model is {actual_hash}, expected {expected_hash}"
 msgstr "O SHA256 do modelo padrão é {actual_hash}, esperado {expected_hash}"
 
 #: /usr/lib/python3.12/argparse.py:240
-#, python-format
+#, fuzzy, python-format
 msgid "%(heading)s:"
-msgstr ""
+msgstr "%(heading)s:"
 
 #: /usr/lib/python3.12/argparse.py:312
 msgid "usage: "
@@ -756,7 +756,7 @@ msgstr "uso: "
 #: /usr/lib/python3.12/argparse.py:738
 #, python-format
 msgid " (default: %(default)s)"
-msgstr ""
+msgstr " (padrão: %(default)s)"
 
 #: /usr/lib/python3.12/argparse.py:792
 #, python-format
@@ -769,7 +769,7 @@ msgstr ".__call__() não foi definido"
 
 #: /usr/lib/python3.12/argparse.py:1169
 msgid "show program's version number and exit"
-msgstr ""
+msgstr "mostra a versão do programa e sai"
 
 #: /usr/lib/python3.12/argparse.py:1231
 #, python-format
@@ -789,12 +789,12 @@ msgstr "unknown parser %(parser_name)r (choices: %(choices)s)"
 #: /usr/lib/python3.12/argparse.py:1330
 #, python-format
 msgid "argument \"-\" with mode %r"
-msgstr ""
+msgstr "argumento \"-\" com modo %r"
 
 #: /usr/lib/python3.12/argparse.py:1339
 #, python-format
 msgid "can't open '%(filename)s': %(error)s"
-msgstr ""
+msgstr "não pode abrir '%(filename)s': %(error)s"
 
 #: /usr/lib/python3.12/argparse.py:1548
 #, python-format
