@@ -30,6 +30,7 @@ def handle(args):
     for line in repr(model).split("\n"):
         print(f"arch {line.rstrip()}")
 
+
 def command(subparser):
     subparser.add_argument("model", type=Path)
     return handle
