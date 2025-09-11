@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-28 15:15+0000\n"
+"POT-Creation-Date: 2025-09-11 18:22+0000\n"
 "PO-Revision-Date: 2025-08-23 14:45+0000\n"
 "Last-Translator: Lucas Eduardo <lucas59356@gmail.com>\n"
 "Language-Team: English (United States) <https://hosted.weblate.org/projects/"
@@ -584,11 +584,11 @@ msgstr ""
 msgid "Checkpoint not specified, using default..."
 msgstr ""
 
-#: ritm_annotation/cli/model_info/model_info.py:19
+#: ritm_annotation/cli/model_info/model_info.py:16
 msgid "Loading model"
 msgstr ""
 
-#: ritm_annotation/cli/model_info/model_info.py:21
+#: ritm_annotation/cli/model_info/model_info.py:18
 msgid "Model must exist and be a file"
 msgstr ""
 
