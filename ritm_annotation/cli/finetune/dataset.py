@@ -4,17 +4,17 @@ from gettext import gettext as _
 from pathlib import Path
 
 import cv2
+from ritm_annotation.data.points_sampler import MultiPointSampler
+from ritm_annotation.data.transforms import UniformRandomResize
 from albumentations import (
     Compose,
     HorizontalFlip,
-    MultiPointSampler,
     PadIfNeeded,
     RandomBrightnessContrast,
     RandomCrop,
     RGBShift,
-    UniformRandomResize,
 )
-from albumentations.augmentations.geometric import longest_max_size
+from albumentations.augmentations.geometric import LongestMaxSize
 
 from ritm_annotation.data.base import ISDataset
 from ritm_annotation.data.sample import DSample
@@ -121,7 +121,7 @@ class AnnotationDataset(ISDataset):
         image = cv2.imread(str(image_path))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         if self.max_bigger_dimension is not None:
-            image = longest_max_size(image, self.max_bigger_dimension, cv2.INTER_LINEAR)
+            image = LongestMaxSize(image, self.max_bigger_dimension, cv2.INTER_LINEAR)
         (h, w, *_rest) = image.shape
         mask_path = random.choice(
             [mask for mask in masks_path.iterdir() if not mask.name.endswith(".json")]
@@ -129,7 +129,7 @@ class AnnotationDataset(ISDataset):
         gt_mask = cv2.imread(str(mask_path), 0)
 
         if self.max_bigger_dimension is not None:
-            gt_mask = longest_max_size(
+            gt_mask = LongestMaxSize(
                 gt_mask, self.max_bigger_dimension, cv2.INTER_NEAREST_EXACT
             )
         gt_mask[gt_mask > 0] = 1
