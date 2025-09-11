@@ -8,19 +8,16 @@ Tool to do dataset annotation for semantic segmentation datasets.
 
 Based on [SamsungLabs/ritm_interactive_segmentation](https://github.com/SamsungLabs/ritm_interactive_segmentation)
 
-**Work in progress**
-
 ## Installation
+
+- UV
+```bash
+uvx ritm_annotation
+```
 
 - Pip
 ```bash
 pip install ritm_annotation
-```
-
-- Nix flakes
-## Running it using Nix flakes
-```
-nix run github:lucasew/ritm_annotation -- --help
 ```
 
 - Docker
