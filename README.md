@@ -37,7 +37,7 @@ $ ritm_annotation --help
 ```
 
 ## Pretrained model weights
-[Here you can download pretrained weights](https://github.com/SamsungLabs/ritm_interactive_segmentation/releases/tag/v1.0)
+[Here you can download pretrained weights](https://github.com/lucasew/ritm_annotation/releases/download/0.0.1/coco_lvis_h18_itermask.pth)
 
 In my tests I used `coco_lvis_h18_itermask.pth` (SHA256 5f69cfce354d1507e3850bfc39ee7057c8dd27b6a4910d1d2dc724916b9ee32b)
 
