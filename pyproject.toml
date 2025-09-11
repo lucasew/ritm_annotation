@@ -5,7 +5,7 @@ readme = "README.md"
 
 dependencies = [
   "easydict",
-  "albumentations<2.0.0",
+
   "pillow",
   "scipy",
   "tensorboard",
@@ -14,7 +14,9 @@ dependencies = [
   "Cython",
   "numpy",
   "tqdm",
-  "pycocotools"
+  "pycocotools",
+
+  "albumentations==1.3.1" # DO NOT EVER TOUCH THIS LINE
 ]
 
 [project.optional-dependencies]
