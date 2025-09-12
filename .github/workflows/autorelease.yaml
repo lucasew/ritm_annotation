@@ -78,7 +78,6 @@ jobs:
     - name: "Build container"
       env:
         TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      if: env.RELEASE_VERSION != ''
       run: |
         VERSION="$(cat ritm_annotation/VERSION)"
         docker build -t "$TAG:$VERSION" . -f Containerfile
