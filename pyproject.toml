@@ -11,13 +11,16 @@ dependencies = [
   "tensorboard",
   "torchvision",
   "opencv-python-headless",
-  "Cython",
   "numpy",
   "tqdm",
   "pycocotools",
 
   "albumentations==1.3.1" # DO NOT EVER TOUCH THIS LINE
 ]
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools", "Cython", "numpy"]
 
 [project.optional-dependencies]
 dev = [
@@ -30,24 +33,6 @@ dev = [
   "mkdocs",
   "mkdocstrings"
 ]
-
-[build-system]
-build-backend = "hatchling.build"
-requires = ["hatchling", "cython", "numpy"]
-
-
-[tool.hatch.build.targets.wheel]
-packages = ["ritm_annotation"]
-
-[tool.hatch.build.targets.wheel.hooks.cython]
-dependencies = ["hatch-cython"]
-
-[tool.hatch.build.targets.wheel.hooks.cython.options]
-include_numpy = true
-
-[tool.hatch.version]
-path = "ritm_annotation/VERSION"
-pattern = "^(?P<version>[^$]*)"
 
 [project.scripts]
 ritm_annotation = "ritm_annotation.__main__:main"
