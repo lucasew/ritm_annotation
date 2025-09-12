@@ -52,6 +52,9 @@ jobs:
     - name: Check and format
       run: uv run ./check
 
+    - name: Build wheel
+      run: uv build
+
     - name: Create Pull Request if there is new stuff from updaters
       uses: peter-evans/create-pull-request@v7
       id: pr_create
@@ -110,5 +113,4 @@ jobs:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
       run: |
-        uv build
         uvx twine upload dist/*
