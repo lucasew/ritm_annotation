@@ -39,9 +39,6 @@ jobs:
 
     - uses: jdx/mise-action@v3
 
-    - name: Build wheel
-      run: uvx cibuildwheel --output-dir dist
-
     - name: Setup git config
       run: |
         git config user.name actions-bot
@@ -75,6 +72,18 @@ jobs:
           exit 1
         fi
 
+    - name: Build wheel
+      run: uvx cibuildwheel --output-dir dist
+
+    - name: "Build container"
+      env:
+        TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      if: env.RELEASE_VERSION != ''
+      run: |
+        VERSION="$(cat ritm_annotation/VERSION)"
+        docker build -t "$TAG:$VERSION" . -f Containerfile
+        docker tag "$TAG:$VERSION" "$TAG:latest"
+
     - name: Make release if everything looks right
       env:
         NEW_VERSION: ${{ github.event.inputs.new_version }}
@@ -97,16 +106,15 @@ jobs:
           --generate-notes \
           --notes-start-tag $(gh release list --limit 1 --json tagName -q .[].tagName) 
 
-    - name: "Build and publish container"
+    - name: "Publish container"
       env:
         TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       if: env.RELEASE_VERSION != ''
       run: |
         VERSION="$(cat ritm_annotation/VERSION)"
-        docker build -t "$TAG:$VERSION" . -f Containerfile
-        docker tag "$TAG:$VERSION" "$TAG:latest"
         docker push "$TAG:$VERSION"
         docker push "$TAG:latest"
+
     - name: Build and publish to PyPI
       if: env.RELEASE_VERSION != ''
       env:
