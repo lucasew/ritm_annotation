@@ -72,14 +72,14 @@ jobs:
           exit 1
         fi
 
-    - name: Build wheel
-      run: uvx cibuildwheel --output-dir dist
-
     - name: "Build container"
       env:
         TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       run: |
         docker build -t "$TAG:latest" . -f Containerfile
+
+    - name: Build wheel
+      run: uvx cibuildwheel --output-dir dist
 
     - name: Make release if everything looks right
       env:
