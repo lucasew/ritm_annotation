@@ -6,7 +6,7 @@ FROM ghcr.io/astral-sh/uv:python$PYTHON_VERSION-bookworm-slim
 # Copy from the cache instead of linking since it's a mounted volume
 ENV UV_LINK_MODE=copy
 
-RUN apt update && apt install -y libgl1-mesa-glx libglib2.0-0 libtk8.6
+RUN apt update && apt install -y libgl1-mesa-glx libglib2.0-0 libtk8.6 build-essential
 WORKDIR /app
 COPY . /app
 
