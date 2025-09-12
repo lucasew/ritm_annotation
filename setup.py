@@ -5,7 +5,7 @@ from pathlib import Path
 
 extensions = [
     Extension(
-        "ritm_annotation/utils/cython/_get_dist_maps",
+        "ritm_annotation.utils.cython._get_dist_maps",
         sources=["ritm_annotation/utils/cython/_get_dist_maps.pyx"],
         include_dirs=[np.get_include()]
     )
