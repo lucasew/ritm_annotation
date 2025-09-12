@@ -33,7 +33,7 @@ dev = [
 
 [build-system]
 build-backend = "hatchling.build"
-requires = ["hatchling", "cython"]
+requires = ["hatchling", "cython", "numpy"]
 
 
 [tool.hatch.build.targets.wheel]
@@ -53,5 +53,3 @@ pattern = "^(?P<version>[^$]*)"
 ritm_annotation = "ritm_annotation.__main__:main"
 
 
-[tool.uv.extra-build-dependencies]
-ritm_annotation = ["numpy"]
