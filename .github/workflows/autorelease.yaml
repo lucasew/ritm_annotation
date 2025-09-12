@@ -39,6 +39,9 @@ jobs:
 
     - uses: jdx/mise-action@v3
 
+    - name: Build wheel
+      run: uvx cibuildwheel --output-dir dist
+
     - name: Setup git config
       run: |
         git config user.name actions-bot
@@ -51,9 +54,6 @@ jobs:
 
     - name: Check and format
       run: uv run ./check
-
-    - name: Build wheel
-      run: uvx cibuildwheel --output-dir dist
 
     - name: Create Pull Request if there is new stuff from updaters
       uses: peter-evans/create-pull-request@v7
