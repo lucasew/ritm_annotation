@@ -72,6 +72,9 @@ jobs:
           exit 1
         fi
 
+    - name: Cleanup environment
+      uses: lucasew/action-i-only-care-about-nix@v1
+
     - name: "Build container"
       env:
         TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
