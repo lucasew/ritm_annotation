@@ -37,4 +37,5 @@ dev = [
 [project.scripts]
 ritm_annotation = "ritm_annotation.__main__:main"
 
-
+[tool.setuptools]
+packages = ["ritm_annotation"]
