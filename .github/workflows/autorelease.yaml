@@ -45,9 +45,9 @@ jobs:
         git config user.email actions-bot@users.noreply.github.com
 
     - name: Update locales
-      run: |
-        sudo apt update && sudo apt install -y gettext
-        ./update_locales
+      uses: dagger/dagger-for-github@8.0.0
+      with:
+        shell: codegen-fixes . | export .
 
     - name: Check and format
       run: uv run ./check
