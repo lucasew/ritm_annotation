@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-11 18:22+0000\n"
+"POT-Creation-Date: 2025-09-22 01:03+0000\n"
 "PO-Revision-Date: 2025-08-23 14:45+0000\n"
 "Last-Translator: Lucas Eduardo <lucas59356@gmail.com>\n"
 "Language-Team: English (United States) <https://hosted.weblate.org/projects/"
@@ -319,6 +319,10 @@ msgstr ""
 msgid "Print version and exit"
 msgstr ""
 
+#: ritm_annotation/cli/__init__.py:101
+msgid "Starting"
+msgstr ""
+
 #: ritm_annotation/cli/dataset_lint/__init__.py:13
 msgid ""
 "Looks for common problems in datasets in mask form that are used for "
@@ -471,6 +475,14 @@ msgstr ""
 msgid "Controls"
 msgstr ""
 
+#: ritm_annotation/cli/annotate/annotator.py:239
+msgid "Mostrar máscara ao invés da imagem"
+msgstr ""
+
+#: ritm_annotation/cli/annotate/annotator.py:247
+msgid "Mostrar sobreposição da máscara com mais contraste"
+msgstr ""
+
 #: ritm_annotation/cli/annotate/annotator.py:254
 msgid "Clicks management"
 msgstr ""
@@ -479,6 +491,14 @@ msgstr ""
 msgid ""
 "Finish\n"
 "object"
+msgstr ""
+
+#: ritm_annotation/cli/annotate/annotator.py:269
+msgid "Undo click"
+msgstr ""
+
+#: ritm_annotation/cli/annotate/annotator.py:280
+msgid "Reset clicks"
 msgstr ""
 
 #: ritm_annotation/cli/annotate/annotator.py:290
@@ -708,181 +728,185 @@ msgstr ""
 msgid "Remove the main function"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:240
+#: /usr/lib/python3.12/argparse.py:228
 #, python-format
 msgid "%(heading)s:"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:312
+#: /usr/lib/python3.12/argparse.py:299
 msgid "usage: "
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:738
+#: /usr/lib/python3.12/argparse.py:722
 #, python-format
 msgid " (default: %(default)s)"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:792
+#: /usr/lib/python3.12/argparse.py:784
 #, python-format
 msgid "argument %(argument_name)s: %(message)s"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:898
+#: /usr/lib/python3.12/argparse.py:890
 msgid ".__call__() not defined"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1169
+#: /usr/lib/python3.12/argparse.py:1161
 msgid "show program's version number and exit"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1231
+#: /usr/lib/python3.12/argparse.py:1223
 #, python-format
 msgid "conflicting subparser: %s"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1235
+#: /usr/lib/python3.12/argparse.py:1227
 #, python-format
 msgid "conflicting subparser alias: %s"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1270
+#: /usr/lib/python3.12/argparse.py:1262
 #, python-format
 msgid "unknown parser %(parser_name)r (choices: %(choices)s)"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1330
+#: /usr/lib/python3.12/argparse.py:1323
 #, python-format
 msgid "argument \"-\" with mode %r"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1339
+#: /usr/lib/python3.12/argparse.py:1332
 #, python-format
 msgid "can't open '%(filename)s': %(error)s"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1548
+#: /usr/lib/python3.12/argparse.py:1541
 #, python-format
 msgid "cannot merge actions - two groups are named %r"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1586
+#: /usr/lib/python3.12/argparse.py:1583
 msgid "'required' is an invalid argument for positionals"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1608
+#: /usr/lib/python3.12/argparse.py:1604
 #, python-format
 msgid ""
 "invalid option string %(option)r: must start with a character "
 "%(prefix_chars)r"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1626
+#: /usr/lib/python3.12/argparse.py:1622
 #, python-format
 msgid "dest= is required for options like %r"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1643
+#: /usr/lib/python3.12/argparse.py:1639
 #, python-format
 msgid "invalid conflict_resolution value: %r"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1661
+#: /usr/lib/python3.12/argparse.py:1657
 #, python-format
 msgid "conflicting option string: %s"
 msgid_plural "conflicting option strings: %s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /usr/lib/python3.12/argparse.py:1735
+#: /usr/lib/python3.12/argparse.py:1731
 msgid "mutually exclusive arguments must be optional"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1811
+#: /usr/lib/python3.12/argparse.py:1807
 msgid "positional arguments"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1812
+#: /usr/lib/python3.12/argparse.py:1808
 msgid "options"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1827
+#: /usr/lib/python3.12/argparse.py:1823
 msgid "show this help message and exit"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1858
+#: /usr/lib/python3.12/argparse.py:1854
 msgid "cannot have multiple subparser arguments"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:1910 /usr/lib/python3.12/argparse.py:2430
+#: /usr/lib/python3.12/argparse.py:1860
+msgid "subcommands"
+msgstr ""
+
+#: /usr/lib/python3.12/argparse.py:1906 /usr/lib/python3.12/argparse.py:2459
 #, python-format
 msgid "unrecognized arguments: %s"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:2010
+#: /usr/lib/python3.12/argparse.py:2011
 #, python-format
 msgid "not allowed with argument %s"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:2052 /usr/lib/python3.12/argparse.py:2083
+#: /usr/lib/python3.12/argparse.py:2030
+#, python-format
+msgid "ambiguous option: %(option)s could match %(matches)s"
+msgstr ""
+
+#: /usr/lib/python3.12/argparse.py:2062 /usr/lib/python3.12/argparse.py:2094
 #, python-format
 msgid "ignored explicit argument %r"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:2190
+#: /usr/lib/python3.12/argparse.py:2230
 #, python-format
 msgid "the following arguments are required: %s"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:2205
+#: /usr/lib/python3.12/argparse.py:2245
 #, python-format
 msgid "one of the arguments %s is required"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:2249
+#: /usr/lib/python3.12/argparse.py:2289
 msgid "expected one argument"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:2250
+#: /usr/lib/python3.12/argparse.py:2290
 msgid "expected at most one argument"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:2251
+#: /usr/lib/python3.12/argparse.py:2291
 msgid "expected at least one argument"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:2255
+#: /usr/lib/python3.12/argparse.py:2295
 #, python-format
 msgid "expected %s argument"
 msgid_plural "expected %s arguments"
 msgstr[0] ""
 msgstr[1] ""
 
-#: /usr/lib/python3.12/argparse.py:2312
-#, python-format
-msgid "ambiguous option: %(option)s could match %(matches)s"
-msgstr ""
-
-#: /usr/lib/python3.12/argparse.py:2373
+#: /usr/lib/python3.12/argparse.py:2405
 #, python-format
 msgid "unexpected option string: %s"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:2572
+#: /usr/lib/python3.12/argparse.py:2541
 #, python-format
 msgid "%r is not callable"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:2588
+#: /usr/lib/python3.12/argparse.py:2557
 #, python-format
 msgid "invalid %(type)s value: %(value)r"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:2599
+#: /usr/lib/python3.12/argparse.py:2572
 #, python-format
 msgid "invalid choice: %(value)r (choose from %(choices)s)"
 msgstr ""
 
-#: /usr/lib/python3.12/argparse.py:2677
+#: /usr/lib/python3.12/argparse.py:2650
 #, python-format
 msgid "%(prog)s: error: %(message)s\n"
 msgstr ""
