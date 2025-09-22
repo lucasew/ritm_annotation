@@ -9,7 +9,7 @@ class RitmAnnotation:
         return (
             dag.container()
             .from_("alpine:latest")
-            .with_exec(["apk", "add", "gettext", "bash"])
+            .with_exec(["apk", "add", "gettext", "bash", "python"])
         )
 
     @function
