@@ -45,7 +45,7 @@ jobs:
         git config user.email actions-bot@users.noreply.github.com
 
     - name: Update locales
-      uses: dagger/dagger-for-github@8.0.0
+      uses: dagger/dagger-for-github@v8.1.0
       with:
         shell: codegen-fixes . | export .
 
