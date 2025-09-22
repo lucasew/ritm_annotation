@@ -1,12 +1,16 @@
 import dagger
-from dagger import dag, function, object_type, DefaultPath
-from typing import Annotated
+from dagger import dag, function, object_type
+
 
 @object_type
 class RitmAnnotation:
     @function
     def gettext_container(self) -> dagger.Container:
-        return dag.container().from_("alpine:latest").with_exec(["apk", "add", "gettext", "bash"])
+        return (
+            dag.container()
+            .from_("alpine:latest")
+            .with_exec(["apk", "add", "gettext", "bash"])
+        )
 
     @function
     async def codegen_fixes(self, source: dagger.Directory) -> dagger.Directory:
@@ -18,28 +22,27 @@ class RitmAnnotation:
     async def update_locales(self, source: dagger.Directory) -> dagger.Directory:
         return (
             await self.gettext_container()
-                .with_mounted_directory("/src", source)
-                .with_workdir("/src")
-                .with_exec(["./update_locales"])
-                .directory("/src")
+            .with_mounted_directory("/src", source)
+            .with_workdir("/src")
+            .with_exec(["./update_locales"])
+            .directory("/src")
         )
 
     @function
     async def test_update_date(self, source: dagger.Directory):
         return (
             await dag.container()
-                .from_("alpine:latest")
-                .with_mounted_directory("/src", source)
-                .with_exec(["/bin/sh", "-c", "date > /src/date.txt"])
-                .with_exec(["ls", "/src"])
-                .directory("/src")
-                # .export(".") # you need to run export in the cli
+            .from_("alpine:latest")
+            .with_mounted_directory("/src", source)
+            .with_exec(["/bin/sh", "-c", "date > /src/date.txt"])
+            .with_exec(["ls", "/src"])
+            .directory("/src")
+            # .export(".") # you need to run export in the cli
         )
 
     # @function
     # def update_locale(self, locale: str):
-        
-    
+
     @function
     def container_echo(self, string_arg: str) -> dagger.Container:
         """Returns a container that echoes whatever string argument is provided"""
