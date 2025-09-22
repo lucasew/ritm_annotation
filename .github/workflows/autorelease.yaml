@@ -48,7 +48,7 @@ jobs:
       uses: dagger/dagger-for-github@8.0.0
       with:
         verb: call
-        shell: codegen-fixes --source . export --path .
+        args: codegen-fixes --source . export --path .
 
     - name: Check and format
       run: uv run ./check
