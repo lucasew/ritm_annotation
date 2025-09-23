@@ -1,4 +1,3 @@
 [tools]
-dagger = "latest"
 "github:lucasew/mise-gettext-dagger" = "latest"
 uv = "latest"

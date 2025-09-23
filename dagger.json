@@ -1,8 +1,0 @@
-{
-  "name": "ritm_annotation",
-  "engineVersion": "v0.18.19",
-  "sdk": {
-    "source": "python"
-  },
-  "source": ".dagger"
-}
