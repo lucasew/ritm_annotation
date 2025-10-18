@@ -7,6 +7,9 @@ on:
     - main
     tags:
     - '*'
+  pull_request:
+    branches:
+    - main
   workflow_dispatch:
     inputs:
       new_version:
@@ -51,6 +54,7 @@ jobs:
       run: uv run ./check
 
     - name: Create Pull Request if there is new stuff from updaters
+      if: github.event_name != 'pull_request'
       uses: peter-evans/create-pull-request@v7
       id: pr_create
       with:
@@ -62,6 +66,7 @@ jobs:
           Changes caused from update scripts
 
     - name: Stop if a pull request was created
+      if: github.event_name != 'pull_request'
       env:
         PR_NUMBER: ${{ steps.pr_create.outputs.pull-request-number }}
       run: |
@@ -83,6 +88,7 @@ jobs:
       run: uvx cibuildwheel --output-dir dist
 
     - name: Make release if everything looks right
+      if: github.event_name != 'pull_request'
       env:
         NEW_VERSION: ${{ github.event.inputs.new_version }}
       run: |
@@ -93,7 +99,7 @@ jobs:
         fi
 
     - name: Create relase
-      if: env.RELEASE_VERSION != ''
+      if: github.event_name != 'pull_request' && env.RELEASE_VERSION != ''
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ env.RELEASE_VERSION }}
@@ -102,12 +108,12 @@ jobs:
         gh release create "$TAG" \
           --title "$TITLE" \
           --generate-notes \
-          --notes-start-tag $(gh release list --limit 1 --json tagName -q .[].tagName) 
+          --notes-start-tag $(gh release list --limit 1 --json tagName -q .[].tagName)
 
     - name: "Publish container"
       env:
         TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      if: env.RELEASE_VERSION != ''
+      if: github.event_name != 'pull_request' && env.RELEASE_VERSION != ''
       run: |
         VERSION="$(cat ritm_annotation/VERSION)"
         docker tag  "$TAG:latest" "$TAG:$VERSION"
@@ -115,7 +121,7 @@ jobs:
         docker push "$TAG:latest"
 
     - name: Build and publish to PyPI
-      if: env.RELEASE_VERSION != ''
+      if: github.event_name != 'pull_request' && env.RELEASE_VERSION != ''
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
