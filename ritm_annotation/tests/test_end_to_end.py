@@ -24,7 +24,7 @@ class TestAnnotationWorkflow:
         from ritm_annotation.inference.predictors import get_predictor
 
         model, model_cfg = test_model
-        predictor = get_predictor(model, device=device)
+        predictor = get_predictor(net=model, brs_mode="NoBRS", device=device)
 
         # Create session
         session = AnnotationSession(predictor, prob_thresh=0.5)
@@ -71,7 +71,7 @@ class TestAnnotationWorkflow:
         from ritm_annotation.core.annotation.utils import compute_iou
 
         model, _ = test_model
-        predictor = get_predictor(model, device=device)
+        predictor = get_predictor(net=model, brs_mode="NoBRS", device=device)
 
         session = AnnotationSession(predictor, prob_thresh=0.5)
         session.load_image(test_image_large)
@@ -103,7 +103,7 @@ class TestAnnotationWorkflow:
         from ritm_annotation.inference.predictors import get_predictor
 
         model, _ = test_model
-        predictor = get_predictor(model, device=device)
+        predictor = get_predictor(net=model, brs_mode="NoBRS", device=device)
 
         session = AnnotationSession(predictor, prob_thresh=0.5)
         session.load_image(test_image_large)
@@ -263,7 +263,7 @@ class TestGUIAdapterWorkflow:
         from ritm_annotation.inference.predictors import get_predictor
 
         model, _ = test_model
-        predictor = get_predictor(model, device=device)
+        predictor = get_predictor(net=model, brs_mode="NoBRS", device=device)
 
         # Create session
         session = AnnotationSession(predictor, prob_thresh=0.5)
@@ -321,7 +321,7 @@ class TestDataIntegrity:
         from ritm_annotation.core.annotation.utils import validate_mask
 
         model, _ = test_model
-        predictor = get_predictor(model, device=device)
+        predictor = get_predictor(net=model, brs_mode="NoBRS", device=device)
 
         session = AnnotationSession(predictor, prob_thresh=0.5)
         session.load_image(test_image_large)
@@ -358,7 +358,7 @@ class TestDataIntegrity:
         from ritm_annotation.inference.predictors import get_predictor
 
         model, _ = test_model
-        predictor = get_predictor(model, device=device)
+        predictor = get_predictor(net=model, brs_mode="NoBRS", device=device)
 
         session = AnnotationSession(predictor, prob_thresh=0.5)
         session.load_image(test_image_large)

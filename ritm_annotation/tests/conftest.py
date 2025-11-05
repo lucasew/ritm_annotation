@@ -153,7 +153,6 @@ def simple_metric():
     from ritm_annotation.model.metrics import AdaptiveIoU
 
     metric = AdaptiveIoU()
-    metric.name = "iou"
     return metric
 
 

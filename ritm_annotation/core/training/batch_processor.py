@@ -128,7 +128,7 @@ class BatchProcessor:
     ) -> Dict[str, torch.Tensor]:
         """Prepare model input."""
         net_input = {
-            "images": batch["images"],
+            "image": batch["images"],
             "points": points,
         }
 

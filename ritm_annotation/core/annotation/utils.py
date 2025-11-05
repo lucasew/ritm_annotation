@@ -54,7 +54,31 @@ def create_colored_mask(mask: np.ndarray, colormap: str = "tab20") -> np.ndarray
     Returns:
         RGB colored mask
     """
-    import matplotlib.pyplot as plt
+    try:
+        import matplotlib.pyplot as plt
+    except ImportError:
+        # Fallback: use simple color cycle without matplotlib
+        colors = [
+            [255, 0, 0],
+            [0, 255, 0],
+            [0, 0, 255],
+            [255, 255, 0],
+            [255, 0, 255],
+            [0, 255, 255],
+        ]
+        if mask is None or np.max(mask) == 0:
+            return np.zeros((*mask.shape, 3), dtype=np.uint8)
+
+        unique_ids = np.unique(mask)
+        unique_ids = unique_ids[unique_ids > 0]
+
+        colored = np.zeros((*mask.shape, 3), dtype=np.uint8)
+        for idx, obj_id in enumerate(unique_ids):
+            color = colors[idx % len(colors)]
+            obj_mask = mask == obj_id
+            colored[obj_mask] = color
+
+        return colored
 
     if mask is None or np.max(mask) == 0:
         return np.zeros((*mask.shape, 3), dtype=np.uint8)

@@ -85,11 +85,13 @@ class TestAnnotationSession:
         # Undo last click
         result = annotation_session.undo_click()
         assert result
+        current_obj = annotation_session.state.get_current_object()
         assert len(current_obj.clicks) == 1
 
         # Undo first click
         result = annotation_session.undo_click()
         assert result
+        current_obj = annotation_session.state.get_current_object()
         assert len(current_obj.clicks) == 0
 
         # Try to undo when no history

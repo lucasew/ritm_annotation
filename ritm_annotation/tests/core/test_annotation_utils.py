@@ -95,8 +95,8 @@ class TestPureFunctions:
         # Partial overlap
         mask1 = np.array([[1, 1], [1, 0]])
         mask2 = np.array([[1, 0], [1, 1]])
-        # Intersection: 2 pixels, Union: 5 pixels
-        assert abs(compute_iou(mask1, mask2) - 2 / 5) < 1e-6
+        # Intersection: 2 pixels, Union: 4 pixels
+        assert abs(compute_iou(mask1, mask2) - 2 / 4) < 1e-6
 
         # Empty masks
         mask1 = np.zeros((3, 3))
