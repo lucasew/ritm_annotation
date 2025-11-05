@@ -225,8 +225,8 @@ class TestModelPersistence:
 
         # Get initial output
         dummy_input = {
-            "images": torch.randn(1, 3, 320, 480).to(device),
-            "points": torch.zeros(1, 1, 3).to(device),
+            "image": torch.randn(1, 3, 320, 480).to(device),
+            "points": torch.zeros(1, 2, 3).to(device),  # (batch, num_max_points*2, 3)
         }
 
         with torch.no_grad():

@@ -92,7 +92,7 @@ class BasePredictor(object):
             return self.get_prediction(clicker)
 
         self.prev_prediction = prediction
-        return prediction.cpu().numpy()[0, 0]
+        return prediction.detach().cpu().numpy()[0, 0]
 
     def _get_prediction(self, image_nd, clicks_lists, is_image_changed):
         points_nd = self.get_points_nd(clicks_lists)

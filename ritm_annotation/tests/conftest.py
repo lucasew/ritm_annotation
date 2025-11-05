@@ -190,12 +190,16 @@ def create_synthetic_dataset(num_samples=10, image_size=(320, 480)):
             mask[0, circle] = 1.0
 
             # Random points (1 positive point in the mask)
-            points = torch.zeros(1, 3)
+            # Format: (num_max_points * 2, 3) where first half is positive clicks, second half is negative clicks
+            points = torch.zeros(2, 3)  # 1 max point * 2 (pos + neg)
             if circle.sum() > 0:
                 valid_points = np.argwhere(circle)
                 idx = np.random.randint(len(valid_points))
                 py, px = valid_points[idx]
-                points[0] = torch.tensor([py, px, 1.0])  # (y, x, is_positive)
+                points[0] = torch.tensor([py, px, 0.0])  # (y, x, index)  # First click
+            else:
+                points[0] = torch.tensor([-1, -1, -1])  # Padding
+            points[1] = torch.tensor([-1, -1, -1])  # No negative clicks (padding)
 
             return {
                 "images": image,
