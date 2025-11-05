@@ -7,7 +7,7 @@ enables easy unit testing without GUI dependencies.
 
 import pytest
 import numpy as np
-from unittest.mock import Mock, MagicMock
+from unittest.mock import Mock
 
 
 @pytest.fixture
@@ -31,6 +31,7 @@ def test_image():
 def annotation_session(mock_predictor):
     """Create an AnnotationSession with mock predictor."""
     from ritm_annotation.core.annotation import AnnotationSession
+
     return AnnotationSession(mock_predictor, prob_thresh=0.5)
 
 
@@ -63,7 +64,7 @@ class TestAnnotationSession:
         assert len(current_obj.clicks) == 1
         assert current_obj.clicks[0].x == 50
         assert current_obj.clicks[0].y == 50
-        assert current_obj.clicks[0].is_positive == True
+        assert current_obj.clicks[0].is_positive
         assert prob_map is not None
 
         # Add second click
@@ -83,17 +84,17 @@ class TestAnnotationSession:
 
         # Undo last click
         result = annotation_session.undo_click()
-        assert result == True
+        assert result
         assert len(current_obj.clicks) == 1
 
         # Undo first click
         result = annotation_session.undo_click()
-        assert result == True
+        assert result
         assert len(current_obj.clicks) == 0
 
         # Try to undo when no history
         result = annotation_session.undo_click()
-        assert result == False
+        assert not result
 
     def test_reset_clicks(self, annotation_session, test_image):
         """Test resetting clicks."""
@@ -123,7 +124,7 @@ class TestAnnotationSession:
 
         # Check object was finished
         finished_obj = annotation_session.state.objects[0]
-        assert finished_obj.is_finished == True
+        assert finished_obj.is_finished
         assert finished_obj.object_id == initial_obj_id
 
         # Check new object was created
@@ -143,7 +144,9 @@ class TestAnnotationSession:
 
         # Check result
         assert len(annotation_session.state.objects) >= 2
-        finished_objects = [obj for obj in annotation_session.state.objects if obj.is_finished]
+        finished_objects = [
+            obj for obj in annotation_session.state.objects if obj.is_finished
+        ]
         assert len(finished_objects) == 2
 
     def test_load_mask(self, annotation_session, test_image):
@@ -168,10 +171,10 @@ class TestAnnotationSession:
 
         viz_data = annotation_session.get_visualization_data()
 
-        assert 'image' in viz_data
-        assert 'clicks' in viz_data
-        assert 'current_object_id' in viz_data
-        assert len(viz_data['clicks']) == 1
+        assert "image" in viz_data
+        assert "clicks" in viz_data
+        assert "current_object_id" in viz_data
+        assert len(viz_data["clicks"]) == 1
 
     def test_event_emission(self, annotation_session, test_image):
         """Test that events are emitted correctly."""
@@ -217,9 +220,9 @@ class TestAnnotationState:
         # Serialize
         state_dict = state.to_dict()
 
-        assert state_dict['image_path'] == "test.jpg"
-        assert state_dict['image_shape'] == (100, 100, 3)
-        assert len(state_dict['objects']) == 1
+        assert state_dict["image_path"] == "test.jpg"
+        assert state_dict["image_shape"] == (100, 100, 3)
+        assert len(state_dict["objects"]) == 1
 
 
 class TestEventSystem:
@@ -227,7 +230,11 @@ class TestEventSystem:
 
     def test_event_subscription(self):
         """Test subscribing to events."""
-        from ritm_annotation.core.annotation import EventEmitter, EventType, AnnotationEvent
+        from ritm_annotation.core.annotation import (
+            EventEmitter,
+            EventType,
+            AnnotationEvent,
+        )
 
         emitter = EventEmitter()
         events_received = []
@@ -236,14 +243,18 @@ class TestEventSystem:
             events_received.append(event)
 
         emitter.on(EventType.CLICK_ADDED, callback)
-        emitter.emit(AnnotationEvent(EventType.CLICK_ADDED, {'x': 50}))
+        emitter.emit(AnnotationEvent(EventType.CLICK_ADDED, {"x": 50}))
 
         assert len(events_received) == 1
         assert events_received[0].event_type == EventType.CLICK_ADDED
 
     def test_event_unsubscription(self):
         """Test unsubscribing from events."""
-        from ritm_annotation.core.annotation import EventEmitter, EventType, AnnotationEvent
+        from ritm_annotation.core.annotation import (
+            EventEmitter,
+            EventType,
+            AnnotationEvent,
+        )
 
         emitter = EventEmitter()
         events_received = []
@@ -262,7 +273,11 @@ class TestEventSystem:
 
     def test_multiple_listeners(self):
         """Test multiple listeners for same event."""
-        from ritm_annotation.core.annotation import EventEmitter, EventType, AnnotationEvent
+        from ritm_annotation.core.annotation import (
+            EventEmitter,
+            EventType,
+            AnnotationEvent,
+        )
 
         emitter = EventEmitter()
         counter1 = [0]
@@ -283,5 +298,5 @@ class TestEventSystem:
         assert counter2[0] == 1
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

@@ -128,8 +128,7 @@ class MetricsTracker:
         """
         metrics = self.get_last_epoch_metrics()
         if metrics:
-            metrics_str = ", ".join([
-                f"{name}: {value:.4f}"
-                for name, value in metrics.items()
-            ])
+            metrics_str = ", ".join(
+                [f"{name}: {value:.4f}" for name, value in metrics.items()]
+            )
             logger.info(f"Epoch {epoch} {prefix} metrics: {metrics_str}")

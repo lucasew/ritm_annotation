@@ -5,9 +5,8 @@ Core logic for managing an interactive annotation session.
 UI-agnostic - can be used with any interface (GUI, Web, CLI).
 """
 
-from typing import Optional, Dict, Any, Tuple
+from typing import Optional, Dict, Any
 import numpy as np
-from pathlib import Path
 
 from .events import EventEmitter, AnnotationEvent, EventType
 from .state import AnnotationState, ObjectState, Click
@@ -73,10 +72,11 @@ class AnnotationSession:
         # Set image in predictor
         self.predictor.set_input_image(image)
 
-        self.events.emit(AnnotationEvent(
-            EventType.IMAGE_LOADED,
-            {'image_shape': image.shape, 'path': image_path}
-        ))
+        self.events.emit(
+            AnnotationEvent(
+                EventType.IMAGE_LOADED, {"image_shape": image.shape, "path": image_path}
+            )
+        )
 
     def add_click(self, x: float, y: float, is_positive: bool) -> np.ndarray:
         """
@@ -97,26 +97,31 @@ class AnnotationSession:
         self._save_state()
 
         # Create click and add to current object
-        click = Click(x=x, y=y, is_positive=is_positive,
-                      object_id=self.state.current_object_id)
+        click = Click(
+            x=x, y=y, is_positive=is_positive, object_id=self.state.current_object_id
+        )
         current_obj = self.state.get_current_object()
         current_obj.add_click(click)
 
         # Emit click event
-        self.events.emit(AnnotationEvent(
-            EventType.CLICK_ADDED,
-            {'click': click.to_dict(), 'num_clicks': len(current_obj.clicks)}
-        ))
+        self.events.emit(
+            AnnotationEvent(
+                EventType.CLICK_ADDED,
+                {"click": click.to_dict(), "num_clicks": len(current_obj.clicks)},
+            )
+        )
 
         # Get prediction
         prob_map = self._get_prediction(current_obj)
         current_obj.probability_map = prob_map
         current_obj.mask = (prob_map > self.prob_thresh).astype(np.uint8)
 
-        self.events.emit(AnnotationEvent(
-            EventType.PREDICTION_COMPLETED,
-            {'object_id': self.state.current_object_id}
-        ))
+        self.events.emit(
+            AnnotationEvent(
+                EventType.PREDICTION_COMPLETED,
+                {"object_id": self.state.current_object_id},
+            )
+        )
 
         return prob_map
 
@@ -132,11 +137,11 @@ class AnnotationSession:
 
         # Restore previous state
         prev_state = self._state_history.pop()
-        self.state = prev_state['state']
+        self.state = prev_state["state"]
 
         # Restore predictor state
-        if 'predictor_state' in prev_state:
-            self.predictor.set_state(prev_state['predictor_state'])
+        if "predictor_state" in prev_state:
+            self.predictor.set_state(prev_state["predictor_state"])
 
         self.events.emit(AnnotationEvent(EventType.CLICK_UNDONE))
         return True
@@ -165,9 +170,7 @@ class AnnotationSession:
         if current_obj.mask is not None:
             # Update result mask
             if self.state.result_mask is None:
-                self.state.result_mask = np.zeros(
-                    self._image.shape[:2], dtype=np.int32
-                )
+                self.state.result_mask = np.zeros(self._image.shape[:2], dtype=np.int32)
 
             # Add current object to result mask
             object_mask = current_obj.mask > 0
@@ -180,15 +183,18 @@ class AnnotationSession:
             self.predictor.set_input_image(self._image)
             self._state_history.clear()
 
-            self.events.emit(AnnotationEvent(
-                EventType.OBJECT_FINISHED,
-                {'object_id': current_obj.object_id}
-            ))
+            self.events.emit(
+                AnnotationEvent(
+                    EventType.OBJECT_FINISHED, {"object_id": current_obj.object_id}
+                )
+            )
 
-            self.events.emit(AnnotationEvent(
-                EventType.OBJECT_STARTED,
-                {'object_id': self.state.current_object_id}
-            ))
+            self.events.emit(
+                AnnotationEvent(
+                    EventType.OBJECT_STARTED,
+                    {"object_id": self.state.current_object_id},
+                )
+            )
 
     def load_mask(self, mask: np.ndarray):
         """
@@ -217,10 +223,9 @@ class AnnotationSession:
         else:
             self.state.current_object_id = 0
 
-        self.events.emit(AnnotationEvent(
-            EventType.MASK_LOADED,
-            {'num_objects': len(unique_labels)}
-        ))
+        self.events.emit(
+            AnnotationEvent(EventType.MASK_LOADED, {"num_objects": len(unique_labels)})
+        )
 
     def get_result_mask(self) -> Optional[np.ndarray]:
         """
@@ -251,14 +256,14 @@ class AnnotationSession:
         current_obj = self.state.get_current_object()
 
         return {
-            'image': self._image,
-            'result_mask': self.state.result_mask,
-            'current_prob_map': current_obj.probability_map,
-            'current_mask': current_obj.mask,
-            'clicks': current_obj.clicks,
-            'all_clicks': self.state.get_all_clicks(),
-            'current_object_id': self.state.current_object_id,
-            'num_objects': len([o for o in self.state.objects if o.is_finished]),
+            "image": self._image,
+            "result_mask": self.state.result_mask,
+            "current_prob_map": current_obj.probability_map,
+            "current_mask": current_obj.mask,
+            "clicks": current_obj.clicks,
+            "all_clicks": self.state.get_all_clicks(),
+            "current_object_id": self.state.current_object_id,
+            "num_objects": len([o for o in self.state.objects if o.is_finished]),
         }
 
     def _get_prediction(self, obj: ObjectState) -> np.ndarray:
@@ -277,41 +282,44 @@ class AnnotationSession:
         # Convert clicks to predictor format
         # The predictor expects a clicker object
         # We'll need to update the predictor with clicks
-        from ...inference.clicker import Clicker
+        from ...inference.clicker import Clicker, Click as InferenceClick
 
         clicker = Clicker()
         for click in obj.clicks:
-            clicker.add_click(
-                click.x, click.y,
-                is_positive=click.is_positive
+            # Convert from state Click (x, y) to inference Click (is_positive, coords=(y, x))
+            inference_click = InferenceClick(
+                is_positive=click.is_positive, coords=(click.y, click.x)
             )
+            clicker.add_click(inference_click)
 
         # Get prediction
         try:
             pred = self.predictor.get_prediction(clicker)
             return pred
         except Exception as e:
-            self.events.emit(AnnotationEvent(
-                EventType.PREDICTION_FAILED,
-                {'error': str(e)}
-            ))
+            self.events.emit(
+                AnnotationEvent(EventType.PREDICTION_FAILED, {"error": str(e)})
+            )
             raise
 
     def _save_state(self):
         """Save current state to history for undo."""
         # Deep copy the state
         import copy
+
         state_copy = copy.deepcopy(self.state)
 
         # Save predictor state if available
         predictor_state = None
-        if hasattr(self.predictor, 'get_states'):
+        if hasattr(self.predictor, "get_states"):
             predictor_state = self.predictor.get_states()
 
-        self._state_history.append({
-            'state': state_copy,
-            'predictor_state': predictor_state,
-        })
+        self._state_history.append(
+            {
+                "state": state_copy,
+                "predictor_state": predictor_state,
+            }
+        )
 
         # Limit history size
         max_history = 100

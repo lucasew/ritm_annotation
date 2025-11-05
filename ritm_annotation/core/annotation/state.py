@@ -21,20 +21,20 @@ class Click:
     def to_dict(self):
         """Convert to dictionary for serialization."""
         return {
-            'x': self.x,
-            'y': self.y,
-            'is_positive': self.is_positive,
-            'object_id': self.object_id,
+            "x": self.x,
+            "y": self.y,
+            "is_positive": self.is_positive,
+            "object_id": self.object_id,
         }
 
     @classmethod
     def from_dict(cls, data: dict):
         """Create from dictionary."""
         return cls(
-            x=data['x'],
-            y=data['y'],
-            is_positive=data['is_positive'],
-            object_id=data.get('object_id', 0),
+            x=data["x"],
+            y=data["y"],
+            is_positive=data["is_positive"],
+            object_id=data.get("object_id", 0),
         )
 
 
@@ -55,10 +55,10 @@ class ObjectState:
     def to_dict(self):
         """Convert to dictionary (without numpy arrays)."""
         return {
-            'object_id': self.object_id,
-            'clicks': [c.to_dict() for c in self.clicks],
-            'is_finished': self.is_finished,
-            'num_clicks': len(self.clicks),
+            "object_id": self.object_id,
+            "clicks": [c.to_dict() for c in self.clicks],
+            "is_finished": self.is_finished,
+            "num_clicks": len(self.clicks),
         }
 
 
@@ -104,19 +104,19 @@ class AnnotationState:
     def to_dict(self):
         """Convert to dictionary for serialization."""
         return {
-            'image_path': self.image_path,
-            'image_shape': self.image_shape,
-            'current_object_id': self.current_object_id,
-            'objects': [obj.to_dict() for obj in self.objects],
+            "image_path": self.image_path,
+            "image_shape": self.image_shape,
+            "current_object_id": self.current_object_id,
+            "objects": [obj.to_dict() for obj in self.objects],
         }
 
     @classmethod
     def from_dict(cls, data: dict):
         """Create from dictionary."""
         state = cls(
-            image_path=data.get('image_path'),
-            image_shape=data.get('image_shape'),
-            current_object_id=data.get('current_object_id', 0),
+            image_path=data.get("image_path"),
+            image_shape=data.get("image_shape"),
+            current_object_id=data.get("current_object_id", 0),
         )
         # Note: objects would need full reconstruction with masks
         return state

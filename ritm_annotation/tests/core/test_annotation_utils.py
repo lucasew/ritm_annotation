@@ -26,28 +26,36 @@ class TestPureFunctions:
 
     def test_apply_mask_threshold(self):
         """Test probability thresholding."""
-        prob_map = np.array([
-            [0.1, 0.4, 0.6],
-            [0.3, 0.7, 0.9],
-            [0.2, 0.5, 0.8],
-        ])
+        prob_map = np.array(
+            [
+                [0.1, 0.4, 0.6],
+                [0.3, 0.7, 0.9],
+                [0.2, 0.5, 0.8],
+            ]
+        )
 
         # Test with default threshold
         binary = apply_mask_threshold(prob_map, 0.5)
-        expected = np.array([
-            [0, 0, 1],
-            [0, 1, 1],
-            [0, 0, 1],
-        ], dtype=np.uint8)
+        expected = np.array(
+            [
+                [0, 0, 1],
+                [0, 1, 1],
+                [0, 0, 1],
+            ],
+            dtype=np.uint8,
+        )
         np.testing.assert_array_equal(binary, expected)
 
         # Test with different threshold
         binary = apply_mask_threshold(prob_map, 0.3)
-        expected = np.array([
-            [0, 1, 1],
-            [0, 1, 1],
-            [0, 1, 1],
-        ], dtype=np.uint8)
+        expected = np.array(
+            [
+                [0, 1, 1],
+                [0, 1, 1],
+                [0, 1, 1],
+            ],
+            dtype=np.uint8,
+        )
         np.testing.assert_array_equal(binary, expected)
 
     def test_merge_mask_with_result(self):
@@ -88,7 +96,7 @@ class TestPureFunctions:
         mask1 = np.array([[1, 1], [1, 0]])
         mask2 = np.array([[1, 0], [1, 1]])
         # Intersection: 2 pixels, Union: 5 pixels
-        assert abs(compute_iou(mask1, mask2) - 2/5) < 1e-6
+        assert abs(compute_iou(mask1, mask2) - 2 / 5) < 1e-6
 
         # Empty masks
         mask1 = np.zeros((3, 3))
@@ -137,10 +145,10 @@ class TestPureFunctions:
         """Test click statistics computation."""
         # Empty clicks
         stats = compute_click_statistics([])
-        assert stats['num_total'] == 0
-        assert stats['num_positive'] == 0
-        assert stats['num_negative'] == 0
-        assert stats['ratio_positive'] == 0.0
+        assert stats["num_total"] == 0
+        assert stats["num_positive"] == 0
+        assert stats["num_negative"] == 0
+        assert stats["ratio_positive"] == 0.0
 
         # Mixed clicks
         clicks = [
@@ -149,17 +157,17 @@ class TestPureFunctions:
             Click(30, 30, False, 0),
         ]
         stats = compute_click_statistics(clicks)
-        assert stats['num_total'] == 3
-        assert stats['num_positive'] == 2
-        assert stats['num_negative'] == 1
-        assert abs(stats['ratio_positive'] - 2/3) < 1e-6
+        assert stats["num_total"] == 3
+        assert stats["num_positive"] == 2
+        assert stats["num_negative"] == 1
+        assert abs(stats["ratio_positive"] - 2 / 3) < 1e-6
 
         # Only positive
         clicks = [Click(10, 10, True, 0), Click(20, 20, True, 0)]
         stats = compute_click_statistics(clicks)
-        assert stats['num_positive'] == 2
-        assert stats['num_negative'] == 0
-        assert stats['ratio_positive'] == 1.0
+        assert stats["num_positive"] == 2
+        assert stats["num_negative"] == 0
+        assert stats["ratio_positive"] == 1.0
 
     def test_estimate_object_center(self):
         """Test object center estimation."""
@@ -192,7 +200,7 @@ class TestPureFunctions:
         # Circle mask
         mask = np.zeros((50, 50), dtype=np.uint8)
         y, x = np.ogrid[:50, :50]
-        circle = (x - 25)**2 + (y - 25)**2 <= 15**2
+        circle = (x - 25) ** 2 + (y - 25) ** 2 <= 15**2
         mask[circle] = 1
 
         # Find boundary points
@@ -202,7 +210,7 @@ class TestPureFunctions:
         # All points should be on or near boundary
         for px, py in points:
             # Check point is in mask region
-            dist = np.sqrt((px - 25)**2 + (py - 25)**2)
+            dist = np.sqrt((px - 25) ** 2 + (py - 25) ** 2)
             assert 10 <= dist <= 20  # Roughly on circle boundary
 
         # Empty mask
@@ -253,11 +261,11 @@ class TestPureFunctions:
 
         # Check positive click is green-ish
         assert result[10, 10, 1] > 200  # Green channel
-        assert result[10, 10, 0] < 50   # Red channel low
+        assert result[10, 10, 0] < 50  # Red channel low
 
         # Check negative click is red-ish
         assert result[40, 40, 0] > 200  # Red channel
-        assert result[40, 40, 1] < 50   # Green channel low
+        assert result[40, 40, 1] < 50  # Green channel low
 
         # Check that original image is not modified
         assert not np.array_equal(result[10, 10], image[10, 10])
@@ -347,5 +355,5 @@ class TestReproducibility:
         assert center1 == center2
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

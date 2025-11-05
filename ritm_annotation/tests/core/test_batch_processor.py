@@ -35,9 +35,7 @@ class TestBatchProcessor:
     def test_process_single_batch(self, batch_processor, test_batch, device):
         """Test processing a single batch."""
         loss, loss_dict, batch_data, outputs = batch_processor.process_batch(
-            test_batch,
-            device=device,
-            is_training=True
+            test_batch, device=device, is_training=True
         )
 
         # Validate loss
@@ -48,27 +46,23 @@ class TestBatchProcessor:
         assert loss.item() >= 0
 
         # Validate loss dict
-        assert 'instance_loss' in loss_dict
-        assert isinstance(loss_dict['instance_loss'], float)
+        assert "instance_loss" in loss_dict
+        assert isinstance(loss_dict["instance_loss"], float)
 
         # Validate outputs
-        assert 'instances' in outputs
-        assert isinstance(outputs['instances'], torch.Tensor)
+        assert "instances" in outputs
+        assert isinstance(outputs["instances"], torch.Tensor)
 
     def test_training_mode_vs_eval_mode(self, batch_processor, test_batch, device):
         """Test different behavior in training vs eval mode."""
         # Training mode
         loss_train, _, _, _ = batch_processor.process_batch(
-            test_batch,
-            device=device,
-            is_training=True
+            test_batch, device=device, is_training=True
         )
 
         # Eval mode
         loss_eval, _, _, _ = batch_processor.process_batch(
-            test_batch,
-            device=device,
-            is_training=False
+            test_batch, device=device, is_training=False
         )
 
         # Both should produce valid losses
@@ -83,12 +77,7 @@ class TestBatchProcessor:
         metrics = batch_processor.get_metrics()
         assert isinstance(metrics, dict)
 
-    def test_get_metrics_after_batch(
-        self,
-        batch_processor,
-        test_batch,
-        device
-    ):
+    def test_get_metrics_after_batch(self, batch_processor, test_batch, device):
         """Test getting metrics after processing batches."""
         # Reset first
         batch_processor.reset_metrics()
@@ -98,33 +87,29 @@ class TestBatchProcessor:
             batch_processor.process_batch(
                 test_batch,
                 device=device,
-                is_training=False  # Only updates metrics in eval mode
+                is_training=False,  # Only updates metrics in eval mode
             )
 
         # Get metrics
         metrics = batch_processor.get_metrics()
         assert isinstance(metrics, dict)
 
-        if 'iou' in metrics:
-            assert 0.0 <= metrics['iou'] <= 1.0
+        if "iou" in metrics:
+            assert 0.0 <= metrics["iou"] <= 1.0
 
-    def test_batch_processor_with_different_batch_sizes(
-        self,
-        batch_processor,
-        device
-    ):
+    def test_batch_processor_with_different_batch_sizes(self, batch_processor, device):
         """Test with different batch sizes."""
         for batch_size in [1, 2, 4]:
             batch = {
-                'images': torch.randn(batch_size, 3, 320, 480).to(device),
-                'points': torch.randint(0, 100, (batch_size, 1, 3)).float().to(device),
-                'instances': torch.randint(0, 2, (batch_size, 1, 320, 480)).float().to(device),
+                "images": torch.randn(batch_size, 3, 320, 480).to(device),
+                "points": torch.randint(0, 100, (batch_size, 1, 3)).float().to(device),
+                "instances": torch.randint(0, 2, (batch_size, 1, 320, 480))
+                .float()
+                .to(device),
             }
 
             loss, _, _, _ = batch_processor.process_batch(
-                batch,
-                device=device,
-                is_training=True
+                batch, device=device, is_training=True
             )
 
             assert not torch.isnan(loss)
@@ -150,7 +135,9 @@ class TestBatchProcessorClickSimulation:
 
         assert processor.max_interactive_points == 5
 
-    def test_zero_interactive_points(self, test_model, simple_loss_fn, test_batch, device):
+    def test_zero_interactive_points(
+        self, test_model, simple_loss_fn, test_batch, device
+    ):
         """Test with no interactive refinement."""
         from ritm_annotation.core.training import BatchProcessor
 
@@ -164,9 +151,7 @@ class TestBatchProcessorClickSimulation:
         )
 
         loss, _, _, _ = processor.process_batch(
-            test_batch,
-            device=device,
-            is_training=True
+            test_batch, device=device, is_training=True
         )
 
         assert not torch.isnan(loss)
@@ -178,9 +163,7 @@ class TestBatchProcessorNumericalStability:
     def test_no_nans_in_outputs(self, batch_processor, test_batch, device):
         """Test that outputs don't contain NaN."""
         loss, loss_dict, _, outputs = batch_processor.process_batch(
-            test_batch,
-            device=device,
-            is_training=True
+            test_batch, device=device, is_training=True
         )
 
         # Check loss
@@ -198,9 +181,7 @@ class TestBatchProcessorNumericalStability:
     def test_no_infs_in_outputs(self, batch_processor, test_batch, device):
         """Test that outputs don't contain Inf."""
         loss, loss_dict, _, outputs = batch_processor.process_batch(
-            test_batch,
-            device=device,
-            is_training=True
+            test_batch, device=device, is_training=True
         )
 
         # Check loss
@@ -218,9 +199,7 @@ class TestBatchProcessorNumericalStability:
     def test_loss_is_positive(self, batch_processor, test_batch, device):
         """Test that loss is always positive."""
         loss, _, _, _ = batch_processor.process_batch(
-            test_batch,
-            device=device,
-            is_training=True
+            test_batch, device=device, is_training=True
         )
 
         assert loss.item() >= 0, f"Loss is negative: {loss.item()}"
@@ -228,13 +207,11 @@ class TestBatchProcessorNumericalStability:
     def test_outputs_in_valid_range(self, batch_processor, test_batch, device):
         """Test that output probabilities are in valid range."""
         _, _, _, outputs = batch_processor.process_batch(
-            test_batch,
-            device=device,
-            is_training=True
+            test_batch, device=device, is_training=True
         )
 
-        if 'instances' in outputs:
-            instances = outputs['instances']
+        if "instances" in outputs:
+            instances = outputs["instances"]
             # After sigmoid, should be in [0, 1]
             # But model outputs logits, so just check no extreme values
             assert instances.abs().max() < 100, "Output values too extreme"
@@ -250,9 +227,7 @@ class TestBatchProcessorGradients:
             param.requires_grad = True
 
         loss, _, _, _ = batch_processor.process_batch(
-            test_batch,
-            device=device,
-            is_training=True
+            test_batch, device=device, is_training=True
         )
 
         # Compute gradients
@@ -272,26 +247,20 @@ class TestBatchProcessorGradients:
         # Reset gradients
         batch_processor.model.zero_grad()
 
-    def test_no_gradient_leakage_in_eval(
-        self,
-        batch_processor,
-        test_batch,
-        device
-    ):
+    def test_no_gradient_leakage_in_eval(self, batch_processor, test_batch, device):
         """Test that no gradients are leaked in eval mode."""
         with torch.no_grad():
             loss, _, _, outputs = batch_processor.process_batch(
-                test_batch,
-                device=device,
-                is_training=False
+                test_batch, device=device, is_training=False
             )
 
             # Outputs should not require gradients
             for key, tensor in outputs.items():
                 if isinstance(tensor, torch.Tensor):
-                    assert not tensor.requires_grad, \
+                    assert not tensor.requires_grad, (
                         f"Output {key} requires gradient in eval mode"
+                    )
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v', '-m', 'integration'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v", "-m", "integration"])

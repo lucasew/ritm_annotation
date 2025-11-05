@@ -75,18 +75,18 @@ class CheckpointManager:
             Path to saved checkpoint
         """
         checkpoint = {
-            'epoch': epoch,
-            'model_state_dict': model.state_dict(),
+            "epoch": epoch,
+            "model_state_dict": model.state_dict(),
         }
 
         if optimizer is not None:
-            checkpoint['optimizer_state_dict'] = optimizer.state_dict()
+            checkpoint["optimizer_state_dict"] = optimizer.state_dict()
 
         if scheduler is not None:
-            checkpoint['scheduler_state_dict'] = scheduler.state_dict()
+            checkpoint["scheduler_state_dict"] = scheduler.state_dict()
 
         if metrics is not None:
-            checkpoint['metrics'] = metrics
+            checkpoint["metrics"] = metrics
 
         if extra_data is not None:
             checkpoint.update(extra_data)
@@ -126,22 +126,22 @@ class CheckpointManager:
         Returns:
             Checkpoint dictionary with metadata
         """
-        checkpoint = torch.load(checkpoint_path, map_location='cpu')
+        checkpoint = torch.load(checkpoint_path, map_location="cpu")
 
         # Load model state
-        if 'model_state_dict' in checkpoint:
-            model.load_state_dict(checkpoint['model_state_dict'])
+        if "model_state_dict" in checkpoint:
+            model.load_state_dict(checkpoint["model_state_dict"])
             logger.info(f"Loaded model state from {checkpoint_path}")
 
         # Load optimizer state
-        if optimizer is not None and 'optimizer_state_dict' in checkpoint:
-            optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-            logger.info(f"Loaded optimizer state")
+        if optimizer is not None and "optimizer_state_dict" in checkpoint:
+            optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+            logger.info("Loaded optimizer state")
 
         # Load scheduler state
-        if scheduler is not None and 'scheduler_state_dict' in checkpoint:
-            scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
-            logger.info(f"Loaded scheduler state")
+        if scheduler is not None and "scheduler_state_dict" in checkpoint:
+            scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
+            logger.info("Loaded scheduler state")
 
         return checkpoint
 
@@ -188,10 +188,7 @@ class CheckpointManager:
 
             # Update best list
             self.best_checkpoints.append((metric_value, checkpoint_path))
-            self.best_checkpoints.sort(
-                key=lambda x: x[0],
-                reverse=higher_is_better
-            )
+            self.best_checkpoints.sort(key=lambda x: x[0], reverse=higher_is_better)
 
             # Remove worst if over limit
             if len(self.best_checkpoints) > self.keep_best_n:

@@ -5,7 +5,7 @@ Modular training loop that orchestrates batch processing, metrics,
 checkpointing, and logging.
 """
 
-from typing import Optional, Dict, Any, Callable
+from typing import Optional, Dict, Any, Callable, List
 from dataclasses import dataclass
 from pathlib import Path
 import logging
@@ -81,7 +81,9 @@ class TrainingLoop:
         self.val_loader = val_loader
         self.scheduler = scheduler
         self.checkpoint_manager = checkpoint_manager
-        self.device = device or torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.device = device or torch.device(
+            "cuda" if torch.cuda.is_available() else "cpu"
+        )
         self.gradient_clip_norm = gradient_clip_norm
         self.log_every_n_batches = log_every_n_batches
 
@@ -127,8 +129,8 @@ class TrainingLoop:
             self.current_epoch = epoch
 
             # Callback: epoch start
-            if 'on_epoch_start' in callbacks:
-                callbacks['on_epoch_start'](epoch)
+            if "on_epoch_start" in callbacks:
+                callbacks["on_epoch_start"](epoch)
 
             # Training epoch
             train_loss, train_metrics = self._train_epoch(epoch, callbacks)
@@ -141,7 +143,9 @@ class TrainingLoop:
 
             # Scheduler step
             if self.scheduler is not None:
-                if isinstance(self.scheduler, torch.optim.lr_scheduler.ReduceLROnPlateau):
+                if isinstance(
+                    self.scheduler, torch.optim.lr_scheduler.ReduceLROnPlateau
+                ):
                     # Needs metric
                     metric_val = val_loss if val_loss is not None else train_loss
                     self.scheduler.step(metric_val)
@@ -166,17 +170,13 @@ class TrainingLoop:
                 self._handle_checkpointing(epoch, epoch_result)
 
             # Callback: epoch end
-            if 'on_epoch_end' in callbacks:
-                callbacks['on_epoch_end'](epoch, epoch_result)
+            if "on_epoch_end" in callbacks:
+                callbacks["on_epoch_end"](epoch, epoch_result)
 
         logger.info("Training completed!")
         return epoch_metrics_list
 
-    def _train_epoch(
-        self,
-        epoch: int,
-        callbacks: Dict[str, Callable]
-    ) -> tuple:
+    def _train_epoch(self, epoch: int, callbacks: Dict[str, Callable]) -> tuple:
         """Run one training epoch."""
         self.model.train()
         self.batch_processor.reset_metrics()
@@ -185,18 +185,12 @@ class TrainingLoop:
         total_loss = 0.0
         num_batches = len(self.train_loader)
 
-        pbar = tqdm(
-            self.train_loader,
-            desc=f"Epoch {epoch} [Train]",
-            total=num_batches
-        )
+        pbar = tqdm(self.train_loader, desc=f"Epoch {epoch} [Train]", total=num_batches)
 
         for batch_idx, batch in enumerate(pbar):
             # Process batch
             loss, loss_dict, batch_data, outputs = self.batch_processor.process_batch(
-                batch,
-                device=self.device,
-                is_training=True
+                batch, device=self.device, is_training=True
             )
 
             # Backward pass
@@ -206,8 +200,7 @@ class TrainingLoop:
             # Gradient clipping
             if self.gradient_clip_norm is not None:
                 torch.nn.utils.clip_grad_norm_(
-                    self.model.parameters(),
-                    self.gradient_clip_norm
+                    self.model.parameters(), self.gradient_clip_norm
                 )
 
             self.optimizer.step()
@@ -219,11 +212,11 @@ class TrainingLoop:
             # Update progress bar
             if (batch_idx + 1) % self.log_every_n_batches == 0:
                 avg_loss = total_loss / (batch_idx + 1)
-                pbar.set_postfix({'loss': f'{avg_loss:.4f}'})
+                pbar.set_postfix({"loss": f"{avg_loss:.4f}"})
 
             # Callback: batch end
-            if 'on_batch_end' in callbacks:
-                callbacks['on_batch_end'](epoch, batch_idx, loss_dict)
+            if "on_batch_end" in callbacks:
+                callbacks["on_batch_end"](epoch, batch_idx, loss_dict)
 
         # Compute epoch averages
         avg_loss = total_loss / num_batches
@@ -240,19 +233,15 @@ class TrainingLoop:
         total_loss = 0.0
         num_batches = len(self.val_loader)
 
-        pbar = tqdm(
-            self.val_loader,
-            desc=f"Epoch {epoch} [Val]",
-            total=num_batches
-        )
+        pbar = tqdm(self.val_loader, desc=f"Epoch {epoch} [Val]", total=num_batches)
 
         with torch.no_grad():
             for batch_idx, batch in enumerate(pbar):
                 # Process batch
-                loss, loss_dict, batch_data, outputs = self.batch_processor.process_batch(
-                    batch,
-                    device=self.device,
-                    is_training=False
+                loss, loss_dict, batch_data, outputs = (
+                    self.batch_processor.process_batch(
+                        batch, device=self.device, is_training=False
+                    )
                 )
 
                 # Track metrics
@@ -262,7 +251,7 @@ class TrainingLoop:
                 # Update progress bar
                 if (batch_idx + 1) % self.log_every_n_batches == 0:
                     avg_loss = total_loss / (batch_idx + 1)
-                    pbar.set_postfix({'loss': f'{avg_loss:.4f}'})
+                    pbar.set_postfix({"loss": f"{avg_loss:.4f}"})
 
         # Compute epoch averages
         avg_loss = total_loss / num_batches
@@ -306,9 +295,9 @@ class TrainingLoop:
                 optimizer=self.optimizer,
                 scheduler=self.scheduler,
                 metrics={
-                    'train_loss': metrics.train_loss,
-                    'val_loss': metrics.val_loss,
-                }
+                    "train_loss": metrics.train_loss,
+                    "val_loss": metrics.val_loss,
+                },
             )
 
         # Best checkpoint (based on validation loss if available)
@@ -339,7 +328,7 @@ class TrainingLoop:
             scheduler=self.scheduler,
         )
 
-        start_epoch = checkpoint.get('epoch', 0) + 1
+        start_epoch = checkpoint.get("epoch", 0) + 1
         logger.info(f"Resuming from epoch {start_epoch}")
 
         return start_epoch

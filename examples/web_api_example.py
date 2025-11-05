@@ -14,17 +14,16 @@ Then visit http://localhost:8000/docs for API documentation.
 """
 
 from fastapi import FastAPI, File, UploadFile, HTTPException
-from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List
 import numpy as np
 import cv2
-import io
 from pathlib import Path
 import base64
 
 # Import core annotation components
 import sys
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from ritm_annotation.core.annotation import AnnotationSession
@@ -61,7 +60,7 @@ sessions = {}
 app = FastAPI(
     title="Interactive Annotation API",
     description="Web API for interactive image segmentation",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 
@@ -112,7 +111,7 @@ async def create_session(
 
     predictor = get_predictor(
         model,
-        device='cuda',
+        device="cuda",
         prob_thresh=prob_thresh,
     )
 
@@ -124,10 +123,11 @@ async def create_session(
 
     # Generate session ID
     import uuid
+
     session_id = str(uuid.uuid4())
     sessions[session_id] = {
-        'session': session,
-        'image': img,
+        "session": session,
+        "image": img,
     }
 
     return {
@@ -155,7 +155,7 @@ async def add_click(
         raise HTTPException(status_code=404, detail="Session not found")
 
     session_data = sessions[session_id]
-    session = session_data['session']
+    session = session_data["session"]
 
     # Add click
     try:
@@ -170,11 +170,11 @@ async def add_click(
 
         # Encode mask as base64 PNG
         mask = (prob_map > 0.5).astype(np.uint8) * 255
-        _, mask_buffer = cv2.imencode('.png', mask)
-        mask_base64 = base64.b64encode(mask_buffer).decode('utf-8')
+        _, mask_buffer = cv2.imencode(".png", mask)
+        mask_base64 = base64.b64encode(mask_buffer).decode("utf-8")
 
         # Create simple visualization
-        vis = session_data['image'].copy()
+        vis = session_data["image"].copy()
         # Overlay mask
         if prob_map is not None:
             overlay = np.zeros_like(vis)
@@ -182,19 +182,19 @@ async def add_click(
             vis = cv2.addWeighted(vis, 0.7, overlay, 0.3, 0)
 
         # Draw clicks
-        for c in viz_data['clicks']:
+        for c in viz_data["clicks"]:
             color = (0, 255, 0) if c.is_positive else (255, 0, 0)
             cv2.circle(vis, (int(c.x), int(c.y)), 3, color, -1)
 
         vis_bgr = cv2.cvtColor(vis, cv2.COLOR_RGB2BGR)
-        _, vis_buffer = cv2.imencode('.png', vis_bgr)
-        vis_base64 = base64.b64encode(vis_buffer).decode('utf-8')
+        _, vis_buffer = cv2.imencode(".png", vis_bgr)
+        vis_base64 = base64.b64encode(vis_buffer).decode("utf-8")
 
         return {
             "session_id": session_id,
             "mask_base64": mask_base64,
             "visualization_base64": vis_base64,
-            "num_clicks": len(viz_data['clicks']),
+            "num_clicks": len(viz_data["clicks"]),
         }
 
     except Exception as e:
@@ -207,7 +207,7 @@ async def undo_click(session_id: str):
     if session_id not in sessions:
         raise HTTPException(status_code=404, detail="Session not found")
 
-    session = sessions[session_id]['session']
+    session = sessions[session_id]["session"]
     success = session.undo_click()
 
     return {"success": success}
@@ -219,7 +219,7 @@ async def reset_clicks(session_id: str):
     if session_id not in sessions:
         raise HTTPException(status_code=404, detail="Session not found")
 
-    session = sessions[session_id]['session']
+    session = sessions[session_id]["session"]
     session.reset_clicks()
 
     return {"success": True}
@@ -231,15 +231,15 @@ async def finish_object(session_id: str):
     if session_id not in sessions:
         raise HTTPException(status_code=404, detail="Session not found")
 
-    session = sessions[session_id]['session']
+    session = sessions[session_id]["session"]
     session.finish_object()
 
     viz_data = session.get_visualization_data()
 
     return {
         "success": True,
-        "current_object_id": viz_data['current_object_id'],
-        "num_finished_objects": viz_data['num_objects'],
+        "current_object_id": viz_data["current_object_id"],
+        "num_finished_objects": viz_data["num_objects"],
     }
 
 
@@ -249,15 +249,15 @@ async def get_result_mask(session_id: str):
     if session_id not in sessions:
         raise HTTPException(status_code=404, detail="Session not found")
 
-    session = sessions[session_id]['session']
+    session = sessions[session_id]["session"]
     result_mask = session.get_result_mask()
 
     if result_mask is None:
         return {"mask_base64": None}
 
     # Encode as PNG
-    _, buffer = cv2.imencode('.png', result_mask.astype(np.uint8))
-    mask_base64 = base64.b64encode(buffer).decode('utf-8')
+    _, buffer = cv2.imencode(".png", result_mask.astype(np.uint8))
+    mask_base64 = base64.b64encode(buffer).decode("utf-8")
 
     return {
         "mask_base64": mask_base64,

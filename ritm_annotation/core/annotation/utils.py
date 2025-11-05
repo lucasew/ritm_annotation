@@ -24,9 +24,7 @@ def apply_mask_threshold(prob_map: np.ndarray, threshold: float = 0.5) -> np.nda
 
 
 def merge_mask_with_result(
-    result_mask: np.ndarray,
-    new_mask: np.ndarray,
-    object_id: int
+    result_mask: np.ndarray, new_mask: np.ndarray, object_id: int
 ) -> np.ndarray:
     """
     Merge new object mask into result mask.
@@ -45,10 +43,7 @@ def merge_mask_with_result(
     return result
 
 
-def create_colored_mask(
-    mask: np.ndarray,
-    colormap: str = 'tab20'
-) -> np.ndarray:
+def create_colored_mask(mask: np.ndarray, colormap: str = "tab20") -> np.ndarray:
     """
     Create colored visualization of segmentation mask.
 
@@ -78,10 +73,7 @@ def create_colored_mask(
 
 
 def blend_image_with_mask(
-    image: np.ndarray,
-    mask: np.ndarray,
-    alpha: float = 0.5,
-    colormap: str = 'tab20'
+    image: np.ndarray, mask: np.ndarray, alpha: float = 0.5, colormap: str = "tab20"
 ) -> np.ndarray:
     """
     Blend image with colored segmentation mask.
@@ -103,8 +95,7 @@ def blend_image_with_mask(
 
     result = image.copy()
     result[mask_area] = (
-        alpha * colored_mask[mask_area] +
-        (1 - alpha) * image[mask_area]
+        alpha * colored_mask[mask_area] + (1 - alpha) * image[mask_area]
     ).astype(np.uint8)
 
     return result
@@ -226,20 +217,20 @@ def compute_click_statistics(clicks: List) -> dict:
     """
     if not clicks:
         return {
-            'num_total': 0,
-            'num_positive': 0,
-            'num_negative': 0,
-            'ratio_positive': 0.0,
+            "num_total": 0,
+            "num_positive": 0,
+            "num_negative": 0,
+            "ratio_positive": 0.0,
         }
 
     num_positive = sum(1 for c in clicks if c.is_positive)
     num_negative = len(clicks) - num_positive
 
     return {
-        'num_total': len(clicks),
-        'num_positive': num_positive,
-        'num_negative': num_negative,
-        'ratio_positive': num_positive / len(clicks) if clicks else 0.0,
+        "num_total": len(clicks),
+        "num_positive": num_positive,
+        "num_negative": num_negative,
+        "ratio_positive": num_positive / len(clicks) if clicks else 0.0,
     }
 
 
@@ -269,8 +260,7 @@ def estimate_object_center(mask: np.ndarray) -> Optional[Tuple[int, int]]:
 
 
 def find_boundary_points(
-    mask: np.ndarray,
-    num_points: int = 8
+    mask: np.ndarray, num_points: int = 8
 ) -> List[Tuple[int, int]]:
     """
     Find points on object boundary.
@@ -287,9 +277,7 @@ def find_boundary_points(
 
     # Find contours
     contours, _ = cv2.findContours(
-        mask.astype(np.uint8),
-        cv2.RETR_EXTERNAL,
-        cv2.CHAIN_APPROX_SIMPLE
+        mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
     )
 
     if not contours:
@@ -305,8 +293,7 @@ def find_boundary_points(
     # Sample evenly spaced points
     indices = np.linspace(0, len(largest_contour) - 1, num_points, dtype=int)
     points = [
-        (int(largest_contour[i][0][0]), int(largest_contour[i][0][1]))
-        for i in indices
+        (int(largest_contour[i][0][0]), int(largest_contour[i][0][1])) for i in indices
     ]
 
     return points

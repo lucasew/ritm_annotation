@@ -45,17 +45,10 @@ class GUIAnnotationAdapter:
     def _setup_event_handlers(self):
         """Setup event handlers for session events."""
         self.session.events.on(
-            EventType.PREDICTION_COMPLETED,
-            self._on_prediction_completed
+            EventType.PREDICTION_COMPLETED, self._on_prediction_completed
         )
-        self.session.events.on(
-            EventType.CLICK_ADDED,
-            self._on_click_added
-        )
-        self.session.events.on(
-            EventType.OBJECT_FINISHED,
-            self._on_object_finished
-        )
+        self.session.events.on(EventType.CLICK_ADDED, self._on_click_added)
+        self.session.events.on(EventType.OBJECT_FINISHED, self._on_object_finished)
 
     def _on_prediction_completed(self, event: AnnotationEvent):
         """Handle prediction completion."""
@@ -124,7 +117,7 @@ class GUIAnnotationAdapter:
         # Get visualization data from session
         viz_data = self.session.get_visualization_data()
 
-        image = viz_data['image']
+        image = viz_data["image"]
         if image is None:
             return None
 
@@ -132,44 +125,31 @@ class GUIAnnotationAdapter:
         vis = image.copy()
 
         # Overlay result mask (finished objects)
-        if viz_data['result_mask'] is not None:
+        if viz_data["result_mask"] is not None:
             vis = self._overlay_mask(
-                vis,
-                viz_data['result_mask'],
-                alpha=alpha_blend,
-                colormap='tab20'
+                vis, viz_data["result_mask"], alpha=alpha_blend, colormap="tab20"
             )
 
         # Overlay current prediction
-        if viz_data['current_prob_map'] is not None:
+        if viz_data["current_prob_map"] is not None:
             # Convert probability map to binary mask
-            current_mask = (viz_data['current_prob_map'] > 0.5).astype(np.uint8)
+            current_mask = (viz_data["current_prob_map"] > 0.5).astype(np.uint8)
             # Use a different color for current object
-            current_id = viz_data['current_object_id'] + 100
+            current_id = viz_data["current_object_id"] + 100
             vis = self._overlay_mask(
                 vis,
                 current_mask * current_id,
                 alpha=alpha_blend * 0.7,
-                colormap='viridis'
+                colormap="viridis",
             )
 
         # Draw clicks
-        for click in viz_data['clicks']:
+        for click in viz_data["clicks"]:
             color = (0, 255, 0) if click.is_positive else (255, 0, 0)
-            cv2.circle(
-                vis,
-                (int(click.x), int(click.y)),
-                click_radius,
-                color,
-                -1
-            )
+            cv2.circle(vis, (int(click.x), int(click.y)), click_radius, color, -1)
             # Draw border
             cv2.circle(
-                vis,
-                (int(click.x), int(click.y)),
-                click_radius + 1,
-                (255, 255, 255),
-                1
+                vis, (int(click.x), int(click.y)), click_radius + 1, (255, 255, 255), 1
             )
 
         return vis
@@ -179,7 +159,7 @@ class GUIAnnotationAdapter:
         image: np.ndarray,
         mask: np.ndarray,
         alpha: float = 0.5,
-        colormap: str = 'tab20'
+        colormap: str = "tab20",
     ) -> np.ndarray:
         """
         Overlay segmentation mask on image.
@@ -198,6 +178,7 @@ class GUIAnnotationAdapter:
 
         # Create colored mask
         import matplotlib.pyplot as plt
+
         cmap = plt.get_cmap(colormap)
 
         # Normalize mask values
@@ -214,8 +195,7 @@ class GUIAnnotationAdapter:
         mask_area = mask > 0
         result = image.copy()
         result[mask_area] = (
-            alpha * colored_mask[mask_area] +
-            (1 - alpha) * image[mask_area]
+            alpha * colored_mask[mask_area] + (1 - alpha) * image[mask_area]
         ).astype(np.uint8)
 
         return result

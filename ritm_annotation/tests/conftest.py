@@ -15,7 +15,7 @@ from unittest.mock import Mock
 @pytest.fixture(scope="session")
 def device():
     """Get device for testing (prefer CPU for consistent tests)."""
-    return torch.device('cpu')
+    return torch.device("cpu")
 
 
 @pytest.fixture(scope="session")
@@ -56,11 +56,11 @@ def test_mask():
     mask = np.zeros((100, 100), dtype=np.int32)
     # Object 1: circle at (30, 30)
     y, x = np.ogrid[:100, :100]
-    circle1 = (x - 30)**2 + (y - 30)**2 <= 15**2
+    circle1 = (x - 30) ** 2 + (y - 30) ** 2 <= 15**2
     mask[circle1] = 1
 
     # Object 2: circle at (70, 70)
-    circle2 = (x - 70)**2 + (y - 70)**2 <= 10**2
+    circle2 = (x - 70) ** 2 + (y - 70) ** 2 <= 10**2
     mask[circle2] = 2
 
     return mask
@@ -71,9 +71,9 @@ def test_batch(device):
     """Create a test batch for training."""
     batch_size = 2
     batch = {
-        'images': torch.randn(batch_size, 3, 320, 480).to(device),
-        'points': torch.randint(0, 100, (batch_size, 1, 3)).float().to(device),
-        'instances': torch.randint(0, 2, (batch_size, 1, 320, 480)).float().to(device),
+        "images": torch.randn(batch_size, 3, 320, 480).to(device),
+        "points": torch.randint(0, 100, (batch_size, 1, 3)).float().to(device),
+        "instances": torch.randint(0, 2, (batch_size, 1, 320, 480)).float().to(device),
     }
     return batch
 
@@ -84,7 +84,9 @@ def mock_predictor():
     predictor = Mock()
 
     def mock_set_image(image):
-        predictor._image_shape = image.shape[:2] if hasattr(image, 'shape') else (100, 100)
+        predictor._image_shape = (
+            image.shape[:2] if hasattr(image, "shape") else (100, 100)
+        )
 
     def mock_get_prediction(clicker):
         # Return a circular mask around first positive click
@@ -103,14 +105,14 @@ def mock_predictor():
         cx, cy = pos_clicks[0].coords
 
         mask = np.zeros((h, w), dtype=np.float32)
-        circle = (x - cx)**2 + (y - cy)**2 <= 20**2
+        circle = (x - cx) ** 2 + (y - cy) ** 2 <= 20**2
         mask[circle] = 1.0
 
         # Add noise from negative clicks
         for click in clicks:
             if not click.is_positive:
                 cx, cy = click.coords
-                neg_circle = (x - cx)**2 + (y - cy)**2 <= 15**2
+                neg_circle = (x - cx) ** 2 + (y - cy) ** 2 <= 15**2
                 mask[neg_circle] = 0.0
 
         return mask
@@ -134,11 +136,14 @@ def temp_checkpoint_dir():
 @pytest.fixture
 def simple_loss_fn():
     """Create simple loss function for testing."""
-    from ritm_annotation.model.losses import NormalizedFocalLossSigmoid, SigmoidBinaryCrossEntropyLoss
+    from ritm_annotation.model.losses import (
+        NormalizedFocalLossSigmoid,
+        SigmoidBinaryCrossEntropyLoss,
+    )
 
     return {
-        'instance_loss': NormalizedFocalLossSigmoid(alpha=0.5, gamma=2),
-        'instance_aux_loss': SigmoidBinaryCrossEntropyLoss(),
+        "instance_loss": NormalizedFocalLossSigmoid(alpha=0.5, gamma=2),
+        "instance_aux_loss": SigmoidBinaryCrossEntropyLoss(),
     }
 
 
@@ -148,7 +153,7 @@ def simple_metric():
     from ritm_annotation.model.metrics import AdaptiveIoU
 
     metric = AdaptiveIoU()
-    metric.name = 'iou'
+    metric.name = "iou"
     return metric
 
 
@@ -158,6 +163,7 @@ def create_synthetic_dataset(num_samples=10, image_size=(320, 480)):
 
     Returns torch Dataset with realistic structure.
     """
+
     class SyntheticDataset(torch.utils.data.Dataset):
         def __init__(self, num_samples, image_size):
             self.num_samples = num_samples
@@ -175,10 +181,13 @@ def create_synthetic_dataset(num_samples=10, image_size=(320, 480)):
             # Random mask
             mask = torch.zeros(1, h, w)
             # Add random circle
-            cx, cy = np.random.randint(w//4, 3*w//4), np.random.randint(h//4, 3*h//4)
+            cx, cy = (
+                np.random.randint(w // 4, 3 * w // 4),
+                np.random.randint(h // 4, 3 * h // 4),
+            )
             radius = np.random.randint(10, 30)
             y, x = np.ogrid[:h, :w]
-            circle = (x - cx)**2 + (y - cy)**2 <= radius**2
+            circle = (x - cx) ** 2 + (y - cy) ** 2 <= radius**2
             mask[0, circle] = 1.0
 
             # Random points (1 positive point in the mask)
@@ -190,9 +199,9 @@ def create_synthetic_dataset(num_samples=10, image_size=(320, 480)):
                 points[0] = torch.tensor([py, px, 1.0])  # (y, x, is_positive)
 
             return {
-                'images': image,
-                'points': points,
-                'instances': mask,
+                "images": image,
+                "points": points,
+                "instances": mask,
             }
 
     return SyntheticDataset(num_samples, image_size)
@@ -201,11 +210,13 @@ def create_synthetic_dataset(num_samples=10, image_size=(320, 480)):
 def assert_tensor_equal(t1, t2, rtol=1e-5, atol=1e-8):
     """Assert two tensors are equal within tolerance."""
     if isinstance(t1, torch.Tensor) and isinstance(t2, torch.Tensor):
-        assert torch.allclose(t1, t2, rtol=rtol, atol=atol), \
+        assert torch.allclose(t1, t2, rtol=rtol, atol=atol), (
             f"Tensors not equal: max diff = {(t1 - t2).abs().max()}"
+        )
     elif isinstance(t1, np.ndarray) and isinstance(t2, np.ndarray):
-        assert np.allclose(t1, t2, rtol=rtol, atol=atol), \
+        assert np.allclose(t1, t2, rtol=rtol, atol=atol), (
             f"Arrays not equal: max diff = {np.abs(t1 - t2).max()}"
+        )
     else:
         raise TypeError(f"Unsupported types: {type(t1)}, {type(t2)}")
 
@@ -213,8 +224,9 @@ def assert_tensor_equal(t1, t2, rtol=1e-5, atol=1e-8):
 def assert_valid_probability_map(prob_map):
     """Assert probability map is valid."""
     assert prob_map is not None, "Probability map is None"
-    assert isinstance(prob_map, (np.ndarray, torch.Tensor)), \
+    assert isinstance(prob_map, (np.ndarray, torch.Tensor)), (
         f"Invalid type: {type(prob_map)}"
+    )
 
     if isinstance(prob_map, torch.Tensor):
         prob_map = prob_map.cpu().numpy()

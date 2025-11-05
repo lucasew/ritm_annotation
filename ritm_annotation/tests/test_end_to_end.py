@@ -62,7 +62,9 @@ class TestAnnotationWorkflow:
             assert new_session.state.result_mask is not None
             assert new_session.state.result_mask.shape == result_mask.shape
 
-    def test_interactive_refinement_workflow(self, test_model, test_image_large, device):
+    def test_interactive_refinement_workflow(
+        self, test_model, test_image_large, device
+    ):
         """Test interactive refinement workflow."""
         from ritm_annotation.core.annotation import AnnotationSession
         from ritm_annotation.inference.predictors import get_predictor
@@ -110,10 +112,8 @@ class TestAnnotationWorkflow:
 
         # Add clicks and save states
         session.add_click(w // 2, h // 2, is_positive=True)
-        mask_after_1 = session.get_current_prediction().copy()
 
         session.add_click(w // 2 + 20, h // 2, is_positive=True)
-        mask_after_2 = session.get_current_prediction().copy()
 
         session.add_click(w // 2 - 20, h // 2, is_positive=False)
 
@@ -122,7 +122,6 @@ class TestAnnotationWorkflow:
         session.undo_click()
 
         # Should be back to state after first click
-        current_mask = session.get_current_prediction()
         # Note: May not be exactly equal due to predictor state, but should have 1 click
         assert len(session.state.get_current_object().clicks) == 1
 
@@ -152,8 +151,8 @@ class TestTrainingWorkflow:
         batch_processor = BatchProcessor(
             model=model,
             loss_fn={
-                'instance_loss': torch.nn.BCEWithLogitsLoss(),
-                'instance_aux_loss': torch.nn.BCEWithLogitsLoss(),
+                "instance_loss": torch.nn.BCEWithLogitsLoss(),
+                "instance_aux_loss": torch.nn.BCEWithLogitsLoss(),
             },
             metrics=[],
             max_interactive_points=2,
@@ -178,7 +177,7 @@ class TestTrainingWorkflow:
             )
 
             # Train for 2 epochs
-            metrics1 = loop.run(num_epochs=2)
+            loop.run(num_epochs=2)
 
             # Save checkpoint
             checkpoint_path = checkpoint_manager.save_checkpoint(
@@ -226,8 +225,8 @@ class TestModelPersistence:
 
         # Get initial output
         dummy_input = {
-            'images': torch.randn(1, 3, 320, 480).to(device),
-            'points': torch.zeros(1, 1, 3).to(device),
+            "images": torch.randn(1, 3, 320, 480).to(device),
+            "points": torch.zeros(1, 1, 3).to(device),
         }
 
         with torch.no_grad():
@@ -250,10 +249,7 @@ class TestModelPersistence:
             for key in initial_output:
                 if isinstance(initial_output[key], torch.Tensor):
                     assert torch.allclose(
-                        initial_output[key],
-                        loaded_output[key],
-                        rtol=1e-5,
-                        atol=1e-8
+                        initial_output[key], loaded_output[key], rtol=1e-5, atol=1e-8
                     )
 
 
@@ -316,7 +312,9 @@ class TestGUIAdapterWorkflow:
 class TestDataIntegrity:
     """Test data integrity throughout workflows."""
 
-    def test_mask_integrity_through_workflow(self, test_model, test_image_large, device):
+    def test_mask_integrity_through_workflow(
+        self, test_model, test_image_large, device
+    ):
         """Test that masks remain valid throughout workflow."""
         from ritm_annotation.core.annotation import AnnotationSession
         from ritm_annotation.inference.predictors import get_predictor
@@ -352,7 +350,9 @@ class TestDataIntegrity:
         if result_mask is not None:
             validate_mask(result_mask, (h, w))
 
-    def test_state_consistency_through_workflow(self, test_model, test_image_large, device):
+    def test_state_consistency_through_workflow(
+        self, test_model, test_image_large, device
+    ):
         """Test that state remains consistent."""
         from ritm_annotation.core.annotation import AnnotationSession
         from ritm_annotation.inference.predictors import get_predictor
@@ -382,5 +382,5 @@ class TestDataIntegrity:
                 assert click.object_id == state.current_object_id
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v', '-m', 'integration'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v", "-m", "integration"])

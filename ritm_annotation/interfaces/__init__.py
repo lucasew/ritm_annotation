@@ -7,4 +7,4 @@ with different UI frameworks (Tkinter, Web, etc).
 
 from .gui_adapter import GUIAnnotationAdapter
 
-__all__ = ['GUIAnnotationAdapter']
+__all__ = ["GUIAnnotationAdapter"]

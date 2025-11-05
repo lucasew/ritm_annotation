@@ -6,8 +6,6 @@ These tests use actual PyTorch models to validate end-to-end behavior.
 
 import pytest
 import numpy as np
-import torch
-from pathlib import Path
 
 
 pytestmark = pytest.mark.integration
@@ -21,10 +19,9 @@ def real_predictor(test_model, device):
     model, model_cfg = test_model
 
     predictor = get_predictor(
-        model=model,
+        net=model,
+        brs_mode="NoBRS",
         device=device,
-        net_clicks_limit=None,
-        max_size=None,
     )
 
     return predictor
@@ -42,7 +39,9 @@ def annotation_session_with_model(real_predictor):
 class TestAnnotationSessionWithRealModel:
     """Test AnnotationSession with actual PyTorch model."""
 
-    def test_load_image_real_model(self, annotation_session_with_model, test_image_large):
+    def test_load_image_real_model(
+        self, annotation_session_with_model, test_image_large
+    ):
         """Test loading image with real model."""
         session = annotation_session_with_model
 
@@ -53,9 +52,7 @@ class TestAnnotationSessionWithRealModel:
         assert session.state.image_shape == test_image_large.shape
 
     def test_single_click_prediction_real_model(
-        self,
-        annotation_session_with_model,
-        test_image_large
+        self, annotation_session_with_model, test_image_large
     ):
         """Test prediction from single click with real model."""
         session = annotation_session_with_model
@@ -84,9 +81,7 @@ class TestAnnotationSessionWithRealModel:
         assert current_obj.mask is not None
 
     def test_multiple_clicks_refinement(
-        self,
-        annotation_session_with_model,
-        test_image_large
+        self, annotation_session_with_model, test_image_large
     ):
         """Test iterative refinement with multiple clicks."""
         session = annotation_session_with_model
@@ -109,9 +104,7 @@ class TestAnnotationSessionWithRealModel:
         assert len(current_obj.clicks) == 2
 
     def test_negative_click_refinement(
-        self,
-        annotation_session_with_model,
-        test_image_large
+        self, annotation_session_with_model, test_image_large
     ):
         """Test negative click refinement."""
         session = annotation_session_with_model
@@ -122,7 +115,6 @@ class TestAnnotationSessionWithRealModel:
 
         # Positive click
         prob_map1 = session.add_click(cx, cy, is_positive=True)
-        max_before = prob_map1.max()
 
         # Negative click in activated region
         prob_map2 = session.add_click(cx + 10, cy + 10, is_positive=False)
@@ -133,13 +125,11 @@ class TestAnnotationSessionWithRealModel:
         # Should have 2 clicks
         current_obj = session.state.get_current_object()
         assert len(current_obj.clicks) == 2
-        assert current_obj.clicks[0].is_positive == True
-        assert current_obj.clicks[1].is_positive == False
+        assert current_obj.clicks[0].is_positive
+        assert not current_obj.clicks[1].is_positive
 
     def test_undo_with_real_model(
-        self,
-        annotation_session_with_model,
-        test_image_large
+        self, annotation_session_with_model, test_image_large
     ):
         """Test undo functionality with real model."""
         session = annotation_session_with_model
@@ -148,14 +138,14 @@ class TestAnnotationSessionWithRealModel:
         h, w = test_image_large.shape[:2]
 
         # Add two clicks
-        prob_map1 = session.add_click(w // 2, h // 2, is_positive=True)
-        prob_map2 = session.add_click(w // 2 + 20, h // 2 + 20, is_positive=True)
+        session.add_click(w // 2, h // 2, is_positive=True)
+        session.add_click(w // 2 + 20, h // 2 + 20, is_positive=True)
 
         assert len(session.state.get_current_object().clicks) == 2
 
         # Undo last click
         success = session.undo_click()
-        assert success == True
+        assert success
         assert len(session.state.get_current_object().clicks) == 1
 
         # Prediction should be restored to first click
@@ -164,9 +154,7 @@ class TestAnnotationSessionWithRealModel:
         assert current_prob is not None
 
     def test_finish_object_real_model(
-        self,
-        annotation_session_with_model,
-        test_image_large
+        self, annotation_session_with_model, test_image_large
     ):
         """Test finishing object with real model."""
         session = annotation_session_with_model
@@ -188,9 +176,7 @@ class TestAnnotationSessionWithRealModel:
         assert session.state.current_object_id == 1
 
     def test_multi_object_annotation_real_model(
-        self,
-        annotation_session_with_model,
-        test_image_large
+        self, annotation_session_with_model, test_image_large
     ):
         """Test annotating multiple objects with real model."""
         session = annotation_session_with_model
@@ -215,9 +201,7 @@ class TestAnnotationSessionWithRealModel:
         assert 2 in unique_ids  # Second object
 
     def test_visualization_data_real_model(
-        self,
-        annotation_session_with_model,
-        test_image_large
+        self, annotation_session_with_model, test_image_large
     ):
         """Test getting visualization data with real model."""
         session = annotation_session_with_model
@@ -230,19 +214,17 @@ class TestAnnotationSessionWithRealModel:
         # Get visualization data
         viz_data = session.get_visualization_data()
 
-        assert 'image' in viz_data
-        assert 'clicks' in viz_data
-        assert 'current_prob_map' in viz_data
-        assert 'current_mask' in viz_data
+        assert "image" in viz_data
+        assert "clicks" in viz_data
+        assert "current_prob_map" in viz_data
+        assert "current_mask" in viz_data
 
-        assert viz_data['image'] is not None
-        assert len(viz_data['clicks']) == 1
-        assert viz_data['current_prob_map'] is not None
+        assert viz_data["image"] is not None
+        assert len(viz_data["clicks"]) == 1
+        assert viz_data["current_prob_map"] is not None
 
     def test_reset_clicks_real_model(
-        self,
-        annotation_session_with_model,
-        test_image_large
+        self, annotation_session_with_model, test_image_large
     ):
         """Test resetting clicks with real model."""
         session = annotation_session_with_model
@@ -268,11 +250,7 @@ class TestAnnotationSessionWithRealModel:
 class TestAnnotationSessionPerformance:
     """Test performance characteristics."""
 
-    def test_prediction_is_fast(
-        self,
-        annotation_session_with_model,
-        test_image_large
-    ):
+    def test_prediction_is_fast(self, annotation_session_with_model, test_image_large):
         """Test that prediction completes in reasonable time."""
         import time
 
@@ -289,9 +267,7 @@ class TestAnnotationSessionPerformance:
         assert elapsed < 5.0
 
     def test_multiple_clicks_performance(
-        self,
-        annotation_session_with_model,
-        test_image_large
+        self, annotation_session_with_model, test_image_large
     ):
         """Test performance with multiple clicks."""
         import time
@@ -305,9 +281,7 @@ class TestAnnotationSessionPerformance:
         # Add 5 clicks
         for i in range(5):
             session.add_click(
-                w // 2 + i * 10,
-                h // 2 + i * 10,
-                is_positive=(i % 2 == 0)
+                w // 2 + i * 10, h // 2 + i * 10, is_positive=(i % 2 == 0)
             )
         elapsed = time.time() - start
 
@@ -319,9 +293,7 @@ class TestAnnotationSessionEdgeCases:
     """Test edge cases with real model."""
 
     def test_click_at_image_boundary(
-        self,
-        annotation_session_with_model,
-        test_image_large
+        self, annotation_session_with_model, test_image_large
     ):
         """Test clicking at image edges."""
         session = annotation_session_with_model
@@ -338,9 +310,7 @@ class TestAnnotationSessionEdgeCases:
         assert prob_map is not None
 
     def test_many_clicks_on_same_object(
-        self,
-        annotation_session_with_model,
-        test_image_large
+        self, annotation_session_with_model, test_image_large
     ):
         """Test adding many clicks to same object."""
         session = annotation_session_with_model
@@ -360,9 +330,7 @@ class TestAnnotationSessionEdgeCases:
         assert len(current_obj.clicks) == 20
 
     def test_finish_without_clicks(
-        self,
-        annotation_session_with_model,
-        test_image_large
+        self, annotation_session_with_model, test_image_large
     ):
         """Test finishing object without any clicks."""
         session = annotation_session_with_model
@@ -378,5 +346,5 @@ class TestAnnotationSessionEdgeCases:
             assert result_mask.sum() == 0  # No pixels marked
 
 
-if __name__ == '__main__':
-    pytest.main([__file__, '-v', '-m', 'integration'])
+if __name__ == "__main__":
+    pytest.main([__file__, "-v", "-m", "integration"])

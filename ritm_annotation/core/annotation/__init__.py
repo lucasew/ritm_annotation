@@ -10,9 +10,9 @@ from .events import AnnotationEvent, EventType
 from .state import AnnotationState, ObjectState
 
 __all__ = [
-    'AnnotationSession',
-    'AnnotationEvent',
-    'EventType',
-    'AnnotationState',
-    'ObjectState',
+    "AnnotationSession",
+    "AnnotationEvent",
+    "EventType",
+    "AnnotationState",
+    "ObjectState",
 ]
