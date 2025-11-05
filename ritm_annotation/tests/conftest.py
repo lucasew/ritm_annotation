@@ -71,10 +71,14 @@ def test_batch(device):
     """Create a test batch for training."""
     batch_size = 2
     batch = {
-        "images": torch.randn(batch_size, 3, 320, 480).to(device),
-        "points": torch.randint(0, 100, (batch_size, 1, 3)).float().to(device),
+        "images": torch.randn(batch_size, 4, 320, 480).to(device),  # 4 channels: RGB + prev_mask
+        "points": torch.zeros(batch_size, 2, 3).to(device),  # (batch, num_max_points*2, 3)
         "instances": torch.randint(0, 2, (batch_size, 1, 320, 480)).float().to(device),
     }
+    # Set first point as valid (y, x, index) = (50, 50, 0)
+    batch["points"][:, 0] = torch.tensor([50.0, 50.0, 0.0])
+    # Second point as padding
+    batch["points"][:, 1] = torch.tensor([-1.0, -1.0, -1.0])
     return batch
 
 
@@ -174,8 +178,8 @@ def create_synthetic_dataset(num_samples=10, image_size=(320, 480)):
         def __getitem__(self, idx):
             h, w = self.image_size
 
-            # Random image
-            image = torch.randn(3, h, w)
+            # Random image with 4 channels (RGB + prev_mask)
+            image = torch.randn(4, h, w)
 
             # Random mask
             mask = torch.zeros(1, h, w)

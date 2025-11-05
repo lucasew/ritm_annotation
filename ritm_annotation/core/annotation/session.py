@@ -141,7 +141,7 @@ class AnnotationSession:
 
         # Restore predictor state
         if "predictor_state" in prev_state:
-            self.predictor.set_state(prev_state["predictor_state"])
+            self.predictor.set_states(prev_state["predictor_state"])
 
         self.events.emit(AnnotationEvent(EventType.CLICK_UNDONE))
         return True
