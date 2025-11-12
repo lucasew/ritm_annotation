@@ -71,8 +71,12 @@ def test_batch(device):
     """Create a test batch for training."""
     batch_size = 2
     batch = {
-        "images": torch.randn(batch_size, 4, 320, 480).to(device),  # 4 channels: RGB + prev_mask
-        "points": torch.zeros(batch_size, 2, 3).to(device),  # (batch, num_max_points*2, 3)
+        "images": torch.randn(batch_size, 4, 320, 480).to(
+            device
+        ),  # 4 channels: RGB + prev_mask
+        "points": torch.zeros(batch_size, 2, 3).to(
+            device
+        ),  # (batch, num_max_points*2, 3)
         "instances": torch.randint(0, 2, (batch_size, 1, 320, 480)).float().to(device),
     }
     # Set first point as valid (y, x, index) = (50, 50, 0)
