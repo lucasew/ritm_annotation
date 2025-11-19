@@ -75,12 +75,12 @@ jobs:
           exit 1
         fi
 
-    - name: Install Flatpak and flatpak-builder
+    - name: Start Flatpak installation in background
       run: |
         sudo apt-get update
         sudo apt-get install -y flatpak
         sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-        sudo flatpak install -y flathub org.flatpak.Builder
+        sudo systemd-run --unit=flatpak-builder-install --wait flatpak install -y flathub org.flatpak.Builder &
 
     - name: Make release if everything looks right
       if: github.event_name != 'pull_request'
@@ -95,6 +95,14 @@ jobs:
 
     - name: Build Flatpak
       run: |
+        # Wait for flatpak-builder installation to complete
+        sudo systemctl status flatpak-builder-install || true
+        while systemctl is-active --quiet flatpak-builder-install; do
+          echo "Waiting for flatpak-builder installation..."
+          sleep 2
+        done
+        echo "Flatpak-builder installation complete"
+
         flatpak run org.flatpak.Builder --repo=repo --force-clean --install-deps-from=flathub \
           flatpak_app io.github.lucasew.ritm_annotation.yml
         flatpak build-bundle repo ritm_annotation.flatpak \
