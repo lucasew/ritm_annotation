@@ -82,15 +82,6 @@ jobs:
         sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
         sudo flatpak install -y flathub org.flatpak.Builder
 
-    - name: "Build container"
-      env:
-        TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      run: |
-        docker build -t "$TAG:latest" . -f Containerfile
-
-    - name: Build wheel
-      run: uvx cibuildwheel --output-dir dist
-
     - name: Make release if everything looks right
       if: github.event_name != 'pull_request'
       env:
@@ -108,6 +99,18 @@ jobs:
           flatpak_app io.github.lucasew.ritm_annotation.yml
         flatpak build-bundle repo ritm_annotation.flatpak \
           io.github.lucasew.ritm_annotation
+
+    - name: Cleanup environment
+      uses: lucasew/action-i-only-care-about-nix@v1
+
+    - name: "Build container"
+      env:
+        TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      run: |
+        docker build -t "$TAG:latest" . -f Containerfile
+
+    - name: Build wheel
+      run: uvx cibuildwheel --output-dir dist
 
     - name: Upload Flatpak as artifact
       uses: actions/upload-artifact@v4
