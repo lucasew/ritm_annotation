@@ -98,12 +98,18 @@ jobs:
           echo "RELEASE_VERSION=$(cat ./ritm_annotation/VERSION)" >> $GITHUB_ENV
         fi
 
+    - name: Install Flatpak and flatpak-builder
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y flatpak flatpak-builder
+        flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
     - name: Build Flatpak
-      uses: flatpak/flatpak-github-actions/flatpak-builder@v6
-      with:
-        bundle: ritm_annotation.flatpak
-        manifest-path: io.github.lucasew.ritm_annotation.yml
-        cache-key: flatpak-builder-${{ github.sha }}
+      run: |
+        flatpak-builder --repo=repo --force-clean --install-deps-from=flathub \
+          flatpak_app io.github.lucasew.ritm_annotation.yml
+        flatpak build-bundle repo ritm_annotation.flatpak \
+          io.github.lucasew.ritm_annotation
 
     - name: Upload Flatpak as artifact
       uses: actions/upload-artifact@v4
