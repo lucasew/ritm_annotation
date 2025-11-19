@@ -75,6 +75,13 @@ jobs:
           exit 1
         fi
 
+    - name: Install Flatpak and flatpak-builder
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y flatpak
+        sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+        sudo flatpak install -y flathub org.flatpak.Builder
+
     - name: "Build container"
       env:
         TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
@@ -94,13 +101,6 @@ jobs:
           echo "New version: $(cat ./ritm_annotation/VERSION)" >> $GITHUB_STEP_SUMMARY
           echo "RELEASE_VERSION=$(cat ./ritm_annotation/VERSION)" >> $GITHUB_ENV
         fi
-
-    - name: Install Flatpak and flatpak-builder
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y flatpak
-        sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-        sudo flatpak install -y flathub org.flatpak.Builder
 
     - name: Build Flatpak
       run: |
