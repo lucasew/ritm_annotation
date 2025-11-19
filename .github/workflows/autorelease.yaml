@@ -87,6 +87,19 @@ jobs:
     - name: Build wheel
       run: uvx cibuildwheel --output-dir dist
 
+    - name: Build Flatpak
+      uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+      with:
+        bundle: ritm_annotation.flatpak
+        manifest-path: io.github.lucasew.ritm_annotation.yml
+        cache-key: flatpak-builder-${{ github.sha }}
+
+    - name: Upload Flatpak as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ritm_annotation-flatpak
+        path: ritm_annotation.flatpak
+
     - name: Make release if everything looks right
       if: github.event_name != 'pull_request'
       env:
@@ -109,6 +122,14 @@ jobs:
           --title "$TITLE" \
           --generate-notes \
           --notes-start-tag $(gh release list --limit 1 --json tagName -q .[].tagName)
+
+    - name: Upload Flatpak to release
+      if: github.event_name != 'pull_request' && env.RELEASE_VERSION != ''
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TAG: ${{ env.RELEASE_VERSION }}
+      run: |
+        gh release upload "$TAG" ritm_annotation.flatpak --clobber
 
     - name: "Publish container"
       env:
