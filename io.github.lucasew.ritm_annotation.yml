@@ -11,11 +11,11 @@ finish-args:
   - --filesystem=host
   - --share=network
 modules:
-  - name: python3-pip-packages
+  - name: ritm_annotation
     buildsystem: simple
     build-commands:
       - pip3 install --verbose --prefix=${FLATPAK_DEST} .
+      - install -Dm644 io.github.lucasew.ritm_annotation.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo/
     sources:
-      - type: git
-        url: https://github.com/lucasew/ritm_annotation.git
-        tag: 0.12.3
+      - type: dir
+        path: .

@@ -87,6 +87,17 @@ jobs:
     - name: Build wheel
       run: uvx cibuildwheel --output-dir dist
 
+    - name: Make release if everything looks right
+      if: github.event_name != 'pull_request'
+      env:
+        NEW_VERSION: ${{ github.event.inputs.new_version }}
+      run: |
+        if [[ ! -z "$NEW_VERSION" ]]; then
+          NO_TAG=1 ./make_release "$NEW_VERSION"
+          echo "New version: $(cat ./ritm_annotation/VERSION)" >> $GITHUB_STEP_SUMMARY
+          echo "RELEASE_VERSION=$(cat ./ritm_annotation/VERSION)" >> $GITHUB_ENV
+        fi
+
     - name: Build Flatpak
       uses: flatpak/flatpak-github-actions/flatpak-builder@v6
       with:
@@ -99,17 +110,6 @@ jobs:
       with:
         name: ritm_annotation-flatpak
         path: ritm_annotation.flatpak
-
-    - name: Make release if everything looks right
-      if: github.event_name != 'pull_request'
-      env:
-        NEW_VERSION: ${{ github.event.inputs.new_version }}
-      run: |
-        if [[ ! -z "$NEW_VERSION" ]]; then
-          NO_TAG=1 ./make_release "$NEW_VERSION"
-          echo "New version: $(cat ./ritm_annotation/VERSION)" >> $GITHUB_STEP_SUMMARY
-          echo "RELEASE_VERSION=$(cat ./ritm_annotation/VERSION)" >> $GITHUB_ENV
-        fi
 
     - name: Create relase
       if: github.event_name != 'pull_request' && env.RELEASE_VERSION != ''
