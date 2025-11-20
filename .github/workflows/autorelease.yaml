@@ -106,9 +106,6 @@ jobs:
 
     - uses: jdx/mise-action@v3
 
-    - name: Cleanup environment
-      uses: lucasew/action-i-only-care-about-nix@v1
-
     - name: Free disk space aggressively
       run: |
         echo "Before cleanup:"
@@ -158,9 +155,6 @@ jobs:
 
     - uses: jdx/mise-action@v3
 
-    - name: Cleanup environment
-      uses: lucasew/action-i-only-care-about-nix@v1
-
     - name: Build Docker container
       env:
         TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
@@ -189,9 +183,6 @@ jobs:
         path: .
 
     - uses: jdx/mise-action@v3
-
-    - name: Cleanup environment
-      uses: lucasew/action-i-only-care-about-nix@v1
 
     - name: Build wheel
       run: mise run ci-build:wheel

@@ -17,7 +17,7 @@ modules:
   - name: ritm_annotation
     buildsystem: simple
     build-commands:
-      - pip3 install --verbose --prefix=${FLATPAK_DEST} .
+      - pip3 install --no-cache-dir --verbose --prefix=${FLATPAK_DEST} .
       - install -Dm644 io.github.lucasew.ritm_annotation.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo/
     sources:
       - type: dir
