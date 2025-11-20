@@ -94,7 +94,7 @@ jobs:
 
     - name: Upload repository state
       if: steps.pr_check.outputs.skip != 'true'
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: repository-state
         path: |
@@ -107,7 +107,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download repository state
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v6
       with:
         name: repository-state
         path: .
@@ -132,7 +132,7 @@ jobs:
       run: mise run ci-build:flatpak
 
     - name: Upload Flatpak as artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: ritm_annotation-flatpak
         path: ritm_annotation.flatpak
@@ -150,7 +150,7 @@ jobs:
       packages: write
     steps:
     - name: Download repository state
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v6
       with:
         name: repository-state
         path: .
@@ -185,7 +185,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download repository state
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v6
       with:
         name: repository-state
         path: .
@@ -196,7 +196,7 @@ jobs:
       run: mise run ci-build:wheel
 
     - name: Upload wheel
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: python-wheel
         path: dist/*.whl
@@ -211,19 +211,19 @@ jobs:
       contents: write
     steps:
     - name: Download repository state
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v6
       with:
         name: repository-state
         path: .
 
     - name: Download Flatpak
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v6
       with:
         name: ritm_annotation-flatpak
         path: .
 
     - name: Download wheel
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v6
       with:
         name: python-wheel
         path: dist
