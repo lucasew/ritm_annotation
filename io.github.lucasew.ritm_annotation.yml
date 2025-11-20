@@ -2,7 +2,7 @@ app-id: io.github.lucasew.ritm_annotation
 runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
-command: ritm_annotation
+command: /app/bin/ritm_annotation
 finish-args:
   - --share=ipc
   - --socket=x11

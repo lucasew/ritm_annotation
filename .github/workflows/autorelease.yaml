@@ -160,16 +160,10 @@ jobs:
         TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       run: mise run ci-build:docker
 
-    - name: Save Docker image
+    - name: Push Docker image to registry
       env:
         TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      run: docker save "${TAG}:latest" -o docker-image.tar
-
-    - name: Upload Docker image
-      uses: actions/upload-artifact@v4
-      with:
-        name: docker-image
-        path: docker-image.tar
+      run: docker push "${TAG}:latest"
 
   build-wheel:
     needs: prepare
@@ -218,12 +212,6 @@ jobs:
         name: ritm_annotation-flatpak
         path: .
 
-    - name: Download Docker image
-      uses: actions/download-artifact@v4
-      with:
-        name: docker-image
-        path: .
-
     - name: Download wheel
       uses: actions/download-artifact@v4
       with:
@@ -237,10 +225,10 @@ jobs:
         username: ${{ env.USERNAME }}
         password: ${{ github.token }}
 
-    - name: Load Docker image
+    - name: Pull Docker image
       env:
         TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      run: docker load -i docker-image.tar
+      run: docker pull "${TAG}:latest"
 
     - name: Create release
       env:
