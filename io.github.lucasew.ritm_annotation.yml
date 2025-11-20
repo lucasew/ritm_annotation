@@ -10,6 +10,9 @@ finish-args:
   - --device=dri
   - --filesystem=host
   - --share=network
+build-options:
+  build-args:
+    - --share=network
 modules:
   - name: ritm_annotation
     buildsystem: simple
