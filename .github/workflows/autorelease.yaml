@@ -106,6 +106,9 @@ jobs:
 
     - uses: jdx/mise-action@v3
 
+    - name: Cleanup environment
+      uses: lucasew/action-i-only-care-about-nix@v1
+
     - name: Build Flatpak
       run: mise run ci-build:flatpak
 
@@ -140,6 +143,9 @@ jobs:
         path: .
 
     - uses: jdx/mise-action@v3
+
+    - name: Cleanup environment
+      uses: lucasew/action-i-only-care-about-nix@v1
 
     - name: Build Docker container
       env:
