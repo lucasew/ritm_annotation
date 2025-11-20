@@ -1,3 +1,55 @@
 [tools]
 "github:lucasew/mise-gettext-dagger" = "latest"
 uv = "latest"
+
+[tasks."ci-build:install-flatpak"]
+description = "Install Flatpak and flatpak-builder"
+run = """
+sudo apt-get update
+sudo apt-get install -y flatpak xvfb dbus-x11
+flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install --user -y flathub org.flatpak.Builder
+"""
+
+[tasks."ci-build:flatpak"]
+description = "Build Flatpak package"
+depends = ["ci-build:install-flatpak"]
+run = """
+# Start D-Bus session
+eval $(dbus-launch --sh-syntax)
+export DBUS_SESSION_BUS_ADDRESS
+
+# Run flatpak-builder with xvfb and D-Bus (user installation)
+xvfb-run -a flatpak run \
+  --user org.flatpak.Builder \
+  --user \
+  --repo=repo \
+  --force-clean \
+  --install-deps-from=flathub \
+  --keep-build-dirs \
+  flatpak_app io.github.lucasew.ritm_annotation.yml
+
+# Build bundle
+flatpak build-bundle repo ritm_annotation.flatpak \
+  io.github.lucasew.ritm_annotation
+
+# Cleanup D-Bus
+kill $DBUS_SESSION_BUS_PID 2>/dev/null || true
+"""
+
+[tasks."ci-build:docker"]
+description = "Build Docker container"
+env = { TAG = "ghcr.io/lucasew/ritm_annotation:latest" }
+run = """
+docker build -t "${TAG}" . -f Containerfile
+"""
+
+[tasks."ci-build:wheel"]
+description = "Build Python wheel"
+run = """
+uvx cibuildwheel --output-dir dist
+"""
+
+[tasks."ci-build"]
+description = "Run all CI build tasks"
+depends = ["ci-build:flatpak", "ci-build:docker", "ci-build:wheel"]

@@ -29,6 +29,10 @@ esac
 # exit 0
 printf "%s" "$VERSION" > ./ritm_annotation/VERSION
 
+# Update Flatpak metainfo version
+RELEASE_DATE=$(date +%Y-%m-%d)
+sed -i "s|<release version=\"[^\"]*\" date=\"[^\"]*\" />|<release version=\"$VERSION\" date=\"$RELEASE_DATE\" />|g" io.github.lucasew.ritm_annotation.metainfo.xml
+
 git add -A
 git commit -sm "bump to $VERSION"
 if [[ ! -v NO_TAG ]]; then
