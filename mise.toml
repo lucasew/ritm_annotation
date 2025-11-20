@@ -20,7 +20,13 @@ eval $(dbus-launch --sh-syntax)
 export DBUS_SESSION_BUS_ADDRESS
 
 # Run flatpak-builder with xvfb and D-Bus (user installation)
-xvfb-run -a flatpak run --user org.flatpak.Builder --user --repo=repo --force-clean --install-deps-from=flathub \
+xvfb-run -a flatpak run \
+  --user org.flatpak.Builder \
+  --user \
+  --repo=repo \
+  --force-clean \
+  --install-deps-from=flathub \
+  --keep-build-dirs \
   flatpak_app io.github.lucasew.ritm_annotation.yml
 
 # Build bundle
