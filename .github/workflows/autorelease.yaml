@@ -78,7 +78,7 @@ jobs:
     - name: Install Flatpak and flatpak-builder
       run: |
         sudo apt-get update
-        sudo apt-get install -y flatpak
+        sudo apt-get install -y flatpak xvfb
         sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
         sudo flatpak install -y flathub org.flatpak.Builder
 
@@ -95,7 +95,7 @@ jobs:
 
     - name: Build Flatpak
       run: |
-        flatpak run org.flatpak.Builder --repo=repo --force-clean --install-deps-from=flathub \
+        xvfb-run -a flatpak run org.flatpak.Builder --repo=repo --force-clean --install-deps-from=flathub \
           flatpak_app io.github.lucasew.ritm_annotation.yml
         flatpak build-bundle repo ritm_annotation.flatpak \
           io.github.lucasew.ritm_annotation
