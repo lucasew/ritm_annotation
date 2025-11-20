@@ -1,3 +1,39 @@
 [tools]
 "github:lucasew/mise-gettext-dagger" = "latest"
 uv = "latest"
+
+[tasks."ci-build:install-flatpak"]
+description = "Install Flatpak and flatpak-builder"
+run = """
+sudo apt-get update
+sudo apt-get install -y flatpak xvfb
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+sudo flatpak install -y flathub org.flatpak.Builder
+"""
+
+[tasks."ci-build:flatpak"]
+description = "Build Flatpak package"
+depends = ["ci-build:install-flatpak"]
+run = """
+xvfb-run -a flatpak run org.flatpak.Builder --repo=repo --force-clean --install-deps-from=flathub \
+  flatpak_app io.github.lucasew.ritm_annotation.yml
+flatpak build-bundle repo ritm_annotation.flatpak \
+  io.github.lucasew.ritm_annotation
+"""
+
+[tasks."ci-build:docker"]
+description = "Build Docker container"
+env = { TAG = "ghcr.io/lucasew/ritm_annotation:latest" }
+run = """
+docker build -t "${TAG}" . -f Containerfile
+"""
+
+[tasks."ci-build:wheel"]
+description = "Build Python wheel"
+run = """
+uvx cibuildwheel --output-dir dist
+"""
+
+[tasks."ci-build"]
+description = "Run all CI build tasks"
+depends = ["ci-build:flatpak", "ci-build:docker", "ci-build:wheel"]

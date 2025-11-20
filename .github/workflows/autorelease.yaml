@@ -75,13 +75,6 @@ jobs:
           exit 1
         fi
 
-    - name: Install Flatpak and flatpak-builder
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y flatpak xvfb
-        sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-        sudo flatpak install -y flathub org.flatpak.Builder
-
     - name: Make release if everything looks right
       if: github.event_name != 'pull_request'
       env:
@@ -93,24 +86,13 @@ jobs:
           echo "RELEASE_VERSION=$(cat ./ritm_annotation/VERSION)" >> $GITHUB_ENV
         fi
 
-    - name: Build Flatpak
-      run: |
-        xvfb-run -a flatpak run org.flatpak.Builder --repo=repo --force-clean --install-deps-from=flathub \
-          flatpak_app io.github.lucasew.ritm_annotation.yml
-        flatpak build-bundle repo ritm_annotation.flatpak \
-          io.github.lucasew.ritm_annotation
+    - name: Run all CI builds
+      env:
+        TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      run: mise run ci-build
 
     - name: Cleanup environment
       uses: lucasew/action-i-only-care-about-nix@v1
-
-    - name: "Build container"
-      env:
-        TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      run: |
-        docker build -t "$TAG:latest" . -f Containerfile
-
-    - name: Build wheel
-      run: uvx cibuildwheel --output-dir dist
 
     - name: Upload Flatpak as artifact
       uses: actions/upload-artifact@v4
