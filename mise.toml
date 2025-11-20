@@ -6,7 +6,7 @@ uv = "latest"
 description = "Install Flatpak and flatpak-builder"
 run = """
 sudo apt-get update
-sudo apt-get install -y flatpak xvfb
+sudo apt-get install -y flatpak xvfb dbus-x11
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 sudo flatpak install -y flathub org.flatpak.Builder
 """
@@ -15,10 +15,20 @@ sudo flatpak install -y flathub org.flatpak.Builder
 description = "Build Flatpak package"
 depends = ["ci-build:install-flatpak"]
 run = """
+# Start D-Bus session
+eval $(dbus-launch --sh-syntax)
+export DBUS_SESSION_BUS_ADDRESS
+
+# Run flatpak-builder with xvfb and D-Bus
 xvfb-run -a flatpak run org.flatpak.Builder --repo=repo --force-clean --install-deps-from=flathub \
   flatpak_app io.github.lucasew.ritm_annotation.yml
+
+# Build bundle
 flatpak build-bundle repo ritm_annotation.flatpak \
   io.github.lucasew.ritm_annotation
+
+# Cleanup D-Bus
+kill $DBUS_SESSION_BUS_PID 2>/dev/null || true
 """
 
 [tasks."ci-build:docker"]
