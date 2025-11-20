@@ -140,13 +140,6 @@ jobs:
     permissions:
       packages: write
     steps:
-    - name: Login to registry
-      uses: docker/login-action@v3
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ env.USERNAME }}
-        password: ${{ github.token }}
-
     - name: Download repository state
       uses: actions/download-artifact@v4
       with:
@@ -160,7 +153,16 @@ jobs:
         TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       run: mise run ci-build:docker
 
+    - name: Login to registry
+      if: needs.prepare.outputs.release_version != ''
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ env.USERNAME }}
+        password: ${{ github.token }}
+
     - name: Push Docker image to registry
+      if: needs.prepare.outputs.release_version != ''
       env:
         TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       run: docker push "${TAG}:latest"
@@ -225,11 +227,6 @@ jobs:
         username: ${{ env.USERNAME }}
         password: ${{ github.token }}
 
-    - name: Pull Docker image
-      env:
-        TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      run: docker pull "${TAG}:latest"
-
     - name: Create release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -253,9 +250,9 @@ jobs:
         TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       run: |
         VERSION="${{ env.RELEASE_VERSION }}"
+        docker pull "$TAG:latest"
         docker tag  "$TAG:latest" "$TAG:$VERSION"
         docker push "$TAG:$VERSION"
-        docker push "$TAG:latest"
 
     - name: Build and publish to PyPI
       env:
