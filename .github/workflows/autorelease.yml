@@ -94,7 +94,7 @@ jobs:
 
     - name: Upload repository state
       if: steps.pr_check.outputs.skip != 'true'
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
       with:
         name: repository-state
         path: |
@@ -132,7 +132,7 @@ jobs:
       run: mise run ci-build:flatpak
 
     - name: Upload Flatpak as artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
       with:
         name: ritm_annotation-flatpak
         path: ritm_annotation.flatpak
@@ -196,7 +196,7 @@ jobs:
       run: mise run ci-build:wheel
 
     - name: Upload wheel
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
       with:
         name: python-wheel
         path: dist/*.whl
