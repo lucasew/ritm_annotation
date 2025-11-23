@@ -89,7 +89,7 @@ class ZoomIn(BaseTransform):
 
     def inv_transform(self, prob_map):
         if self._object_roi is None:
-            self._prev_probs = prob_map.cpu().numpy()
+            self._prev_probs = prob_map.detach().cpu().numpy()
             return prob_map
 
         assert prob_map.shape[0] == 1
@@ -109,7 +109,7 @@ class ZoomIn(BaseTransform):
         else:
             new_prob_map = prob_map
 
-        self._prev_probs = new_prob_map.cpu().numpy()
+        self._prev_probs = new_prob_map.detach().cpu().numpy()
 
         return new_prob_map
 
