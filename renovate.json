@@ -1,15 +1,15 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>lewtec/renovate-config:base",
-    "config:recommended"
+    "config:recommended",
+    "github>lewtec/renovate-config:base"
   ],
   "packageRules": [
     {
+      "enabled": false,
       "matchPackageNames": [
         "albumentations"
-      ],
-      "enabled": false
+      ]
     }
   ]
 }
