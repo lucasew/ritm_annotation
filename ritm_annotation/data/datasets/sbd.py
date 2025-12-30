@@ -1,4 +1,4 @@
-import pickle as pkl
+import json
 from pathlib import Path
 
 import cv2
@@ -109,11 +109,13 @@ class SBDEvaluationDataset(ISDataset):
         return DSample(image, instances_mask, objects_ids=[1], sample_id=index)
 
     def get_sbd_images_and_ids_list(self):
-        pkl_path = self.dataset_path / f"{self.dataset_split}_images_and_ids_list.pkl"
+        json_path = (
+            self.dataset_path / f"{self.dataset_split}_images_and_ids_list.json"
+        )
 
-        if pkl_path.exists():
-            with open(str(pkl_path), "rb") as fp:
-                images_and_ids_list = pkl.load(fp)
+        if json_path.exists():
+            with open(str(json_path), "r") as f:
+                images_and_ids_list = json.load(f)
         else:
             images_and_ids_list = []
 
@@ -127,7 +129,7 @@ class SBDEvaluationDataset(ISDataset):
                 for instances_id in instances_ids:
                     images_and_ids_list.append((sample, instances_id))
 
-            with open(str(pkl_path), "wb") as fp:
-                pkl.dump(images_and_ids_list, fp)
+            with open(str(json_path), "w") as f:
+                json.dump(images_and_ids_list, f)
 
         return images_and_ids_list
