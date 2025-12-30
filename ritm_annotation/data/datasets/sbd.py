@@ -44,6 +44,8 @@ class SBDDataset(ISDataset):
         inst_info_path = str(self._insts_path / f"{image_name}.mat")
 
         image = cv2.imread(image_path)
+        if image is None:
+            raise ValueError(f"Could not read image {image_path}")
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         instances_mask = loadmat(str(inst_info_path))["GTinst"][0][0][0].astype(
             np.int32
@@ -99,6 +101,8 @@ class SBDEvaluationDataset(ISDataset):
         inst_info_path = str(self._insts_path / f"{image_name}.mat")
 
         image = cv2.imread(image_path)
+        if image is None:
+            raise ValueError(f"Could not read image {image_path}")
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         instances_mask = loadmat(str(inst_info_path))["GTinst"][0][0][0].astype(
             np.int32
