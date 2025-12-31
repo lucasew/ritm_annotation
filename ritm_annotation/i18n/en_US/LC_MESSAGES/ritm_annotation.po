@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 02:54+0000\n"
+"POT-Creation-Date: 2025-12-31 15:48+0000\n"
 "PO-Revision-Date: 2025-08-23 14:45+0000\n"
 "Last-Translator: Lucas Eduardo <lucas59356@gmail.com>\n"
 "Language-Team: English (United States) <https://hosted.weblate.org/projects/"
@@ -408,9 +408,9 @@ msgid "Cannot use place with the widget {name}"
 msgstr ""
 
 #: ritm_annotation/cli/annotate/controller.py:47
-#: ritm_annotation/cli/annotate/annotator.py:481
-#: ritm_annotation/cli/annotate/annotator.py:499
-#: ritm_annotation/cli/annotate/annotator.py:592
+#: ritm_annotation/cli/annotate/annotator.py:477
+#: ritm_annotation/cli/annotate/annotator.py:495
+#: ritm_annotation/cli/annotate/annotator.py:588
 msgid "Warning"
 msgstr ""
 
@@ -452,152 +452,152 @@ msgstr ""
 msgid "Previous image"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:200
+#: ritm_annotation/cli/annotate/annotator.py:199
 msgid "Load mask"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:206
+#: ritm_annotation/cli/annotate/annotator.py:205
 msgid "About"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:209
+#: ritm_annotation/cli/annotate/annotator.py:208
 msgid "Exit"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:212
+#: ritm_annotation/cli/annotate/annotator.py:211
 msgid "* status *"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:233
+#: ritm_annotation/cli/annotate/annotator.py:232
 msgid "Controls"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:239
+#: ritm_annotation/cli/annotate/annotator.py:238
 msgid "Mostrar máscara ao invés da imagem"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:247
+#: ritm_annotation/cli/annotate/annotator.py:246
 msgid "Mostrar sobreposição da máscara com mais contraste"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:254
+#: ritm_annotation/cli/annotate/annotator.py:253
 msgid "Clicks management"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:258
+#: ritm_annotation/cli/annotate/annotator.py:257
 msgid ""
 "Finish\n"
 "object"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:269
+#: ritm_annotation/cli/annotate/annotator.py:268
 msgid "Undo click"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:280
+#: ritm_annotation/cli/annotate/annotator.py:279
 msgid "Reset clicks"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:290
+#: ritm_annotation/cli/annotate/annotator.py:289
 msgid "ZoomIn options"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:294
+#: ritm_annotation/cli/annotate/annotator.py:293
 msgid "Use ZoomIn"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:300
+#: ritm_annotation/cli/annotate/annotator.py:299
 msgid "Fixed crop"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:304
+#: ritm_annotation/cli/annotate/annotator.py:303
 msgid "Skip clicks"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:307
+#: ritm_annotation/cli/annotate/annotator.py:306
 msgid "Target size"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:310
+#: ritm_annotation/cli/annotate/annotator.py:309
 msgid "Expand ratio"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:339
+#: ritm_annotation/cli/annotate/annotator.py:338
 msgid "BRS options"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:350
+#: ritm_annotation/cli/annotate/annotator.py:349
 msgid "Network clicks"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:364
+#: ritm_annotation/cli/annotate/annotator.py:363
 msgid ""
 "L-BFGS\n"
 "max iterations"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:379
+#: ritm_annotation/cli/annotate/annotator.py:378
 msgid "Predictions threshold"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:391
+#: ritm_annotation/cli/annotate/annotator.py:390
 msgid "Alpha blending coefficient"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:403
+#: ritm_annotation/cli/annotate/annotator.py:402
 msgid "Visualisation click radius"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:421
-#: ritm_annotation/cli/annotate/annotator.py:495
+#: ritm_annotation/cli/annotate/annotator.py:420
+#: ritm_annotation/cli/annotate/annotator.py:491
 #, python-brace-format
 msgid "Loading '{filename}'"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:468
+#: ritm_annotation/cli/annotate/annotator.py:465
 #, python-brace-format
 msgid "Saving '{filename}'"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:483
+#: ritm_annotation/cli/annotate/annotator.py:479
 msgid ""
 "The current model doesn't support loading external masks. Please use ITER-M "
 "models for that purpose."
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:499
+#: ritm_annotation/cli/annotate/annotator.py:495
 msgid "No mask found"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:509
+#: ritm_annotation/cli/annotate/annotator.py:505
 msgid "Developed by:"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:514
+#: ritm_annotation/cli/annotate/annotator.py:510
 msgid "About Demo"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:592
+#: ritm_annotation/cli/annotate/annotator.py:588
 msgid "Please load an image first"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:659
+#: ritm_annotation/cli/annotate/annotator.py:655
 msgid "CUDA support not detected. Stuff will be way slower and sluggish!"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:661
+#: ritm_annotation/cli/annotate/annotator.py:657
 msgid "classes: "
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:666
+#: ritm_annotation/cli/annotate/annotator.py:662
 msgid "Origin should be a folder"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:669
+#: ritm_annotation/cli/annotate/annotator.py:664
 msgid "Destination should be a folder, if it isn't exist it will be created"
 msgstr ""
 
-#: ritm_annotation/cli/annotate/annotator.py:674
+#: ritm_annotation/cli/annotate/annotator.py:668
 msgid "Checkpoint not specified, using default..."
 msgstr ""
 
