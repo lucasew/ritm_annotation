@@ -194,7 +194,6 @@ class InteractiveDemoApp(ttk.Frame):
             command=self._goto_previous_task,
         )
         self.previous_image_btn.pack(side=tk.LEFT)
-        # self.previous_image_btn.configure(state=tk.DISABLED)
 
         self.load_mask_btn = FocusButton(
             self.menubar, text=_("Load mask"), command=self._load_mask_callback
@@ -436,8 +435,6 @@ class InteractiveDemoApp(ttk.Frame):
                             item["coords"][1],
                             item["coords"][0],
                         )
-                    # from ritm_annotation.inference.clicker import Click
-                    # data = [Click(item['is_positive'], item['coords'][1], item['coords'][0]) for item in data]
             else:
                 if (
                     current_task.seed_mask is not None
@@ -469,7 +466,6 @@ class InteractiveDemoApp(ttk.Frame):
             cv2.imwrite(filename, mask)
             points_json = current_task.output_dir / (current_task.class_name + ".json")
             with points_json.open("w") as f:
-                # json.dump(self.controller.states, f)
                 json.dump(
                     [item.to_json() for item in self.controller.clicker.get_state()],
                     f,
@@ -664,11 +660,9 @@ def handle(args):
         args.device = "cuda" if torch.cuda.is_available() else "cpu"
 
     assert args.input.is_dir(), _("Origin should be a folder")
-    # assert args.input.is_dir(), _("Origem precisa ser uma pasta")
     assert not args.output.exists() or args.output.is_dir(), _(
         "Destination should be a folder, if it isn't exist it will be created"
     )
-    # ), "Destino precisa ser uma pasta, se não existe vai ser criada"
 
     if args.checkpoint is None:
         logger.info(_("Checkpoint not specified, using default..."))
