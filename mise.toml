@@ -2,6 +2,35 @@
 "github:lucasew/mise-gettext-dagger" = "latest"
 uv = "latest"
 
+[tasks.setup]
+description = "Install dependencies"
+run = "uv sync --extra dev"
+
+[tasks.fmt]
+description = "Format code using ruff"
+run = """
+uv run ruff check --fix .
+uv run ruff format .
+"""
+
+[tasks.lint]
+description = "Lint code using ruff and mypy"
+depends = ["setup"]
+run = """
+uv run ruff check .
+uv run ruff format --check .
+uv run mypy --ignore-missing-imports .
+"""
+
+[tasks.test]
+description = "Run tests"
+depends = ["setup"]
+run = "uv run pytest"
+
+[tasks.ci]
+description = "Run CI tasks (lint and test)"
+depends = ["lint", "test"]
+
 [tasks."ci-build:install-flatpak"]
 description = "Install Flatpak and flatpak-builder"
 run = """
