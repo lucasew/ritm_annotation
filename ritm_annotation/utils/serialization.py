@@ -100,6 +100,9 @@ def get_classname(cls):
 
 
 def get_class_from_str(class_str):
+    allowed_modules = ("ritm_annotation.model", "ritm_annotation.models")
+    if not class_str.startswith(allowed_modules):
+        raise ValueError(f"Attempting to load a class from a non-whitelisted module: {class_str}")
     components = class_str.split(".")
     mod = __import__(".".join(components[:-1]))
     for comp in components[1:]:
