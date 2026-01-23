@@ -5,7 +5,8 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from tqdm import tqdm
+import itertools
+from tqdm.auto import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -138,7 +139,6 @@ def get_default_weight():
         with urlopen(DEFAULT_MODEL_URL) as req:
             with DEFAULT_MODEL_FILE.open("wb") as f:
                 file_size = int(req.headers["Content-Length"])
-                print(file_size, type(file_size))
                 ops = tqdm(
                     total=file_size,
                     desc=_("Downloading") + f" {DEFAULT_MODEL_URL}",
@@ -161,7 +161,8 @@ def get_default_weight():
             )
         return DEFAULT_MODEL_FILE
     except Exception as e:  # se erro deletar o arquivo
-        DEFAULT_MODEL_FILE.unlink()
+        if DEFAULT_MODEL_FILE.exists():
+            DEFAULT_MODEL_FILE.unlink()
         import traceback
 
         traceback.print_exc()
@@ -169,19 +170,8 @@ def get_default_weight():
 
 
 def try_tqdm(items, desc=""):
-    try:
-        if locals().get("get_ipython"):
-            from tqdm import tqdm_notebook as tqdm
-        else:
-            from tqdm import tqdm
-        return tqdm(list(items), desc=desc)
-    except ImportError:
-        logger.info(desc)
-        return items
+    return tqdm(items, desc=desc)
 
 
 def incrf():
-    i = 1
-    while True:
-        yield i
-        i += 1
+    return itertools.count(1)
