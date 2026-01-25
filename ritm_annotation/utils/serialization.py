@@ -100,6 +100,11 @@ def get_classname(cls):
 
 
 def get_class_from_str(class_str):
+    if not (class_str.startswith("ritm_annotation.") or class_str.startswith("isegm.")):
+        raise ValueError(
+            f"Access to arbitrary modules is restricted. Allowed prefixes: 'ritm_annotation.', 'isegm.'. Got: {class_str}"
+        )
+
     components = class_str.split(".")
     mod = __import__(".".join(components[:-1]))
     for comp in components[1:]:

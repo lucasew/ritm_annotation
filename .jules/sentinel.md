@@ -1,0 +1,4 @@
+## 2026-01-25 - Fix Insecure Dynamic Loading in `load_model`
+**Vulnerability:** The `load_model` function in `ritm_annotation/utils/serialization.py` used `get_class_from_str` which allowed arbitrary module loading and class instantiation from a configuration string. This could lead to Remote Code Execution (RCE) if a malicious configuration (e.g., from a compromised checkpoint) was loaded.
+**Learning:** `__import__` and `getattr` on user-controlled input effectively allow reflection attacks. While `pickle` is the primary vector in `torch.load`, this dynamic loading mechanism provided a secondary vector for execution even if the unpickler was restricted (e.g. to safe primitives).
+**Prevention:** I implemented a strict whitelist in `get_class_from_str` to only allow loading classes from the `ritm_annotation` and `isegm` namespaces. This enforces that only internal, trusted classes can be instantiated via this mechanism.
