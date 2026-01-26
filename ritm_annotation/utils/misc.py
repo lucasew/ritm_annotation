@@ -1,11 +1,14 @@
+import hashlib
 import importlib
+import itertools
 import logging
+import urllib.request
 from gettext import gettext as _
 from pathlib import Path
 
 import numpy as np
 import torch
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -121,9 +124,6 @@ def load_module(script_path, module_name="module"):
 
 
 def get_default_weight():
-    from hashlib import sha256
-    from urllib.request import urlopen
-
     OUTPUT_DIR = Path.home() / ".cache" / "ritm_annotation"
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     DEFAULT_MODEL_URL = "https://github.com/SamsungLabs/ritm_interactive_segmentation/releases/download/v1.0/coco_lvis_h18_itermask.pth"
@@ -134,11 +134,10 @@ def get_default_weight():
     if DEFAULT_MODEL_FILE.exists():
         return DEFAULT_MODEL_FILE
     try:
-        hasher = sha256()
-        with urlopen(DEFAULT_MODEL_URL) as req:
+        hasher = hashlib.sha256()
+        with urllib.request.urlopen(DEFAULT_MODEL_URL) as req:
             with DEFAULT_MODEL_FILE.open("wb") as f:
                 file_size = int(req.headers["Content-Length"])
-                print(file_size, type(file_size))
                 ops = tqdm(
                     total=file_size,
                     desc=_("Downloading") + f" {DEFAULT_MODEL_URL}",
@@ -160,28 +159,14 @@ def get_default_weight():
                 )
             )
         return DEFAULT_MODEL_FILE
-    except Exception as e:  # se erro deletar o arquivo
-        DEFAULT_MODEL_FILE.unlink()
-        import traceback
-
-        traceback.print_exc()
-        raise e
+    except Exception:
+        DEFAULT_MODEL_FILE.unlink(missing_ok=True)
+        raise
 
 
-def try_tqdm(items, desc=""):
-    try:
-        if locals().get("get_ipython"):
-            from tqdm import tqdm_notebook as tqdm
-        else:
-            from tqdm import tqdm
-        return tqdm(list(items), desc=desc)
-    except ImportError:
-        logger.info(desc)
-        return items
+def try_tqdm(items, desc="", **kwargs):
+    return tqdm(list(items), desc=desc, **kwargs)
 
 
 def incrf():
-    i = 1
-    while True:
-        yield i
-        i += 1
+    return itertools.count(1)
