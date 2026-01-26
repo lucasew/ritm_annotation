@@ -100,6 +100,13 @@ def get_classname(cls):
 
 
 def get_class_from_str(class_str):
+    allowed_namespaces = ["ritm_annotation.", "isegm.", "torch.", "torchvision."]
+    if not any(class_str.startswith(ns) for ns in allowed_namespaces):
+        raise ValueError(
+            f"Security: Dynamic loading of '{class_str}' is not allowed. "
+            f"Only classes from {allowed_namespaces} are permitted."
+        )
+
     components = class_str.split(".")
     mod = __import__(".".join(components[:-1]))
     for comp in components[1:]:
