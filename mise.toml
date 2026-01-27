@@ -2,29 +2,47 @@
 "github:lucasew/mise-gettext-dagger" = "latest"
 uv = "latest"
 
-[tasks.setup]
+[tasks.install]
 description = "Install dependencies"
 run = "uv sync --extra dev"
 
-[tasks.fmt]
+[tasks."lint:ruff"]
+description = "Lint code using ruff"
+run = "uv run ruff check ."
+
+[tasks."lint:format"]
+description = "Check code formatting using ruff"
+run = "uv run ruff format --check ."
+
+[tasks."lint:mypy"]
+description = "Lint code using mypy"
+run = "uv run mypy --ignore-missing-imports ."
+
+[tasks.lint]
+description = "Run all linters"
+depends = ["lint:*"]
+
+[tasks."fmt:ruff"]
 description = "Format code using ruff"
 run = """
 uv run ruff check --fix .
 uv run ruff format .
 """
 
-[tasks.lint]
-description = "Lint code using ruff and mypy"
-depends = ["setup"]
-run = """
-uv run ruff check .
-uv run ruff format --check .
-uv run mypy --ignore-missing-imports .
-"""
+[tasks.fmt]
+description = "Run all formatters"
+depends = ["fmt:*"]
+
+[tasks."codegen:locales"]
+description = "Update locales"
+run = "./update_locales"
+
+[tasks.codegen]
+description = "Run all codegen tasks"
+depends = ["codegen:*"]
 
 [tasks.test]
 description = "Run tests"
-depends = ["setup"]
 run = "uv run pytest"
 
 [tasks.ci]
@@ -81,4 +99,4 @@ uvx cibuildwheel --output-dir dist
 
 [tasks."ci-build"]
 description = "Run all CI build tasks"
-depends = ["ci-build:flatpak", "ci-build:docker", "ci-build:wheel"]
+depends = ["ci-build:*"]
