@@ -12,8 +12,6 @@ from easydict import EasyDict as edict
 
 from .distributed import get_world_size, synchronize
 
-# from .log import add_logging
-
 logger = logging.getLogger(__name__)
 
 
@@ -99,7 +97,6 @@ def init_experiment(args, model_name):
         cfg.device = torch.device(f"cuda:{cfg.gpu_ids[0]}")
 
     if cfg.local_rank == 0:
-        # add_logging(cfg.LOGS_PATH, prefix="train_")
         logger.info(_("Number of GPUs: {n}").format(n=cfg.ngpus))
         if cfg.distributed:
             logger.info(_("Multi-Process Multi-GPU Distributed Training"))
