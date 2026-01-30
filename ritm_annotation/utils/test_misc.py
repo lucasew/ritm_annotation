@@ -1,3 +1,5 @@
+"""Tests for miscellaneous utilities."""
+
 from ritm_annotation.utils.misc import incrf, try_tqdm
 
 
