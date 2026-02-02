@@ -41,7 +41,9 @@ jobs:
         git config user.email actions-bot@users.noreply.github.com
 
     - name: Install dependencies
-      run: mise run install
+      run: |
+        mise trust
+        mise run install
 
     - name: Codegen
       run: mise run codegen
@@ -66,7 +68,7 @@ jobs:
 
     - name: Run CI
       if: steps.pr_check.outputs.skip != 'true'
-      run: mise run ci
+      run: mise run --jobs 1 ci
 
     - name: Bump Version
       id: version
@@ -94,7 +96,7 @@ jobs:
 
     - name: Build Artifacts
       if: steps.pr_check.outputs.skip != 'true'
-      run: mise run ci-build
+      run: mise run --jobs 1 ci-build
 
     - name: Login to Container Registry
       if: steps.version.outputs.version != ''
