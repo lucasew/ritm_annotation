@@ -1,5 +1,8 @@
+import hashlib
 import importlib
+import itertools
 import logging
+import urllib.request
 from gettext import gettext as _
 from pathlib import Path
 
@@ -122,9 +125,6 @@ def load_module(script_path, module_name="module"):
 
 
 def get_default_weight():
-    from hashlib import sha256
-    from urllib.request import urlopen
-
     OUTPUT_DIR = Path.home() / ".cache" / "ritm_annotation"
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     DEFAULT_MODEL_URL = "https://github.com/SamsungLabs/ritm_interactive_segmentation/releases/download/v1.0/coco_lvis_h18_itermask.pth"
@@ -135,8 +135,8 @@ def get_default_weight():
     if DEFAULT_MODEL_FILE.exists():
         return DEFAULT_MODEL_FILE
     try:
-        hasher = sha256()
-        with urlopen(DEFAULT_MODEL_URL) as req:
+        hasher = hashlib.sha256()
+        with urllib.request.urlopen(DEFAULT_MODEL_URL) as req:
             with DEFAULT_MODEL_FILE.open("wb") as f:
                 file_size = int(req.headers["Content-Length"])
                 ops = tqdm(
