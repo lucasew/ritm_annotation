@@ -2,30 +2,53 @@
 "github:lucasew/mise-gettext-dagger" = "latest"
 uv = "latest"
 
-[tasks.setup]
+[tasks.install]
 description = "Install dependencies"
 run = "uv sync --extra dev"
 
-[tasks.fmt]
-description = "Format code using ruff"
-run = """
-uv run ruff check --fix .
-uv run ruff format .
-"""
+[tasks."lint:ruff"]
+description = "Lint code using ruff"
+run = "uv run ruff check ."
+
+[tasks."lint:ruff-format"]
+description = "Check code formatting using ruff"
+run = "uv run ruff format --check ."
+
+[tasks."lint:mypy"]
+description = "Type check using mypy"
+run = "uv run mypy --ignore-missing-imports ."
 
 [tasks.lint]
-description = "Lint code using ruff and mypy"
-depends = ["setup"]
-run = """
-uv run ruff check .
-uv run ruff format --check .
-uv run mypy --ignore-missing-imports .
-"""
+description = "Run all linters"
+depends = ["lint:*"]
+
+[tasks."fmt:ruff-check"]
+description = "Fix lint issues using ruff"
+run = "uv run ruff check --fix ."
+
+[tasks."fmt:ruff-format"]
+description = "Format code using ruff"
+run = "uv run ruff format ."
+
+[tasks.fmt]
+description = "Format code"
+depends = ["fmt:*"]
+
+[tasks."test:pytest"]
+description = "Run tests using pytest"
+run = "uv run pytest"
 
 [tasks.test]
 description = "Run tests"
-depends = ["setup"]
-run = "uv run pytest"
+depends = ["test:*"]
+
+[tasks."codegen:locales"]
+description = "Update locales"
+run = "./update_locales"
+
+[tasks.codegen]
+description = "Run code generation"
+depends = ["codegen:*"]
 
 [tasks.ci]
 description = "Run CI tasks (lint and test)"
@@ -36,8 +59,14 @@ description = "Install Flatpak and flatpak-builder"
 run = """
 sudo apt-get update
 sudo apt-get install -y flatpak xvfb dbus-x11
-flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install --user -y flathub org.flatpak.Builder
+# Retry remote-add with exponential backoff
+for i in 1 2 3 4 5; do
+  flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo && break || sleep $((i*2))
+done
+# Retry install with exponential backoff
+for i in 1 2 3 4 5; do
+  flatpak install --user -y flathub org.flatpak.Builder && break || sleep $((i*2))
+done
 """
 
 [tasks."ci-build:flatpak"]
@@ -81,4 +110,4 @@ uvx cibuildwheel --output-dir dist
 
 [tasks."ci-build"]
 description = "Run all CI build tasks"
-depends = ["ci-build:flatpak", "ci-build:docker", "ci-build:wheel"]
+depends = ["ci-build:*"]
