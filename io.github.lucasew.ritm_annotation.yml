@@ -17,6 +17,7 @@ modules:
   - name: ritm_annotation
     buildsystem: simple
     build-commands:
+      - pip3 install --no-cache-dir --verbose --prefix=${FLATPAK_DEST} torch torchvision --index-url https://download.pytorch.org/whl/cpu
       - pip3 install --no-cache-dir --verbose --prefix=${FLATPAK_DEST} .
       - install -Dm644 io.github.lucasew.ritm_annotation.metainfo.xml -t ${FLATPAK_DEST}/share/metainfo/
     sources:
