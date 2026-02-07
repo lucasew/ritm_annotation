@@ -18,7 +18,7 @@ def handle(args):
         "Model must exist and be a file"
     )
     checkpoint_path = find_checkpoint(args.model.parent, args.model.name)
-    state_dict = torch.load(checkpoint_path, map_location="cpu")
+    state_dict = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
     print(f"model {state_dict['config']['class']}")
     for k, v in state_dict["config"]["params"].items():
         print(f"config {k} {v['value']}")
