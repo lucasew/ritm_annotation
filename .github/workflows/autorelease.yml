@@ -45,6 +45,20 @@ jobs:
       - name: Trust mise config
         run: mise trust
 
+      - name: Free disk space aggressively
+        run: |
+          echo "Before cleanup:"
+          df -h
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/hostedtoolcache
+          sudo docker system prune -af
+          sudo apt-get clean
+          echo "After cleanup:"
+          df -h
+
       - name: Install tools
         run: mise install
 
@@ -95,19 +109,7 @@ jobs:
 
       - name: Build Artifacts
         if: steps.pr_check.outputs.skip != 'true'
-        run: |
-          echo "Before cleanup:"
-          df -h
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf /usr/local/share/boost
-          sudo rm -rf /usr/local/lib/android
-          sudo rm -rf /opt/hostedtoolcache
-          sudo docker system prune -af
-          sudo apt-get clean
-          echo "After cleanup:"
-          df -h
-          mise run --jobs 1 ci-build
+        run: mise run --jobs 1 ci-build
 
       - name: Login to Docker Registry
         if: github.event_name == 'workflow_dispatch' && steps.pr_check.outputs.skip != 'true'
