@@ -1,1 +1,1 @@
-- 2025-02-19: Critical: Arbitrary code execution via pickle deserialization in torch.load; always use weights_only=True to restrict loading to safe types.
+- 2025-02-19: Critical: Arbitrary code execution via pickle deserialization in torch.load; always use weights_only=True to restrict loading to safe types. Fixed CI failure.
