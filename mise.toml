@@ -60,11 +60,11 @@ run = """
 sudo apt-get update
 sudo apt-get install -y flatpak xvfb dbus-x11
 # Retry remote-add with exponential backoff
-for i in {1..5}; do
+for i in 1 2 3 4 5; do
   flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo && break || sleep $((i*2))
 done
 # Retry install with exponential backoff
-for i in {1..5}; do
+for i in 1 2 3 4 5; do
   flatpak install --user -y flathub org.flatpak.Builder && break || sleep $((i*2))
 done
 """
