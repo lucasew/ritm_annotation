@@ -39,9 +39,14 @@ jobs:
 
       - name: Install mise
         uses: jdx/mise-action@v3
+        with:
+          install: false
 
       - name: Trust mise config
         run: mise trust
+
+      - name: Install tools
+        run: mise install
 
       - name: Setup git config
         run: |
