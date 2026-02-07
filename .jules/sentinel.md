@@ -1,1 +1,1 @@
-- 2025-02-19: Critical: arbitrary code execution via torch.load; always use weights_only=True
+- 2025-02-19: Critical: Arbitrary code execution via pickle deserialization in torch.load; always use weights_only=True to restrict loading to safe types.
