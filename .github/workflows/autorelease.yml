@@ -117,25 +117,55 @@ jobs:
             echo "BUMPED_VERSION=$(cat ./ritm_annotation/VERSION)" >> $GITHUB_ENV
           fi
 
-      - name: Build Artifacts
+      - name: Build Wheel
         if: steps.pr_check.outputs.skip != 'true'
-        run: mise run --jobs 1 ci-build
+        run: mise run ci-build:wheel
 
       - name: Login to Docker Registry
-        if: github.event_name == 'workflow_dispatch' && steps.pr_check.outputs.skip != 'true'
+        if: steps.pr_check.outputs.skip != 'true'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Build and Push Docker
+        if: steps.pr_check.outputs.skip != 'true'
+        env:
+          REGISTRY: ghcr.io
+          IMAGE_NAME: ${{ github.repository }}
+          VERSION: ${{ env.BUMPED_VERSION }}
+        run: |
+          mise run ci-build:docker
+
+          # If we are releasing, tag and push
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && ! -z "$VERSION" ]]; then
+            TAG="${REGISTRY}/${IMAGE_NAME}"
+            docker tag "${TAG}:latest" "${TAG}:${VERSION}"
+            docker push "${TAG}:latest"
+            docker push "${TAG}:${VERSION}"
+          fi
+
+          # Clean up docker images to free space for Flatpak
+          docker system prune -af
+
+      - name: Build Flatpak
+        if: steps.pr_check.outputs.skip != 'true'
+        run: |
+          # Ensure maximum free space before flatpak build
+          sudo rm -rf /usr/share/swift
+          sudo rm -rf /usr/local/lib/node_modules
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/hostedtoolcache
+          sudo rm -rf /usr/share/dotnet
+          docker system prune -af
+
+          mise run ci-build:flatpak
+
       - name: Publish Release
         if: github.event_name == 'workflow_dispatch' && steps.pr_check.outputs.skip != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REGISTRY: ghcr.io
-          IMAGE_NAME: ${{ github.repository }}
-          USERNAME: ${{ github.actor }}
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
           VERSION: ${{ env.BUMPED_VERSION }}
@@ -156,13 +186,6 @@ jobs:
           # Upload artifacts to Release
           gh release upload "$VERSION" ritm_annotation.flatpak --clobber
           gh release upload "$VERSION" dist/*.whl --clobber
-
-          # Publish Docker image
-          TAG="${REGISTRY}/${IMAGE_NAME}"
-          # Docker build tagged it as :latest
-          docker tag "${TAG}:latest" "${TAG}:${VERSION}"
-          docker push "${TAG}:latest"
-          docker push "${TAG}:${VERSION}"
 
           # Publish to PyPI
           uvx twine upload dist/*.whl
