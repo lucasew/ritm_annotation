@@ -96,6 +96,16 @@ jobs:
         if: steps.pr_check.outputs.skip != 'true'
         run: mise run ci
 
+      - name: Clean up dev environment
+        if: steps.pr_check.outputs.skip != 'true'
+        run: |
+          rm -rf .venv
+          uv cache clean
+          # Also clean up any other temporary files
+          rm -rf .pytest_cache
+          rm -rf .mypy_cache
+          rm -rf .ruff_cache
+
       - name: Bump Version
         if: github.event_name == 'workflow_dispatch' && steps.pr_check.outputs.skip != 'true'
         env:
