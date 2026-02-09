@@ -108,6 +108,13 @@ def get_class_from_str(class_str):
         "functools.",
         "numpy.",
         "albumentations.",
+        "pathlib.",
+        "collections.",
+        "typing.",
+        "logging.",
+        "PIL.",
+        "cv2.",
+        "itertools.",
     )
     if not class_str.startswith(allowed_prefixes):
         raise ValueError(

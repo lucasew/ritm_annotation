@@ -16,7 +16,7 @@ def test_get_class_from_str_allowed():
     # Test isegm prefix (if it works or fails cleanly on import, but security check should pass)
     try:
         get_class_from_str("isegm.model.is_model.ISModel")
-    except ModuleNotFoundError:
+    except (ModuleNotFoundError, AttributeError):
         # Expected since isegm is not installed, but security check passed
         pass
     except ValueError as e:
