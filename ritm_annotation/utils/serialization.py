@@ -100,6 +100,20 @@ def get_classname(cls):
 
 
 def get_class_from_str(class_str):
+    allowed_prefixes = (
+        "ritm_annotation.",
+        "isegm.",
+        "torch.",
+        "torchvision.",
+        "functools.",
+        "numpy.",
+        "albumentations.",
+    )
+    if not class_str.startswith(allowed_prefixes):
+        raise ValueError(
+            f"Security violation: Class '{class_str}' is not in allowed namespaces {allowed_prefixes}"
+        )
+
     components = class_str.split(".")
     mod = __import__(".".join(components[:-1]))
     for comp in components[1:]:

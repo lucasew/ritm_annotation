@@ -1,0 +1,1 @@
+- 2026-02-09: Unrestricted dynamic class loading via `__import__` allows arbitrary code execution; verify class names against a whitelist before loading.
