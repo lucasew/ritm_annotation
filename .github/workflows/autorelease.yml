@@ -107,7 +107,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download repository state
-      uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+      uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
       with:
         name: repository-state
         path: .
@@ -150,7 +150,7 @@ jobs:
       packages: write
     steps:
     - name: Download repository state
-      uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+      uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
       with:
         name: repository-state
         path: .
@@ -185,7 +185,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Download repository state
-      uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+      uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
       with:
         name: repository-state
         path: .
@@ -211,19 +211,19 @@ jobs:
       contents: write
     steps:
     - name: Download repository state
-      uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+      uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
       with:
         name: repository-state
         path: .
 
     - name: Download Flatpak
-      uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+      uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
       with:
         name: ritm_annotation-flatpak
         path: .
 
     - name: Download wheel
-      uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+      uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8
       with:
         name: python-wheel
         path: dist
