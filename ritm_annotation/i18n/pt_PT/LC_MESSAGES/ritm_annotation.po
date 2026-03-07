@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-12-31 15:48+0000\n"
-"PO-Revision-Date: 2025-08-28 15:01+0000\n"
+"PO-Revision-Date: 2026-03-08 15:09+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "ritm_annotation/text/pt_PT/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.13.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: ritm_annotation/models/test_exposed_model_stuff.py:29
 msgid "Remove the main function"
@@ -80,7 +80,7 @@ msgstr "Quantidade de GPUs: {n}"
 
 #: ritm_annotation/utils/exp.py:105
 msgid "Multi-Process Multi-GPU Distributed Training"
-msgstr "Treinamento Distribuido Multi-Processo Multi-GPU"
+msgstr "Treino Distribuido Multi-Processo Multi-GPU"
 
 #: ritm_annotation/utils/exp.py:142
 #, python-brace-format
@@ -306,7 +306,7 @@ msgid ""
 "The number of the starting epoch from which training will continue. (it is "
 "important for correct logging and learning rate)"
 msgstr ""
-"O número da época inicial que o treinamento vai iniciar (é importante para "
+"O número da época inicial que o treino vai iniciar (é importante para "
 "geração correta dos relatórios e cálculo do learning rate)"
 
 #: ritm_annotation/cli/train/__init__.py:100
