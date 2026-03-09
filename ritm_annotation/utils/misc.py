@@ -8,7 +8,6 @@ from pathlib import Path
 
 import numpy as np
 import torch
-import itertools
 from tqdm.auto import tqdm
 
 logger = logging.getLogger(__name__)
@@ -169,8 +168,8 @@ def get_default_weight():
         raise e
 
 
-def try_tqdm(items, desc=""):
-    return tqdm(items, desc=desc)
+def try_tqdm(items, desc="", **kwargs):
+    return tqdm(items, desc=desc, **kwargs)
 
 
 def incrf():

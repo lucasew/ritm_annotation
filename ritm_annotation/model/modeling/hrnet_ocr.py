@@ -575,7 +575,9 @@ class HighResolutionNet(nn.Module):
                 )
             )
             exit(1)
-        pretrained_dict = torch.load(pretrained_path, map_location={"cuda:0": "cpu"})
+        pretrained_dict = torch.load(
+            pretrained_path, map_location={"cuda:0": "cpu"}, weights_only=True
+        )
         pretrained_dict = {
             k.replace("last_layer", "aux_head").replace("model.", ""): v
             for k, v in pretrained_dict.items()
